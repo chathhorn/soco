@@ -13,9 +13,9 @@
 development:
   adapter: mysql
   database: soco_development
-  username: root
-  password:
-  host: localhost
+  username: soco
+  password: monkey
+  host: www.cowelldesign.com
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
@@ -28,8 +28,4 @@ test:
   host: localhost
 
 production:
-  adapter: mysql
-  database: soco_production
-  username: root
-  password: 
-  host: localhost
+  development
