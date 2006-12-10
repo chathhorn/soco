@@ -4,6 +4,6 @@ class User < ActiveRecord::Base
   has_many :semesters
   
   def self.validate_user username, password
-    return User.find_by_username(username, :conditions => ["password = SHA1(?)", password]);  
+    return User.find(:first, :conditions => ["username=? AND password_hash = SHA1(?)", username, password])
   end
 end
