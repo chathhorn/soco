@@ -1,0 +1,5 @@
+<div class="course_container" id="semesterdiv_#{semester}">
+    <div class="semester_header"><%= semester.semester %> <%= semester.year %></div>
+    <%= render :partial => 'course', :collection => semester.cis_courses %>
+</div>
+<%= drop_receiving_element("semesterdiv_#{semester}", :url => { :controller => "long_term", :action => "semester" }, :loading => "element.style.display = 'none'", :hoverclass => "drop_hover", :accept => "course") %>
