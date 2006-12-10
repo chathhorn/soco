@@ -1,7 +1,7 @@
 class CreateCoursePlans < ActiveRecord::Migration
   def self.up
     create_table :course_plans do |t|
-      # t.column :name, :string
+        t.column :semester_id, :integer, :limit => 11
     end
   end
 
