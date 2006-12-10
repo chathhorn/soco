@@ -1,5 +1,12 @@
 <div class="course_container" id="<%= "semesterdiv_#{semester.id}" %>">
     <div class="semester_header"><%= semester.semester %> <%= semester.year %></div>
-    <%= render :partial => 'course', :collection => semester.cis_courses, :locals => {:semester => semester.id} %>
+    <hr />
+    <%= render :partial => 'course', :collection => semester.cis_courses, :locals => {:semester => semester.id, :effect => false} %>
 </div>
-<%= drop_receiving_element("semesterdiv_#{semester.id}", :position => 'bottom', :update => "semesterdiv_#{semester.id}", :url => { :action => 'update_semester'}, :loading => "element.style.display = 'none'", :hoverclass => "drop_hover", :with => "'id=' + encodeURIComponent(element.id) + '&new_semester=' + encodeURIComponent(#{semester.id})") %>
+<%= drop_receiving_element("semesterdiv_#{semester.id}", 
+    :position => 'bottom', :update => "semesterdiv_#{semester.id}", 
+    :url => { :action => 'update_semester'}, 
+    :loading => "element.style.display = 'none'; Element.show('getting_results')", 
+    :complete => "Element.hide('getting_results')", 
+    :hoverclass => "drop_hover", 
+    :with => "'id=' + encodeURIComponent(element.id) + '&new_semester=' + encodeURIComponent(#{semester.id})") %>

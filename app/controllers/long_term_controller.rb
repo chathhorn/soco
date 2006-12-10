@@ -8,8 +8,13 @@ class LongTermController < ApplicationController
   def add_class
     @user = User.find(@session[:user])
     class_id = params[:course][:number]
-    subject = class_id.split('-')[0]
-    number = class_id.split('-')[1]  
+    if class_id.include? '-'
+      subject = class_id.split('-')[0]
+      number = class_id.split('-')[1]  
+    else
+      subject = class_id[0,class_id.length-3]
+      number = class_id[-3,3]
+    end
     
     subject_id = CisSubject.find_by_code(subject).id
     
@@ -37,7 +42,7 @@ class LongTermController < ApplicationController
       course.add_semesters(Semester.find(new_semester_id))
     end
     
-    render :partial => 'course', :object => course, :locals => {:semester => new_semester_id}
+    render :partial => 'course', :object => course, :locals => {:semester => new_semester_id, :effect => true}
   end
   
   

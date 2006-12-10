@@ -1,0 +1,81 @@
+body
+{
+    margin: 0px;
+}
+.course
+{
+    cursor: pointer;
+    margin: auto;
+    width: 150px;
+    z-index: 999;
+    padding: 0px;
+    border: 1px solid black;
+    margin-bottom: 10px;
+    background-color:#fff;
+}
+
+.course_code
+{
+    padding: 2px;
+    background-color: #ccc;
+    font: 1.25em sans-serif;
+    text-align: center;
+}
+    
+.course_desc
+{   
+    font: .75em sans-serif;
+    margin: 5px;
+}
+
+.course_container
+{
+    height: 100%;
+    background-color:white;
+    width: 164px;
+    min-width: 164px !important;
+    display: table-cell;
+    border: 1px solid black;
+    padding: 5px;
+    height: 300px;
+    margin-right: 8px;
+}
+
+#course_bin
+{
+    width: 152px;
+    position: fixed;
+    height: 98.5%;
+    overflow: visible;
+    z-index: 1000;
+    border-width: 0px 1px 0px 0px;
+}
+
+#semesters_container
+{
+    display: table;
+    border-spacing: 4px;
+    margin-left:175px;
+    padding: 0px;
+}
+#semesters
+{  
+    display: table-row;
+}
+
+.semester_header
+{
+    font-size: 1.5em;
+    width: 164px;
+}
+
+.drop_hover
+{
+    background-color: #ffa;
+}
+
+#course_bin_scroll
+{
+    position: relative;
+    top: -100px;
+}

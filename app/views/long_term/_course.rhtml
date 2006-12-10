@@ -1,5 +1,10 @@
-<div class="course" id="<%= "coursediv_#{semester}_#{course.id}" %>">
+<div class="course" id="<%= "coursediv_#{semester}_#{course.id}" %>" style="<% if effect %>display:none;<% end%>">
     <div class="course_code"><%= course.cis_subject.code %>-<%= course.number %></div>
     <div class="course_desc"><%= course.title %></div>
 </div>
+<% if effect %>
+<script language="javascript" type="text/javascript">
+    <%= visual_effect :blind_down, "coursediv_#{semester}_#{course.id}", :duration => 1 %>
+</script>
+<% end %>
 <%= draggable_element "coursediv_#{semester}_#{course.id}", :revert => true %>
