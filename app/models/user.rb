@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 
   def self.authenticate(username, password)
     find(:first, 
-      :conditions => ["username = ? and password = ?", username, Digest::SHA1.hexdigest(password)]
+      :conditions => ["username = ? and password_hash = ?", username, Digest::SHA1.hexdigest(password)]
     )
   end
 
