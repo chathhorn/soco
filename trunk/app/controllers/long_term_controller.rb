@@ -1,0 +1,2 @@
+class LongTermController < ApplicationController
+end
