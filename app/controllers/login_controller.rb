@@ -4,10 +4,13 @@ class LoginController < ApplicationController
     #see login.rhtml
   end
   def validate
-    if User.validate_user(params[:user], params[:pass]) != nil
-      render_text "success"
+    @user = User.validate_user(params[:user], params[:pass])
+    if @user != nil
+      @session[:user] = @user
+      redirect_to(:controller => "profile", :action => "list")
     else
-      render_text "failure"
+      render :action => "index"
+      flash[:error] = "Invalid user name or password."
     end
   end
 end

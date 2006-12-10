@@ -2,12 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-        <title>SoCo - <%= controller.action_name %></title>
+        <title>SoCo - <%= @title %></title>
         <link rel="shortcut icon" href="/favicon.ico" />
         <%= stylesheet_link_tag 'application' %>
         <%= javascript_include_tag :defaults %>
     </head>
     <body>
+        <% if @flash[:error] -%>
+            <div id="error"><b>Error: </b><%= @flash[:error] %></div><br />
+            <script language="javascript" type="text/javascript">
+                <%= visual_effect :highlight, 'error', :duration => 2, :startcolor => '\'#ff0000\'' %>
+            </script>
+        <% end -%>
         <%= @content_for_layout %>
     </body>
 </html>
