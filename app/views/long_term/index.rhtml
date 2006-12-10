@@ -71,7 +71,7 @@
     
     .drop_hover
     {
-        background-color: blanched-almond;
+        background-color: #ffa;
     }
     </style>
 
@@ -82,13 +82,14 @@
     <input type="text" name="class_to_add" style="width:75px" />
     <input type="button" value="Add" name="add_class"/><br /><br />
     </center>
-    <%= render :partial => 'course', :collection => session[:user].course_bin.cis_courses %>
+    <%= render :partial => 'course', :collection => @course_bin_courses, :locals => {:semester => -1} %>
 </div>
+<%= drop_receiving_element("course_bin", :position => 'bottom', :update => "course_bin", :url => { :action => 'update_semester'}, :loading => "element.style.display = 'none'", :hoverclass => "drop_hover", :with => "'id=' + encodeURIComponent(element.id) + '&new_semester=-1')") %>
 <div id="blank_pad">
     
 </div>
 <div id="semesters_container">
     <div id="semesters">
-        <%= render :partial => 'semester', :collection => session[:user].semesters  %>
+        <%= render :partial => 'semester', :collection => @semesters  %>
     </div>
 </div>
