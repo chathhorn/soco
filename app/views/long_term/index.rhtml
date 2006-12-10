@@ -84,10 +84,7 @@
     </center>
     <%= render :partial => 'course', :collection => @course_bin_courses, :locals => {:semester => -1} %>
 </div>
-<%= drop_receiving_element("course_bin", :position => 'bottom', :update => "course_bin", :url => { :action => 'update_semester'}, :loading => "element.style.display = 'none'", :hoverclass => "drop_hover", :with => "'id=' + encodeURIComponent(element.id) + '&new_semester=-1')") %>
-<div id="blank_pad">
-    
-</div>
+<%= drop_receiving_element("course_bin", :position => 'bottom', :update => "course_bin", :url => { :action => 'update_semester'}, :loading => "element.style.display = 'none'", :hoverclass => "drop_hover", :with => "'id=' + encodeURIComponent(element.id) + '&new_semester=-1'") %>
 <div id="semesters_container">
     <div id="semesters">
         <%= render :partial => 'semester', :collection => @semesters  %>
