@@ -1,7 +1,8 @@
 class CreateColleges < ActiveRecord::Migration
   def self.up
     create_table :colleges do |t|
-      # t.column :name, :string
+        t.column :user_id, :integer, :limit => 11
+        t.column :code, :string, :limit => 2
     end
   end
 

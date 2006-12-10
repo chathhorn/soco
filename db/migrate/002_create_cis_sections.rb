@@ -1,13 +1,17 @@
 class CreateCisSections < ActiveRecord::Migration
   def self.up
     create_table :cis_sections do |t|
-      # t.column :name, :string
-#      t.column :cis_semester_id, :integer
-#      t.column :crn, :integer
-#      t.column :type, :varchar, :limit => 15
-#      t.column :name, :varchar, :limit => 255
-#      t.column :startTime, :datetime
-#      t.column :endTime, :datetime
+       t.column :cis_semester_id, :integer, limit => 11
+       t.column :crn, :integer, :limit => 11
+       t.column :type, :string, :limit => 15
+       t.column :name, :string, :limit => 255
+       t.column :startTime, :datetime
+       t.column :endTime, :datetime
+       #instead of type Set
+       t.column :days, :string, :limit => 1
+       t.column :room, :string, :limit => 225
+       t.column :building, :string, :limit => 225
+       t.column :instructor, :string, :limit => 225
     end
   end
 

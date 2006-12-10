@@ -1,7 +1,7 @@
 class CreateCisSubjects < ActiveRecord::Migration
   def self.up
     create_table :cis_subjects do |t|
-      # t.column :name, :string
+        t.column :code, :string, :limit => 6
     end
   end
 
