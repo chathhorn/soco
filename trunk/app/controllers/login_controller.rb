@@ -4,6 +4,10 @@ class LoginController < ApplicationController
     #see login.rhtml
   end
   def validate
-    render_text @params[:user] + " " + @params[:pass]
+    if User.validate(params[:user], params[:pass])
+      render_text "sucess"
+    else
+      render_text "failure"
+    end
   end
 end
