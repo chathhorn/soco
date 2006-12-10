@@ -5,3 +5,39 @@
     border: 1px solid black;
     padding: 5px;
 }
+
+.auto_complete 
+{
+    z-index: 2000;
+    position:absolute;
+    width:60px;
+    background-color:white;
+    border:1px solid #888;
+    margin:0px;
+    padding:0px;
+    font: .75em sans-serif;
+}
+
+.auto_complete ul 
+{
+    list-style-type: none;
+    margin:0px;
+    padding:0px;
+    width:60px;
+}
+
+.auto_complete ul li.selected 
+{ 
+    width:60px;
+    background-color: #bbf;
+}
+
+.auto_complete ul li 
+{
+    list-style-type: none;
+    display:block;
+    margin:0;
+    padding:2px;
+    height:16px;
+    width:60px;
+}
