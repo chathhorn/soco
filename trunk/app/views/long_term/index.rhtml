@@ -31,6 +31,7 @@
 
     .course_container
     {
+        height: 100%;
         background-color:white;
         width: 164px;
         min-width: 164px !important;
@@ -73,20 +74,29 @@
     {
         background-color: #ffa;
     }
+    
+    #course_bin_scroll
+    {
+        position: relative;
+        top: -100px;
+    }
     </style>
 
 <div class="course_container" id="course_bin">
     <h2>Course Bin:</h2>
     <center>
-    <a href="#">Add a semester</a><br />
-    <input type="text" name="class_to_add" style="width:75px" />
-    <input type="button" value="Add" name="add_class"/><br /><br />
+        <a href="#">Add a semester</a><br />
+        <form action='/long_term/add_class' method='post'>
+            <%= text_field_with_auto_complete :course, :number, :style => 'width:60px; font: .75em sans-serif;'%>
+            <input type='submit' name='submit' value="Add" />
+        </form>
+        <br /><br />
     </center>
     <%= render :partial => 'course', :collection => @course_bin_courses, :locals => {:semester => -1} %>
 </div>
 <%= drop_receiving_element("course_bin", :position => 'bottom', :update => "course_bin", :url => { :action => 'update_semester'}, :loading => "element.style.display = 'none'", :hoverclass => "drop_hover", :with => "'id=' + encodeURIComponent(element.id) + '&new_semester=-1'") %>
 <div id="semesters_container">
     <div id="semesters">
-        <%= render :partial => 'semester', :collection => @semesters  %>
+        <%= render :partial => 'semester', :collection => @semesters %>
     </div>
 </div>
