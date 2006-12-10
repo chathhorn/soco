@@ -1,0 +1,3 @@
+<% for course in User.find_by_username('mhines3').course_bin.cis_courses %>
+    <%= course.title %>
+<% end %>

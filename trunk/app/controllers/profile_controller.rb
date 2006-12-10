@@ -9,6 +9,7 @@ class ProfileController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
+    @title = 'View Profile'
     @user_pages, @users = paginate :users, :per_page => 10
   end
 
@@ -21,6 +22,7 @@ class ProfileController < ApplicationController
   end
 
   def create
+    @title = 'Register'
     @user = User.new(params[:user])
     if @user.save
       flash[:notice] = 'User was successfully created.'
@@ -31,6 +33,7 @@ class ProfileController < ApplicationController
   end
 
   def edit
+    @title = 'Change Profile'
     @user = User.find(params[:id])
   end
 
