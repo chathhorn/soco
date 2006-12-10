@@ -23,9 +23,9 @@ development:
 test:
   adapter: mysql
   database: soco_test
-  username: root
-  password:
-  host: localhost
+  username: soco
+  password: monkey
+  host: www.cowelldesign.com
 
 production:
   development
