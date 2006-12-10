@@ -1,11 +1,25 @@
+require 'digest/sha1'
+
 class User < ActiveRecord::Base
   has_one :course_bin
   has_one :friend_list
   has_many :semesters
   belongs_to :college
   belongs_to :major
-  
-  def self.validate_user username, password
-    return User.find(:first, :conditions => ["username=? AND password_hash = SHA1(?)", username, password])
+
+
+  def self.authenticate(username, password)
+    find(:first, 
+      :conditions => ["username = ? and password = ?", username, Digest::SHA1.hexdigest(password)]
+    )
   end
+
+  def password=(str)
+    write_attribute("password", Digest::SHA1.hexdigest(str))
+  end
+
+  def password
+    "" 
+  end
+
 end

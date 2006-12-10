@@ -1,0 +1,2 @@
+class SemesterController < ApplicationController
+end
