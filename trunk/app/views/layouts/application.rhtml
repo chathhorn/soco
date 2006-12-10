@@ -5,6 +5,7 @@
         <title>SoCo - <%= @title %></title>
         <link rel="shortcut icon" href="/favicon.ico" />
         <%= stylesheet_link_tag 'application' %>
+        <%= stylesheet_link_tag controller.controller_name %>
         <%= javascript_include_tag :defaults %>
     </head>
     <body>
