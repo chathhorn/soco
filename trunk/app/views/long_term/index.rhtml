@@ -1,3 +1,30 @@
+<style>
+    
+    .course
+    {
+        padding: 0px;
+        margin: 0px;
+        border: 1px solid black;
+        width: 300px;
+    }
+    
+    .course_code
+    {
+        padding: 2px;
+        background-color: #ccc;
+    }
+
+</style>
+
 <% for course in User.find_by_username('mhines3').course_bin.cis_courses %>
-    <%= course.title %>
+    <div class="course" id="<%= "coursediv_#{course.cis_subject_id}_#{course.number}" %>">
+        <div class="course_code">
+            <%= course.cis_subject.code %>-<%= course.number %>
+        </div>
+        <div class="course_desc">
+            <%= course.title %>
+        </div>
+    </div>
+    <br />
+    <%= draggable_element "coursediv_#{course.cis_subject_id}_#{course.number}", :revert => false %>
 <% end %>
