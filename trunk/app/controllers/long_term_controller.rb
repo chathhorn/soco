@@ -16,8 +16,12 @@ class LongTermController < ApplicationController
     else
       course.remove_semesters(Semester.find(old_semester_id))
     end
-    course.add_semesters(Semester.find(new_semester_id))
-
+    if new_semester_id == -1
+      @user.course_bin.add_cis_courses(course)
+    else
+      course.add_semesters(Semester.find(new_semester_id))
+    end
+    
     render :partial => 'course', :object => course, :locals => {:semester => new_semester_id}
   end
 end
