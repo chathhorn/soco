@@ -2,7 +2,7 @@ class LoginController < ApplicationController
   def index
   end
   def validate
-    @user = User.validate_user(params[:user], params[:pass])
+    @user = User.authenticate(params[:user], params[:pass])
     if @user != nil
       @session[:user] = @user
       redirect_to(:controller => "profile", :action => "list")
