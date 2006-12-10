@@ -1,1 +1,18 @@
-<%= @test %>
+<form action="/login/validate" method="post">
+    <table border="0">
+        <tr bgcolor="#CCCCCC"><td colspan="2" align="center">Login</td></tr>
+        <tr>
+            <td align="right">Name:</td>
+            <td><input type="text" name="user" id="user" /></td>
+        </tr>
+        <tr>
+            <td align="right">Password:</td>
+            <td><input type="password" name="pass" id="pass" /></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <input type="submit" value="Submit" name="submit" id="submit" />
+            </td>
+        </tr>
+    </table>
+</form>
