@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   has_many :semesters
   belongs_to :college
   belongs_to :major
+  has_and_belongs_to_many :friend_lists
 
 
   def self.authenticate(username, password)
