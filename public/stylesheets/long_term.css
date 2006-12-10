@@ -1,6 +1,7 @@
 body
 {
     margin: 0px;
+    overflow: hidden;
 }
 .course
 {
@@ -78,4 +79,43 @@ body
 {
     position: relative;
     top: -100px;
+}
+.links
+{
+    font-size: .6em;
+    text-align: center;
+}
+#trash_container
+{
+    position: fixed;
+    z-index: 5000;
+    bottom: 0px;
+    right: 0px;
+}
+
+.hide
+{
+    display:none;
+}
+
+.show
+{
+    display:block;
+}
+
+.delete_hover .hide
+{
+    display:block !important;
+}
+
+.delete_hover .show
+{
+    display:none !important;
+}
+#body_container
+{
+    top: 500px;
+    left: 500px;
+    width: 500px;
+    height: 500px;
 }

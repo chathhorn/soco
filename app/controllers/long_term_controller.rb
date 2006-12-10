@@ -44,6 +44,18 @@ class LongTermController < ApplicationController
     
     render :partial => 'course', :object => course, :locals => {:semester => new_semester_id, :effect => true}
   end
+    
+  def remove
+    @user = User.find(@session[:user])
+    course = CisCourse.find(params[:id].split('_')[2].to_i)
+    old_semester_id = params[:id].split('_')[1].to_i
+        
+    if old_semester_id == -1
+      @user.course_bin.remove_cis_courses(course)
+    else
+      course.remove_semesters(Semester.find(old_semester_id))
+    end
+  end
   
   
   def auto_complete_for_course_number

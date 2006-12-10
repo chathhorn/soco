@@ -1,6 +1,10 @@
 <div class="course" id="<%= "coursediv_#{semester}_#{course.id}" %>" style="<% if effect %>display:none;<% end%>">
     <div class="course_code"><%= course.cis_subject.code %>-<%= course.number %></div>
     <div class="course_desc"><%= course.title %></div>
+    <div class="links">
+        <a href="http://courses.uiuc.edu/cis/catalog/urbana/2007/Spring/<%= course.cis_subject.code %>/<%= course.number %>.html">Course info</a> / 
+        <a href="http://courses.uiuc.edu/cis/schedule/urbana/2007/Spring/<%= course.cis_subject.code %>/<%= course.number %>.html">Section schedule</a>
+   </div>
 </div>
 <% if effect %>
 <script language="javascript" type="text/javascript">
