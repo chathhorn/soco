@@ -1,9 +1,10 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html 
+<% require 'digest/sha1' %>
 
 james:
   id: 1
   username: james
-  password_hash: bond
+  password_hash: <%= Digest::SHA1.hexdigest 'bond' %>
   first_name: nikhil
   last_name: sonie
   email: nsonie2
