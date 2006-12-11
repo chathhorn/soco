@@ -4,9 +4,9 @@ class CisSubject < ActiveRecord::Base
   def self.search_for_course(name)
     name.upcase!
     
-    (subject, number) = name.scan(/^([A-Z]*)\s*(\d*)$/)[0]
+    (subject, white, number) = name.scan(/^([A-Z]*)(\s*)(\d*)$/)[0]
 
-    if number.blank?
+    if number.blank? && white.empty?
       subjects = find :all,
         :conditions => [ 'cis_subjects.code LIKE ?', subject + '%' ],
         :limit => 10
