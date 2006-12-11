@@ -7,13 +7,14 @@
                 <%= text_field_with_auto_complete :course, :number, :style => 'width:60px; font: .75em sans-serif;', :loading => "Element.show('getting_results')", :complete => "Element.hide('getting_results')" %>
                 <input type='submit' name='submit' value="Add" />
                 <br />
+                <span id="loading_stopped"><%= image_tag "loading_stopped.gif", :width => '100%' %></span>
                 <span id="getting_results" style="display:none;"><%= image_tag "loading.gif", :width => '100%' %></span>
             </form>
             <br />
         </center>
         <%= render :partial => 'course', :collection => @course_bin_courses, :locals => {:semester => -1, :effect => false} %>
     </div>
-    <%= drop_receiving_element("course_bin", :position => 'bottom', :update => "course_bin", :url => { :action => 'update_semester'}, :loading => "element.style.display = 'none'; Element.show('getting_results')", :complete => "Element.hide('getting_results')", :hoverclass => "drop_hover", :with => "'id=' + encodeURIComponent(element.id) + '&new_semester=-1'") %>
+    <%= drop_receiving_element("course_bin", :position => 'bottom', :update => "course_bin", :url => { :action => 'update_semester'}, :loading => "element.style.display = 'none'; Element.show('getting_results'); Element.hide('loading_stopped')", :complete => "Element.hide('getting_results'); Element.show('loading_stopped')", :hoverclass => "drop_hover", :with => "'id=' + encodeURIComponent(element.id) + '&new_semester=-1'") %>
     <div id="semesters_container">
         <div id="semesters">
             <%= render :partial => 'semester', :collection => @semesters %>
