@@ -1,5 +1,14 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-first:
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html 
+
+james:
   id: 1
-another:
-  id: 2
+  username: james
+  password_hash: bond
+  first_name: nikhil
+  last_name: sonie
+  email: nsonie2
+  grad_year: 2007
+  grad_sem: SP
+  birthday: 1985-02-17
+  
+ 
