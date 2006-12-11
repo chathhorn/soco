@@ -5,7 +5,7 @@ class LoginController < ApplicationController
     @user = User.authenticate(params[:user], params[:pass])
     if @user != nil
       @session[:user] = @user.id
-      redirect_to(:controller => 'long_term')
+      redirect_to :controller => 'profile'
     else
       render :action => 'index'
       flash[:error] = "Invalid user name or password."

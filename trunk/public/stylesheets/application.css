@@ -10,6 +10,14 @@ body *
     padding: 5px;
 }
 
+#notice
+{
+    color: #0a0;
+    background-color: #eee;
+    border: 1px solid black;
+    padding: 5px;
+}
+
 .auto_complete
 {
     z-index: 2000;
