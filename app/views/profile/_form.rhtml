@@ -18,8 +18,7 @@
 <%= text_field 'user', 'email'  %></p>
 
 <p><label for="user_grad_year">Graduation Year</label><br/>
-<%= select_year(Date.today.year + 4, :field_name => 'user_grad_year', :start_year => Date.today.year + 10, :end_year => Date.today.year ) %></p>
-</p>
+<%= select_year(Date.today.year + 4, :prefix => 'user', :field_name => 'grad_year', :start_year => Date.today.year + 10, :end_year => Date.today.year ) %></p>
 
 <p><label for="user_grad_sem">Graduation Semester</label><br/>
 <%= text_field 'user', 'grad_sem'  %></p>
