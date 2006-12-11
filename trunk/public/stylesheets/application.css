@@ -10,38 +10,30 @@ body *
     padding: 5px;
 }
 
-.auto_complete 
+.auto_complete
 {
     z-index: 2000;
-    position:absolute;
-    width:60px;
-    background-color:white;
-    border:1px solid #888;
-    margin:0px;
-    padding:0px;
-    font: .75em sans-serif;
 }
 
 .auto_complete ul 
 {
-    list-style-type: none;
+    background-color:white;
     margin:0px;
     padding:0px;
-    width:60px;
+    font: .75em sans-serif;
+    border:1px solid #888;
+    list-style-type: none;
+    text-align: left;
 }
 
 .auto_complete ul li.selected 
 { 
-    width:60px;
     background-color: #bbf;
 }
 
 .auto_complete ul li 
 {
     list-style-type: none;
-    display:block;
-    margin:0;
+    margin: 0;
     padding:2px;
-    height:16px;
-    width:60px;
 }
