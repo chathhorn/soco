@@ -42,7 +42,7 @@ class ProfileController < ApplicationController
   end
 
   def destroy
-    User.find(params[:id]).destroy
-    redirect_to :action => 'list'
+    User.find(@session[:user]).destroy
+    redirect_to :controller => 'login'
   end
 end

@@ -7,8 +7,9 @@ class LoginController < ApplicationController
       @session[:user] = @user.id
       redirect_to :controller => 'profile'
     else
-      render :action => 'index'
+
       flash[:error] = "Invalid user name or password."
+      render :action => 'index'
     end
   end  
 end

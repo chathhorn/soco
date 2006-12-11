@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   end
 
   def password=(str)
-    write_attribute("password", Digest::SHA1.hexdigest(str))
+    write_attribute("password_hash", Digest::SHA1.hexdigest(str))
   end
 
   def password
