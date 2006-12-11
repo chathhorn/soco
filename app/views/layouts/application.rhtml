@@ -15,6 +15,9 @@
                 <%= visual_effect :highlight, 'error', :duration => 2, :startcolor => '\'#ff0000\'' %>
             </script>
         <% end -%>
+        <% if @flash[:notice] -%>
+            <div id="notice"><%= @flash[:notice] %></div><br />
+        <% end -%>
         <%= @content_for_layout %>
     </body>
 </html>

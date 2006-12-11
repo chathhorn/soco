@@ -4,25 +4,27 @@
 <p><label for="user_username">Username</label><br/>
 <%= text_field 'user', 'username'  %></p>
 
-<p><label for="user_password_hash">Password hash</label><br/>
+<p><label for="user_password">Password</label><br/>
+<%= password_field 'user', 'password'  %></p>
 </p>
 
-<p><label for="user_first_name">First name</label><br/>
+<p><label for="user_first_name">First Name</label><br/>
 <%= text_field 'user', 'first_name'  %></p>
 
-<p><label for="user_last_name">Last name</label><br/>
+<p><label for="user_last_name">Last Name</label><br/>
 <%= text_field 'user', 'last_name'  %></p>
 
-<p><label for="user_email">Email</label><br/>
+<p><label for="user_email">Email Address</label><br/>
 <%= text_field 'user', 'email'  %></p>
 
-<p><label for="user_grad_year">Grad year</label><br/>
+<p><label for="user_grad_year">Graduation Year</label><br/>
+<%= select_year(Date.today.year + 4, :field_name => 'user_grad_year', :start_year => Date.today.year + 10, :end_year => Date.today.year ) %></p>
 </p>
 
-<p><label for="user_grad_sem">Grad sem</label><br/>
+<p><label for="user_grad_sem">Graduation Semester</label><br/>
 <%= text_field 'user', 'grad_sem'  %></p>
 
 <p><label for="user_birthday">Birthday</label><br/>
-<%= date_select 'user', 'birthday'  %></p>
+<%= date_select 'user', 'birthday', :start_year => 1970, :order => [:month, :day, :year] %></p>
 <!--[eoform:user]-->
 

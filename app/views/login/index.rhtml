@@ -1,4 +1,4 @@
-<form action="/login/validate" method="post">
+<%= start_form_tag :action => 'validate' %>
     <table style="border: 1px solid black;" cellspacing="0">
         <tr bgcolor="#CCCCCC"><td colspan="2" align="center">Login</td></tr>
         <tr>
@@ -11,8 +11,11 @@
         </tr>
         <tr>
             <td colspan="2" align="center">
-                <input type="submit" value="Submit" name="submit" id="submit" />
+                <%= submit_tag 'Login' %>
             </td>
         </tr>
     </table>
-</form>
+<%= end_form_tag %>
+
+New to SoCo?:
+<%= link_to 'Create an Account', :controller => 'profile', :action => 'register' %>

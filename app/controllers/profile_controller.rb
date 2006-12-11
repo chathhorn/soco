@@ -1,15 +1,28 @@
 class ProfileController < ApplicationController
+  def index
+    redirect_to :action => 'show'
+  end
+
   def show
+    if params[:id] != nil
+      @user = User.find(params[:id])
+    else
+      @user = User.find(@session[:user])
+    end
+    @title = 'Profile for ' + @user.first_name + ' ' + @user.last_name
   end
 
   def register
     @title = 'Register'
-    @user = User.new(params[:user])
-    if @user.save
-      flash[:notice] = 'User was successfully created.'
-      redirect_to :action => 'list'
+    if (params[:user] != nil)
+      @user = User.new(params[:user])
+      if @user.save
+        @session[:user] = @user.id
+        flash[:notice] = 'Your account is now created!'
+        redirect_to :action => 'show'
+      end
     else
-      render :action => 'new'
+      @user = User.new()
     end
   end
 
@@ -21,7 +34,7 @@ class ProfileController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update_attributes(params[:user])
-      flash[:notice] = 'User was successfully updated.'
+      flash[:notice] = 'Your changes have been successfully saved.'
       redirect_to :action => 'show', :id => @user
     else
       render :action => 'edit'
