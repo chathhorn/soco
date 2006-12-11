@@ -17,11 +17,9 @@
 <p><label for="user_email">Email Address</label><br/>
 <%= text_field 'user', 'email'  %></p>
 
-<p><label for="user_start_year">UIUC Start Year</label><br/>
+<p><label>UIUC Start Date</label><br/>
+<%= select 'user', 'start_sem', {'Fall' => 'FA', 'Spring' => 'SP'}, :selected => 'FA' %> 
 <%= select_year(Date.today.year, :prefix => 'user', :field_name => 'start_year', :start_year => Date.today.year + 1, :end_year => Date.today.year - 10 ) %></p>
-
-<p><label for="user_start_sem">UIUC Start Semester</label><br/>
-<%= text_field 'user', 'start_sem'  %></p>
 
 <p><label for="user_birthday">Birthday</label><br/>
 <%= date_select 'user', 'birthday', :start_year => 1970, :order => [:month, :day, :year] %></p>
