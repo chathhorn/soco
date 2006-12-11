@@ -2,7 +2,7 @@
     <div class="semester_header"><%= semester.semester %> <%= semester.year %></div>
     <hr />
     <%= render :partial => 'course', :collection => semester.cis_courses, :locals => {:semester => semester.id, :effect => false} %>
-</div>
+</div> 
 <%= drop_receiving_element("semesterdiv_#{semester.id}", 
     :position => 'bottom', :update => "semesterdiv_#{semester.id}", 
     :url => { :action => 'update_semester'}, 
