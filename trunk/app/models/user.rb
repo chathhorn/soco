@@ -28,8 +28,19 @@ class User < ActiveRecord::Base
   private
   def create_dependancies
     create_course_bin()
-    #TODO
-    #create default semesters
+
+    #create 8 default semesters
+    i_year = start_year.to_i;
+    i_semester = start_sem;
+    for i in 1..8
+      create_in_semesters(:year => i_year, :semester => i_semester)  
+      if i_semester == 'SP'
+        i_semester = 'FA'
+      else
+        i_semester = 'SP'
+        i_year += 1
+      end
+    end
   end
 
 end
