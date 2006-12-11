@@ -17,11 +17,11 @@
 <p><label for="user_email">Email Address</label><br/>
 <%= text_field 'user', 'email'  %></p>
 
-<p><label for="user_grad_year">Graduation Year</label><br/>
-<%= select_year(Date.today.year + 4, :prefix => 'user', :field_name => 'grad_year', :start_year => Date.today.year + 10, :end_year => Date.today.year ) %></p>
+<p><label for="user_start_year">UIUC Start Year</label><br/>
+<%= select_year(Date.today.year, :prefix => 'user', :field_name => 'start_year', :start_year => Date.today.year + 10, :end_year => Date.today.year ) %></p>
 
-<p><label for="user_grad_sem">Graduation Semester</label><br/>
-<%= text_field 'user', 'grad_sem'  %></p>
+<p><label for="user_start_sem">UIUC Start Semester</label><br/>
+<%= text_field 'user', 'start_sem'  %></p>
 
 <p><label for="user_birthday">Birthday</label><br/>
 <%= date_select 'user', 'birthday', :start_year => 1970, :order => [:month, :day, :year] %></p>
