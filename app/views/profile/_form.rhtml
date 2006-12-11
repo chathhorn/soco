@@ -18,7 +18,7 @@
 <%= text_field 'user', 'email'  %></p>
 
 <p><label for="user_start_year">UIUC Start Year</label><br/>
-<%= select_year(Date.today.year, :prefix => 'user', :field_name => 'start_year', :start_year => Date.today.year + 10, :end_year => Date.today.year ) %></p>
+<%= select_year(Date.today.year, :prefix => 'user', :field_name => 'start_year', :start_year => Date.today.year + 1, :end_year => Date.today.year - 10 ) %></p>
 
 <p><label for="user_start_sem">UIUC Start Semester</label><br/>
 <%= text_field 'user', 'start_sem'  %></p>
