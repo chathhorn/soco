@@ -1,0 +1,17 @@
+<%= error_messages_for 'user' %>
+
+<!--[form:friends]-->
+<p><label for="user_username">Username</label><br/>
+<%= text_field 'user', 'username'  %></p>
+<!--[eoform:user]-->
+
+<% for column in User.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @user.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Edit', :action => 'edit', :id => @user %> | 
+<%= link_to 'Long Term View', :controller => 'long_term' %>
+<br/><br>
+<%= link_to 'Delete Your Account', {:action => 'destroy'}, :confirm => 'Are you sure?\nThis cannot be undone' %>
