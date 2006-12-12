@@ -5,11 +5,12 @@ class FriendsController < ApplicationController
   end
 
   def friends_list
-    if params[:id] != nil
-      @user = User.find(params[:id])
-    else
-      @user = User.find(@session[:user])
-    end
+#    if params[:id] != nil
+#      @friend_list = Friends_list.find(params[:id])
+#    else
+#      @friend_list = Friends_list.find(@session[:user])
+#   
+#    end
     @title = 'Friends Page of ' + @user.first_name + ' ' + @user.last_name
   end
 end
