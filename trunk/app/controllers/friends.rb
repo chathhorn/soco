@@ -12,17 +12,3 @@ class LoginController < ApplicationController
     end
     @title = 'Friends Page of ' + @user.first_name + ' ' + @user.last_name
   end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
