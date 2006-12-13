@@ -26,6 +26,13 @@ my $url = "http://courses.uiuc.edu/cis/catalog/urbana/2007/Spring/";
 my $url1 = "http://courses.uiuc.edu/cis/schedule/urbana/2007/Spring/";
 my $doc = $parser->parsefile("$url/index.xml");
 
+my $sth1;
+my $sth;
+
+$sth1 = $DataHandle->prepare("SELECT cis_courses.id FROM cis_courses JOIN cis_subjects ON cis_subjects.id = cis_subject_id WHERE cis_subjects.code = ? AND cis_courses.number = ?") or die $sth1->errstr;
+$sth = $DataHandle->prepare("INSERT INTO cis_sections (`cis_semester_id`, `crn`, `type`, `name`, `startTime`, `endTime`, `days`, `room`, `building`, `instructor`) VALUES (?,?,?,?,?,?,?,?,?,?)") or die $sth->errstr;
+
+
 foreach my $subject ($doc->getElementsByTagName("subject"))
   {
     # #the lookup the xml file for each course
@@ -34,23 +41,13 @@ foreach my $subject ($doc->getElementsByTagName("subject"))
     print "fetching file from $url$subjectCode/index.xml \n";
     my $doc1 = $parser->parsefile("$url/$subjectCode/index.xml");
     foreach my $course ($doc1->getElementsByTagName('course'))
-      {		
+    {		
 	my $courseNumber = $course->getElementsByTagName('courseNumber')->item(0)->getFirstChild->getNodeValue;
-	print "querying subjectid for  $subjectCode $courseNumber in cis_subjects...\n.";
-	my $sql = "select id from cis_subjects where code = '$subjectCode'";
-	print "$sql\n";
-	my $sth = $DataHandle->prepare($sql);
-	$sth->execute();
-	my $subjectid =  $sth->fetchrow;
-       	print"subjectid is $subjectid\n";
-	print"querying semester id \n";
-	my $sql1 = qq/select id from cis_courses where cis_subject_id = $subjectid AND number = $courseNumber/;
-	print "$sql1 \n";
-	my $sth1 = $DataHandle->prepare($sql1);
-	$sth1->execute();
+
+	$sth1->execute($subjectCode, $courseNumber);
+
 	my $cis_semester_id = $sth1->fetchrow();
 
-       	print "The subjectid is $subjectid \n";
 	print"-------------------------------------------------------------\n";
 	print"fetching file from $url$subjectCode/$courseNumber.xml\n";
 	
@@ -111,7 +108,7 @@ foreach my $subject ($doc->getElementsByTagName("subject"))
 		  }
 		else
 		  {
-		    $endTome = "";
+		    $endTime = "";
 		  }
 
 		
@@ -119,6 +116,7 @@ foreach my $subject ($doc->getElementsByTagName("subject"))
 		if($days)
 		  {
 		    $days = $days->getNodeValue;
+			$days =~ s/(.)/$1,/g;
 		  }
 		else
 		  {
@@ -159,10 +157,9 @@ foreach my $subject ($doc->getElementsByTagName("subject"))
 		  }
 		
 		print "inserting section....\n";
-		$sql ="INSERT into cis_sections (cis_semester_id, crn, type, name, startTime, endTime, days, room, building, instructor) values ('$cis_semester_id','$crn','$type',\"$name\",'$startTime','$endTime','$days',\"$room\",\"$building\",\"$instructor\")";
-		print "$sql\n";
-		$DataHandle->do($sql);
-		print "inserted successfully\n";
+
+		
+		$sth->execute($cis_semester_id, $crn, $type, $name, $startTime, $endTime, $days, $room, $building, $instructor);
 
 	      }
 	  }
