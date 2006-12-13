@@ -6,6 +6,10 @@ class CisSubject < ActiveRecord::Base
     
     (subject, white, number) = name.scan(/^([A-Z]*)(\s*)(\d*)$/)[0]
 
+    if subject == nil
+      return []
+    end
+
     if number.blank? && white.empty?
       subjects = find :all,
         :conditions => [ 'cis_subjects.code LIKE ?', subject + '%' ],

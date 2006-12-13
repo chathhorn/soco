@@ -4,9 +4,11 @@
         <span id="getting_results" style="display:none;"><%= image_tag "loading.gif", :width => '100%' %></span>
         <strong>Course Bin:</strong>
         <center>
-            <a href="#">Add a semester</a><br />
             <form action='/long_term/add_class' method='post'>
-                <%= text_field_with_auto_complete :course, :number, :style => 'width:60px; font: .75em sans-serif;', :loading => "Element.show('getting_results')", :complete => "Element.hide('getting_results')" %>
+                <%= text_field_with_auto_complete :course, :number,
+                    :style => "width: 8em",
+                    :skip_style => true
+                    %>
                 <input type='submit' name='submit' value="Add" />
                 <br />
             </form> 
