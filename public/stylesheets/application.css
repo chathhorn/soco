@@ -34,11 +34,6 @@ body
     text-align: left;
 }
 
-.auto_complete ul li.selected 
-{ 
-    background-color: #bff;
-}
-
 .auto_complete ul li 
 {
     list-style-type: none;

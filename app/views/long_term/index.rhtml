@@ -3,17 +3,14 @@
         <span id="loading_stopped"><%= image_tag "loading_stopped.gif", :width => '100%' %></span>
         <span id="getting_results" style="display:none;"><%= image_tag "loading.gif", :width => '100%' %></span>
         <strong>Course Bin:</strong>
-        <center>
-            <form action='/long_term/add_class' method='post'>
-                <%= text_field_with_auto_complete :course, :number,
-                    :style => "width: 8em",
-                    :skip_style => true
-                    %>
-                <input type='submit' name='submit' value="Add" />
-                <br />
-            </form> 
-            <br />
-        </center>
+        <%= start_form_tag :action => 'add_class', :name => 'class_autocomplete' %>
+            <%= text_field_with_auto_complete :course, :number,
+                { :style => "width: 8em" },
+                { :after_update_element => 'function(element,value){ element.value = value.innerHTML.match(/^[A-Z]*\s*\d*/); document.class_autocomplete.submit(); }' }
+                %>
+            <%= submit_tag 'Add' %>
+        <%= end_form_tag %>
+        <br />
         <%= render :partial => 'course', :collection => @course_bin_courses, :locals => {:semester => -1, :effect => false} %>
     </div>
     <%= drop_receiving_element("course_bin", :position => 'bottom', :update => "course_bin", :url => { :action => 'update_semester'}, :loading => "element.style.display = 'none'; Element.show('getting_results'); Element.hide('loading_stopped')", :complete => "Element.hide('getting_results'); Element.show('loading_stopped')", :hoverclass => "drop_hover", :with => "'id=' + encodeURIComponent(element.id) + '&new_semester=-1'") %>
