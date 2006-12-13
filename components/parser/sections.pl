@@ -76,7 +76,7 @@ foreach my $subject ($doc->getElementsByTagName("subject"))
 		    $type = "";
 		  }
 
-		my $name = $section->getElementsByTagName('instructor')->item(0)->getFirstChild;
+		my $name = $section->getElementsByTagName('sectionId')->item(0)->getFirstChild;
 		if($name)
 		  {
 		    $name = $name->getNodeValue;
@@ -132,7 +132,6 @@ foreach my $subject ($doc->getElementsByTagName("subject"))
 		  }
 		
 		my $building = $section->getElementsByTagName('building')->item(0)->getFirstChild;
-
 		if($building)
 		  {
 		    $building = $building->getNodeValue;

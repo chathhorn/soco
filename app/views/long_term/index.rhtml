@@ -2,6 +2,13 @@
     <div class="course_container" id="course_bin">
         <span id="loading_stopped"><%= image_tag "loading_stopped.gif", :width => '100%' %></span>
         <span id="getting_results" style="display:none;"><%= image_tag "loading.gif", :width => '100%' %></span>
+        <hr/>
+        <strong>Menu:</strong>
+        <ul>
+            <li><%= link_to 'Profile', :controller => 'profile' %></li>
+            <li><%= link_to 'Logout', :controller => 'login', :action => 'logout' %></li>
+        </ul>
+        <hr/>
         <strong>Course Bin:</strong>
         <%= start_form_tag :action => 'add_class', :name => 'class_autocomplete' %>
             <%= text_field_with_auto_complete :course, :number,

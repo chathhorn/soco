@@ -24,8 +24,8 @@ class ProfileController < ApplicationController
       end
     else
       @user = User.new()
-      @colleges = College.find(:all)
     end
+    @colleges = College.find(:all)
   end
 
   def edit
@@ -40,8 +40,9 @@ class ProfileController < ApplicationController
       flash[:notice] = 'Your changes have been successfully saved.'
       redirect_to :action => 'show', :id => @user
     else
-      render :action => 'edit'
+      redirect_to :action => 'edit'
     end
+    @colleges = College.find(:all)
   end
 
   def destroy
