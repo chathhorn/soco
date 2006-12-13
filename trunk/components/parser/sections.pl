@@ -10,7 +10,6 @@ my $hostname = "www.cowelldesign.com";
 my $username = "soco";
 my $password = "monkey";
 
-print "before connection..\n";
 my $DataHandle = DBI->connect("DBI:mysql:database=$dbname;host=$hostname",
 			      "$username",
 			      "$password",
@@ -22,8 +21,7 @@ print "connected successfully...\n";
 
 # instantiate parser
 my $parser = XML::DOM::Parser->new();
-my $url = "http://courses.uiuc.edu/cis/catalog/urbana/2007/Spring/";
-my $url1 = "http://courses.uiuc.edu/cis/schedule/urbana/2007/Spring/";
+my $url = "http://courses.uiuc.edu/cis/schedule/urbana/2007/Spring/";
 my $doc = $parser->parsefile("$url/index.xml");
 
 my $sth1;
@@ -37,7 +35,7 @@ foreach my $subject ($doc->getElementsByTagName("subject"))
   {
     # #the lookup the xml file for each course
     my $subjectCode = $subject->getElementsByTagName('subjectCode')->item(0)->getFirstChild->getNodeValue;
-    print"******************************************************************\n";
+    print"****************************************************\n";
     print "fetching file from $url$subjectCode/index.xml \n";
     my $doc1 = $parser->parsefile("$url/$subjectCode/index.xml");
     foreach my $course ($doc1->getElementsByTagName('course'))
@@ -48,21 +46,19 @@ foreach my $subject ($doc->getElementsByTagName("subject"))
 
 	my $cis_semester_id = $sth1->fetchrow();
 
-	print"-------------------------------------------------------------\n";
+	print"-----------------------------------------------------\n";
 	print"fetching file from $url$subjectCode/$courseNumber.xml\n";
 	
-	if(head ("$url1/$subjectCode/$courseNumber.xml"))
+	if(head ("$url/$subjectCode/$courseNumber.xml"))
 
 	  { 
-	    my $doc2 = $parser->parsefile("$url1/$subjectCode/$courseNumber.xml");	    
+	    my $doc2 = $parser->parsefile("$url/$subjectCode/$courseNumber.xml");	    
 	    foreach my $section ($doc2->getElementsByTagName("section"))
 	      {
 		my $crn = $section->getElementsByTagName('referenceNumber')->item(0)->getFirstChild;
 		if($crn)
 		  {
 		    $crn = $crn->getNodeValue;
-
-		    print "crn value is $crn \n";
 		  }
 		else
 		  {
@@ -156,32 +152,22 @@ foreach my $subject ($doc->getElementsByTagName("subject"))
 		    $instructor ="";
 		  }
 		
-		print "inserting section....\n";
-
-		
 		$sth->execute($cis_semester_id, $crn, $type, $name, $startTime, $endTime, $days, $room, $building, $instructor);
 
 	      }
 	  }
 	else
 	  {
-	    print'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~';
+	    print'~~~~~~~~~~~~~~~~';
 	    print'FILE NOT FOUND';
-	    print'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~';
+	    print'~~~~~~~~~~~~~~~~';
 	 }
       }
+	 $doc1->dispose;
   }
 
+$doc->dispose;
 
+$sth1->finish;
+$sth->finish;
 $DataHandle->disconnect;
-
-
-
-
-
-
-
-
-
-
-
