@@ -11,6 +11,7 @@ class FriendsController < ApplicationController
 #      @friend_list = Friends_list.find(@session[:user])
 #   
 #    end
-    @title = 'Friends Page of ' + @user.first_name + ' ' + @user.last_name
+    @user = session[:user]
+    @title = 'Friends Page'
   end
 end
