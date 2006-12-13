@@ -60,49 +60,7 @@ class LongTermController < ApplicationController
   
   
   def auto_complete_for_course_number
-#    @courses = Array.new
-#
-#    value = params[:course][:number]
-#    if value.include? '-'
-#      subject = value.split('-')[0]
-#      number = value.split('-')[1]
-#      wildcard = ''
-#    else
-#      subject = value
-#      number = ''
-#      wildcard = '%'
-#    end
-#
-#    subjects = CisSubject.find(:all, :conditions => [ 'LOWER(code) LIKE ?',
-#      subject.downcase + wildcard ], 
-#      :order => 'code ASC')
-#    for subject in subjects
-#      for course in subject.cis_courses.find(:all, 
-#        :conditions => [ 'LPAD(number,3,\'0\') LIKE ?', number.to_s + '%' ], 
-#        :order => 'LPAD(number,3,\'0\') ASC',
-#        :limit => 8)
-#        
-#        if course.number < 10
-#          pad = '00'
-#        elsif course.number < 100
-#            pad = '0'
-#        else
-#          pad = ''
-#        end
-#        
-#        @courses << subject.code + '-' + pad + course.number.to_s
-#        
-#        if @courses.length > 8
-#          break
-#        end
-#      end
-#      if @courses.length > 8
-#        break
-#      end
-#    end
-
     @courses = CisSubject.search_for_course(params[:course][:number])
-
     render :partial => 'auto_complete_course'
   end
 end
