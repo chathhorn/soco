@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   validates_presence_of :start_sem
   validates_presence_of :start_year
   validates_presence_of :college
+  validates_presence_of :password_hash
   
   before_create :create_dependancies
   
@@ -22,7 +23,9 @@ class User < ActiveRecord::Base
   end
 
   def password=(str)
-    write_attribute("password_hash", Digest::SHA1.hexdigest(str))
+    unless str.empty? 
+      write_attribute("password_hash", Digest::SHA1.hexdigest(str))
+    end
   end
 
   def password
@@ -46,5 +49,6 @@ class User < ActiveRecord::Base
       end
     end
   end
+  
 
 end
