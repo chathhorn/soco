@@ -28,11 +28,11 @@ class ProfileController < ApplicationController
 
   def edit
     @title = 'Change Profile'
-    @user = User.find(params[:id])
+    @user = User.find(@session[:user])
   end
 
   def update
-    @user = User.find(params[:id])
+    @user = User.find(@session[:user])
     if @user.update_attributes(params[:user])
       flash[:notice] = 'Your changes have been successfully saved.'
       redirect_to :action => 'show', :id => @user
