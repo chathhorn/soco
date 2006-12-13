@@ -28,7 +28,7 @@ my $sth1;
 my $sth;
 
 $sth1 = $DataHandle->prepare("SELECT cis_courses.id FROM cis_courses JOIN cis_subjects ON cis_subjects.id = cis_subject_id WHERE cis_subjects.code = ? AND cis_courses.number = ?") or die $sth1->errstr;
-$sth = $DataHandle->prepare("INSERT INTO cis_sections (`cis_semester_id`, `crn`, `type`, `name`, `startTime`, `endTime`, `days`, `room`, `building`, `instructor`) VALUES (?,?,?,?,?,?,?,?,?,?)") or die $sth->errstr;
+$sth = $DataHandle->prepare("INSERT INTO cis_sections (`cis_semester_id`, `crn`, `type`, `name`, `startTime`, `endTime`, `days`, `room`, `building`, `instructor`) VALUES (?,?,?,?,STR_TO_DATE(?,'%h:%i %p'),STR_TO_DATE(?,'%h:%i %p'),?,?,?,?)") or die $sth->errstr;
 
 
 foreach my $subject ($doc->getElementsByTagName("subject"))

@@ -9,6 +9,7 @@ class ProfileController < ApplicationController
     else
       @user = User.find(@session[:user])
     end
+    @friends = @user.friends
     @title = 'Profile for ' + @user.first_name + ' ' + @user.last_name
   end
 
@@ -23,12 +24,14 @@ class ProfileController < ApplicationController
       end
     else
       @user = User.new()
+      @colleges = College.find(:all)
     end
   end
 
   def edit
     @title = 'Change Profile'
     @user = User.find(@session[:user])
+    @colleges = College.find(:all)
   end
 
   def update

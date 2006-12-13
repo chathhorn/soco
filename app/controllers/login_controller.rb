@@ -1,5 +1,6 @@
 class LoginController < ApplicationController
   def index
+    @title = "Login"
   end
   
   def validate
