@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :friends, :class_name => :user
   
   validates_uniqueness_of :username
+  validates_presence_of :start_sem
+  validates_presence_of :start_year
   
   before_create :create_dependancies
   
