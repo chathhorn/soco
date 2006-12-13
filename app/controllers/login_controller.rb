@@ -1,6 +1,7 @@
 class LoginController < ApplicationController
   def index
   end
+  
   def validate
     @user = User.authenticate(params[:user], params[:pass])
     if @user != nil
@@ -10,5 +11,10 @@ class LoginController < ApplicationController
       flash[:error] = "Invalid user name or password."
       redirect_to :action => 'index'
     end
-  end  
+  end
+  
+  def logout
+    @session[:user] = nil
+    render :action => 'index'
+  end
 end
