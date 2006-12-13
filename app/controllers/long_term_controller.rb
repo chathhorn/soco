@@ -1,5 +1,6 @@
 class LongTermController < ApplicationController
   def index
+    @title = 'Long Term Planner'
     @user = User.find(@session[:user])
     @course_bin_courses = @user.course_bin.cis_courses
     @semesters = @user.semesters.find(:all, :order => 'year ASC, semester ASC')

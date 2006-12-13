@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   has_many :semesters, :dependent => :destroy
   belongs_to :college
   belongs_to :major
-  has_and_belongs_to_many :friend_lists
+  has_and_belongs_to_many :friends, :class_name => :user
   
   validates_uniqueness_of :username
   
