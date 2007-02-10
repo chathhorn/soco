@@ -1,0 +1,8 @@
+<h1>Editing user</h1>
+
+<%= start_form_tag :action => 'update', :id => @user %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Save' %>
+<%= end_form_tag %>
+
+<%= link_to 'Cancel', :action => 'show' %>
