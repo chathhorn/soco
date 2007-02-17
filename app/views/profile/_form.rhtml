@@ -18,7 +18,12 @@
 <%= text_field 'user', 'email'  %></p>
 
 <p><label>College</label><br/>
-<%= collection_select 'user', 'college_id', @colleges, 'id', 'name' %></p>
+<%= collection_select :user, :college_id, @colleges, 'id', 'name' %></p>
+
+<p><label>Major</label><br/>
+<%= related_collection_select(
+      :user, :major_id, [:user, :college_id], 
+        @majors, :id, :name, :college_id) %></p>
 
 <p><label>UIUC Start Date</label><br/>
 <%= select 'user', 'start_sem', {'Fall' => 'FA', 'Spring' => 'SP'}, :selected => 'FA' %> 
