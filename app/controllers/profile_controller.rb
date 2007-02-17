@@ -7,7 +7,7 @@ class ProfileController < ApplicationController
     if params[:id] != nil
       @user = User.find(params[:id])
     else
-      @user = User.find(@session[:user])
+      @user = User.find(session[:user])
     end
     @friends = @user.friends
     @title = 'Profile for ' + @user.first_name + ' ' + @user.last_name
@@ -18,7 +18,7 @@ class ProfileController < ApplicationController
     if (params[:user] != nil)
       @user = User.new(params[:user])
       if @user.save
-        @session[:user] = @user.id
+        session[:user] = @user.id
         flash[:notice] = 'Your account is now created!'
         redirect_to :action => 'show'
       end
@@ -31,13 +31,13 @@ class ProfileController < ApplicationController
 
   def edit
     @title = 'Change Profile'
-    @user = User.find(@session[:user])
+    @user = User.find(session[:user])
     @colleges = College.find(:all, :order => 'name ASC')
     @majors = Major.find(:all, :order => 'name ASC')
   end
 
   def update
-    @user = User.find(@session[:user])
+    @user = User.find(session[:user])
     if @user.update_attributes(params[:user])
       flash[:notice] = 'Your changes have been successfully saved.'
       redirect_to :action => 'show', :id => @user
@@ -48,7 +48,7 @@ class ProfileController < ApplicationController
   end
 
   def destroy
-    User.find(@session[:user]).destroy
+    User.find(session[:user]).destroy
     redirect_to :controller => 'login'
   end
 end

@@ -10,13 +10,13 @@
         </ul>
         <hr/>
         <strong>Course Bin:</strong>
-        <%= start_form_tag :action => 'add_class', :name => 'class_autocomplete' %>
+        <% form_tag :action => 'add_class', :name => 'class_autocomplete' do %>
             <%= text_field_with_auto_complete :course, :number,
                 { :style => "width: 8em" },
                 { :after_update_element => 'function(element,value){ element.value = value.innerHTML.match(/^[A-Z]*\s*\d*/); document.class_autocomplete.submit(); }' }
                 %>
             <%= submit_tag 'Add' %>
-        <%= end_form_tag %>
+        <% end %>
         <br />
         <%= render :partial => 'course', :collection => @course_bin_courses, :locals => {:semester => -1, :effect => false} %>
     </div>

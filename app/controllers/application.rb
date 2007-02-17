@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   private
   
   def authenticate
-    if @session[:user] == nil && (params[:controller] != 'login' && !(params[:controller] == 'profile' && params[:action] == 'register'))
+    if session[:user] == nil && (params[:controller] != 'login' && !(params[:controller] == 'profile' && params[:action] == 'register'))
       redirect_to :controller => "login"
     end
   end
