@@ -7,6 +7,7 @@
         <% if course.cis_semesters.find_by_year_and_semester('2007','SP') != nil -%>
             | <a href="http://courses.uiuc.edu/cis/schedule/urbana/2007/Spring/<%= course.cis_subject.code %>/<%= course.number %>.html">Section schedule</a>
         <% end %>
+            | <a href="http://www.coursefire.com/view_stats.php?courseID=<%= course.cis_subject.code + course.number.to_s %>" target="_blank" > Coursefire Page</a>
    </div>
 </div>
 <% if effect %>
