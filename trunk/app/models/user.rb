@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   validates_presence_of :college
   validates_presence_of :password_hash
   
-  before_create :create_dependancies
+  after_create :create_dependancies
   
   def self.authenticate(username, password)
     find(:first, 

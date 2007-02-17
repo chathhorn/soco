@@ -25,13 +25,15 @@ class ProfileController < ApplicationController
     else
       @user = User.new()
     end
-    @colleges = College.find(:all)
+    @colleges = College.find(:all, :order => 'name ASC')
+    @majors = Major.find(:all, :order => 'name ASC')
   end
 
   def edit
     @title = 'Change Profile'
     @user = User.find(@session[:user])
     @colleges = College.find(:all)
+    @majors = Major.find(:all)
   end
 
   def update

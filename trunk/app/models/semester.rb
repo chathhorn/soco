@@ -3,7 +3,7 @@ class Semester < ActiveRecord::Base
   has_one :course_plan, :dependent => :destroy
   belongs_to :user
 
-  before_create :create_dependancies
+  after_create :create_dependancies
   
   
   private
