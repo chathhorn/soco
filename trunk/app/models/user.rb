@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
     i_year = start_year.to_i;
     i_semester = start_sem;
     for i in 1..8
-      create_in_semesters(:year => i_year, :semester => i_semester)  
+      semesters.create(:year => i_year, :semester => i_semester)  
       if i_semester == 'SP'
         i_semester = 'FA'
       else

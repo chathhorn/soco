@@ -1,4 +1,4 @@
-<%= start_form_tag :action => 'validate' %>
+<% form_tag :action => 'validate' do %>
     <table style="border: 1px solid black;" cellspacing="0">
         <tr bgcolor="#CCCCCC"><td colspan="2" align="center">Login</td></tr>
         <tr>
@@ -15,7 +15,7 @@
             </td>
         </tr>
     </table>
-<%= end_form_tag %>
+<% end %>
 
 New to SoCo?:
 <%= link_to 'Create an Account', :controller => 'profile', :action => 'register' %>
