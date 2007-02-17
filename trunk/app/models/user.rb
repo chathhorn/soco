@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   validates_presence_of :start_sem
   validates_presence_of :start_year
   validates_presence_of :college
+  validates_presence_of :major
   validates_presence_of :password_hash
   
   after_create :create_dependancies
