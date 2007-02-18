@@ -18,8 +18,9 @@ class LongTermController < ApplicationController
     end
     
     course = nil
-    subject_id = CisSubject.find_by_code(subject).id
-    if subject_id != nil
+    subject = CisSubject.find_by_code(subject)
+    if subject != nil
+      subject_id = subject.id
       course = CisCourse.find_by_cis_subject_id_and_number(subject_id, number)
     end
     if course != nil
