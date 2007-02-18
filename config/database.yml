@@ -15,8 +15,8 @@ development:
   adapter: mysql
   database: soco_development
   username: soco
-  password: monkey
-  host: www.cowelldesign.com
+  password: iP4dpA
+  host: csil-projects.cs.uiuc.edu
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
@@ -25,8 +25,8 @@ test:
   adapter: mysql
   database: soco_test
   username: soco
-  password: monkey
-  host: www.cowelldesign.com
+  password: iP4dpA
+  host: csil-projects.cs.uiuc.edu
 
 production:
   development
