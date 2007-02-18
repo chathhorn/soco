@@ -1,0 +1,29 @@
+<h4>User Profile:</h4>
+<table>
+<tr>
+<td class="info_field">Name:</td><td><%= @user.first_name %> <%= @user.last_name %></td>
+</tr><tr>
+<td class="info_field">Email:</td><td><%= @user.email %></td>
+</tr><tr>
+<td class="info_field">Start Date:</td><td><%= @user.start_sem %> <%= @user.start_year %></td>
+</tr><tr>
+<td class="info_field">College:</td><td><%= @user.college.name %></td>
+</tr><tr>
+<td class="info_field">Major:</td><td><%= @user.major.name %></td>
+</tr><tr>
+<td class="info_field">Birthday:</td><td><%= @user.birthday %></td>
+</tr>
+</table>
+
+<h4>Friends:</h4>
+<ul id="friend_list">
+<%= render :partial => 'friend', :collection => @friends %>
+</ul>
+
+
+<br/>
+<%= link_to 'Edit', :action => 'edit' %> | 
+<%= link_to 'Long Term View', :controller => 'long_term' %> |
+<%= link_to 'Logout', :controller => 'login', :action => 'logout' %>
+<br/><br/>
+<%= link_to 'Delete Your Account', {:action => 'destroy'}, :confirm => "Are you sure?\nThis cannot be undone!" %>
