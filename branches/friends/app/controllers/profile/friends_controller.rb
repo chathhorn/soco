@@ -26,10 +26,10 @@ class Profile::FriendsController < ApplicationController
   end
  
   def remove
-    user = User.find_by_id session[:user]
-    friend = User.find_by_id params[:id]
+    user = User.find session[:user]
+    friend = User.find params[:id]
     user.friends.delete friend
-    redirect_to :action => 'show'
+    redirect_to :controller => 'profile', :action => 'show'
   end
    
 end
