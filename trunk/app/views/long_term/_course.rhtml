@@ -4,7 +4,7 @@
     <div class="links">
         <a href="http://courses.uiuc.edu/cis/catalog/urbana/2007/Spring/<%= course.cis_subject.code %>/<%= course.number %>.html">Course info</a>
         
-        <% if course.cis_semesters.find_by_year_and_semester(lookup_year,lookup_semester) != nil -%>
+        <% if course.cis_semesters.find_by_year_and_semester(lookup_year(Time.now),lookup_semester(Time.now)) != nil -%>
             | <a href="http://courses.uiuc.edu/cis/schedule/urbana/2007/Spring/<%= course.cis_subject.code %>/<%= course.number %>.html">Section schedule</a>
         <% end %>
         | <a href="http://www.coursefire.com/view_stats.php?courseID=<%= course.cis_subject.code + course.number.to_s %>" target="_blank" > Coursefire Page</a>
