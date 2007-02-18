@@ -17,12 +17,17 @@ class LongTermController < ApplicationController
       number = class_id[-3,3]
     end
     
+    course = nil
     subject_id = CisSubject.find_by_code(subject).id
-    
-    course = CisCourse.find_by_cis_subject_id_and_number(subject_id, number)
-    
-    @user.course_bin.cis_courses.concat(course)
-    
+    if subject_id != nil
+      course = CisCourse.find_by_cis_subject_id_and_number(subject_id, number)
+    end
+    if course != nil
+      @user.course_bin.cis_courses.concat(course)
+    else
+      flash[:error] = "Invalid Course"
+    end
+      
     redirect_to(:action => 'index')
   end
   
