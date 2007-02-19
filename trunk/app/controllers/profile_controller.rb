@@ -47,6 +47,11 @@ class ProfileController < ApplicationController
   end
 
   def update
+    if(params[:passwordconfirm].length < 6 and params[:passwordconfirm].length > 0)
+      flash[:error] = 'Your new password must be at least 6 characters long!'
+      redirect_to :action => 'edit'     
+      return
+    end
     @user = User.find(session[:user])
     if @user.update_attributes(params[:user])
       flash[:notice] = 'Your changes have been successfully saved.'
