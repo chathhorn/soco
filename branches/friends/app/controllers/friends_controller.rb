@@ -1,5 +1,4 @@
-class Profile::FriendsController < ApplicationController
-
+class FriendsController < ApplicationController
   def index
     @title = ''
     @user = User.find(session[:user])
@@ -13,7 +12,8 @@ class Profile::FriendsController < ApplicationController
   end
   
   def list
-  
+    @user = User.find(session[:user])
+    @friends = @user.friends.slice(1,5)
   end
   
   def browse
@@ -21,15 +21,15 @@ class Profile::FriendsController < ApplicationController
   end
 
   def add
-  
+    user = User.find session[:user]
  
   end
  
   def remove
     user = User.find session[:user]
     friend = User.find params[:id]
-    user.friends.delete friend
-    redirect_to :controller => 'profile', :action => 'show'
+    user.friends.delete friend.id
+    friend.friends.delete user.id
+    redirect_to :controller => '/profile', :action => 'show'
   end
-   
 end
