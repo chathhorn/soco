@@ -21,6 +21,11 @@ class ProfileController < ApplicationController
         redirect_to :action => 'register'
         return
       end
+      if(params[:passwordconfirm].length < 6)
+        flash[:error] = 'Your password must be at least 6 characters long!'
+        redirect_to :action => 'register'     
+        return
+      end
       @user = User.new(params[:user])
       if @user.save
         session[:user] = @user.id
