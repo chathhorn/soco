@@ -52,6 +52,10 @@ class User < ActiveRecord::Base
   end
 
   def self.search(query)
+    if query == ""
+      return []
+    end
+      
     terms = query.split
     fields = ['first_name', 'last_name', 'username', 'email']
     
