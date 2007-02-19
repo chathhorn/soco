@@ -1,3 +1,5 @@
+require 'vendor/plugins/RBook/lib/facebook_web_session'
+
 class ProfileController < ApplicationController
   def index
     redirect_to :action => 'show'
@@ -46,9 +48,38 @@ class ProfileController < ApplicationController
     end
     @colleges = College.find(:all)
   end
+  
+  def facesession
+      session[:facebook_session] = RBook::FacebookWebSession.new('485ba0cb3fc98c3ab2d02e91cd605608', '6961a47b0e8022253dcb6925332af0ee')
+      redirect_to session[:facebook_session].get_login_url    
+  end
+    
+  def facefriends
+      puts 'facebook auth_token now = ' + params[:auth_token]
+      session[:facebook_session].init_with_token(params[:auth_token])
+      redirect_to :action => 'friendsGet'
+      rescue RBook::FacebookSession::RemoteException => e
+        flash[:error] = 'An exception occurred while trying to authenticate with Facebook: #{e}'
+  end 
+    
+  def friendsGet
+      myResponse = session[:facebook_session].friends_get({:uids => [@session_uid]})
+      puts myResponse.to_html
+      redirect_to :action => 'show'
+  end   
+  def usersInfo
+      myResponse = session[:facebook_session].users_getInfo({:uids => [1908269, 1914700], :fields => ['about_me', 'activities', 'birthday']})
+      puts myResponse.to_html
+      redirect_to :action => 'show'
+      rescue RBook::FacebookSession::RemoteException => e
+      flash[:error] = 'An exception occurred while trying to authenticate with Facebook: #{e}'    
+  end   
+
+  # SECTION: Private Methods
 
   def destroy
     User.find(session[:user]).destroy
     redirect_to :controller => 'login'
   end
+
 end
