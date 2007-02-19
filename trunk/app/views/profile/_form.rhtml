@@ -8,6 +8,10 @@
 <%= password_field 'user', 'password'  %></p>
 </p>
 
+<p><label for="passwordconfim">Re-type Password</label><br/>
+<%= password_field_tag :passwordconfirm, nil, :size=>"30" %></p>
+
+
 <p><label for="user_first_name">First Name</label><br/>
 <%= text_field 'user', 'first_name'  %></p>
 
