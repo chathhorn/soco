@@ -1,2 +1,0 @@
-module Profile::FriendsHelper
-end
