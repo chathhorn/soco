@@ -16,6 +16,11 @@ class ProfileController < ApplicationController
   def register
     @title = 'Register'
     if (params[:user] != nil)
+      if(params[:passwordconfirm] != params[:user][:password])
+        flash[:error] = 'Your passwords must match!'
+        redirect_to :action => 'register'
+        return
+      end
       @user = User.new(params[:user])
       if @user.save
         session[:user] = @user.id
