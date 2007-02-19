@@ -1,0 +1,18 @@
+<div class="course" id="<%= "coursediv_#{semester}_#{course.id}" %>" style="<% if effect %>display:none;<% end%>">
+    <div class="course_code"><%=h course.cis_subject.code %> <%= course.number %></div>
+    <div class="course_desc"><%= course.title %></div>
+    <div class="links">
+        <a href="http://courses.uiuc.edu/cis/catalog/urbana/2007/Spring/<%= course.cis_subject.code %>/<%= course.number %>.html">Course info</a>
+        
+        <% if course.cis_semesters.find_by_year_and_semester(lookup_year(Time.now),lookup_semester(Time.now)) != nil -%>
+            | <a href="http://courses.uiuc.edu/cis/schedule/urbana/2007/Spring/<%= course.cis_subject.code %>/<%= course.number %>.html">Section schedule</a>
+        <% end %>
+        | <a href="http://www.coursefire.com/view_stats.php?courseID=<%= course.cis_subject.code + course.number.to_s %>" target="_blank" > Coursefire Page</a>
+   </div>
+</div>
+<% if effect %>
+<script language="javascript" type="text/javascript">
+    <%= visual_effect :blind_down, "coursediv_#{semester}_#{course.id}", :duration => 1 %>
+</script>
+<% end %>
+<%= draggable_element "coursediv_#{semester}_#{course.id}", :revert => true %>
