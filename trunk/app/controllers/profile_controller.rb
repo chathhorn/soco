@@ -51,11 +51,4 @@ class ProfileController < ApplicationController
     User.find(session[:user]).destroy
     redirect_to :controller => 'login'
   end
-  
-  def remove_friend
-    user = User.find_by_id session[:user]
-    friend = User.find_by_id params[:id]
-    user.friends.delete friend
-    redirect_to :action => 'show'
-  end
 end

@@ -1,0 +1,21 @@
+<h4>Friends:</h4>
+
+<% form_tag :action => 'search' do %>
+        <p><label for="search">Search All Users:</label><br/>
+        <input type="text" name="q" /></p>
+        <%= submit_tag 'Search' %>
+<% end %>
+
+<% if @friends.size == 0 -%>
+<h5>None Found.</h5>
+<% else -%>
+<ul id="friend_list">
+<%= render :partial => 'friend', :collection => @friends %>
+</ul>
+<% end -%>
+<br/>
+<%= link_to 'Profile', :controller => 'profile' %> |
+<%= link_to 'List Friends', :controller => 'friends', :action => 'list' %> | 
+<%= link_to 'Browse All Users', :controller => 'friends', :action => 'browse' %> |
+<%= link_to 'Long Term View', :controller => 'long_term' %> |
+<%= link_to 'Logout', :controller => 'login', :action => 'logout' %>

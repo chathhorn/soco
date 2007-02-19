@@ -50,6 +50,32 @@ class User < ActiveRecord::Base
       end
     end
   end
-  
+
+  def self.search(query)
+    if query == ""
+      return []
+    end
+      
+    terms = query.split
+    fields = ['first_name', 'last_name', 'username', 'email']
+    
+    fields.collect! {|field| field += " LIKE ?"}
+    
+    query_string_short = fields.join " OR "
+    
+    query_string = []
+    
+    terms.each {|term| query_string.push query_string_short}
+    
+    conditions = [query_string.join(" AND "),]
+    
+    terms.each {|term| fields.each {|field| conditions.push '%' << term << '%' } }
+    
+    users = find :all,
+      :conditions => conditions,
+      :limit => 100
+    
+    return users   
+  end  
 
 end
