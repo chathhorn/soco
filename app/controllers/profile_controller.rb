@@ -67,6 +67,7 @@ class ProfileController < ApplicationController
       puts myResponse.to_html
       @friends_uids = []
       @friends_names = []
+      @friends_all = User.find :all, :order => 'last_name ASC, first_name ASC'
       myResponse.search("//uid").each do|test| 
         mystring = test.innerHTML
         puts mystring 
@@ -91,7 +92,8 @@ class ProfileController < ApplicationController
               index += 1 
             }
             puts "first_name = " + ffirst_name
-            puts "last_name = " + flast_name      
+            puts "last_name = " + flast_name 
+            checkFriends(ffirst_name, flast_name)     
 #            friend.create(:first_name => ffirst_name, :last_name => flast_name)
           end
       end
@@ -114,6 +116,29 @@ class ProfileController < ApplicationController
       rescue RBook::FacebookSession::RemoteException => e
       flash[:error] = 'An exception occurred while trying to get friends names from Facebook: #{e}'    
   end   
+  
+  def checkFriends(first_name, last_name)
+      @friends_all.each do |aUser | 
+        if(first_name == aUser.first_name and last_name == aUser.last_name)
+            friend = User.find aUser.id
+            user = User.find session[:user]
+            puts "friend = " + friend.to_s
+            bfound = 0
+            user.friends.each do |eUser |
+              if(eUser.id == aUser.id)
+                bfound = 1
+              end
+            end
+            if(bfound == 1)
+              puts 'friend id already exists'
+            else
+              puts 'adding friend id'
+              user.friends.concat friend
+              friend.friends.concat user
+            end
+        end
+     end
+  end
   
   def usersInfoOld
       myResponse = session[:facebook_session].users_getInfo({:uids => [1908269, 1914700], :fields => ['about_me', 'activities', 'birthday']})
