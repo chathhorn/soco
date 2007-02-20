@@ -15,6 +15,8 @@ development:
   adapter: mysql
   database: soco_development
   username: soco
+#  password: iP4dpA
+#  host: csil-projects.cs.uiuc.edu
   password: monkey
   host: www.cowelldesign.com
 
