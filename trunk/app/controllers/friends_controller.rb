@@ -32,10 +32,15 @@ class FriendsController < ApplicationController
     user = User.find session[:user]
     friend = User.find params[:id]
     
-    user.friends.concat friend
-    friend.friends.concat user
+    if user != friend
+      user.friends.concat friend
+      friend.friends.concat user
+      redirect_to :controller => 'profile', :action => 'show'
+    else
+      flash[:error] = 'Sorry, you cannot be your own friend.'
+      redirect_to :back
+    end
     
-    redirect_to :controller => 'profile', :action => 'show'
   end
  
   def remove
