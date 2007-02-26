@@ -1,6 +1,6 @@
 <h4>Friends:</h4>
 
-<% form_tag( {:action => 'search'}, :method => :get ) do %>
+<% form_tag({:action => 'search'}, :method => :get) do %>
         <p><label for="search">Search All Users:</label><br/>
         <input type="text" name="q" /></p>
         <%= submit_tag 'Search' %>
