@@ -19,18 +19,18 @@ class LoginControllerTest < Test::Unit::TestCase
   
   #check for login failure
   def test_login_failure
-    get :validate, "username"=>"nikhil", "password_hash"=>"sonie"
-    assert_not_nil assigns["user"]
+    get :validate, :user=>"nikhil", :pass=>"sonie"
     assert_nil assigns["user"]
-    assert assign.empty?
-    assert flash.has_error?
+    assert_nil session[:user]
+    assert_not_nil flash[:error]
   end
   
   #check for login success
   def test_login_success
-    get :validate, "username"=>"james", "password_hash"=>"bond"
-    assert_not_nit assigns["user"]
+    get :validate, :user=>"james", :pass=>"bond"
+    assert_not_nil assigns["user"]
     assert_equal 1, assigns["user"].id
+    assert_equal 1, session[:user]
     assert flash.empty?   
   end    
   
