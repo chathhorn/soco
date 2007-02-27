@@ -4,7 +4,6 @@ class UserTest < Test::Unit::TestCase
 
  fixtures :users
 
-
   def test_invalid_authentication
     #finding something that is not in database
     #to check if it returning nil 
@@ -12,7 +11,7 @@ class UserTest < Test::Unit::TestCase
   end
   
   def test_duplicate_user_object_creation
-    james = User.new(:username=>'james', :password_hash=>Digest::SHA1.hexdigest("bond"))
+    james = User.new(:username=>'james', :password=>"bond")
     assert_equal(james.save, false)
   end
   
@@ -20,7 +19,7 @@ class UserTest < Test::Unit::TestCase
   
     nikhil = User.new(
                       :username=>'nikhil', 
-                      :password_hash=>Digest::SHA1.hexdigest("sonie"),
+                      :password=>'sonie123',
                       :first_name=>'abcd',
                       :last_name=>'cdef', 
                       :email=>'nsonie2@uiuc.edu',
@@ -36,9 +35,9 @@ class UserTest < Test::Unit::TestCase
   
   def test_password_gt_6_char
   
-  #password should be more than 6 characters
+      #password should be more than 6 characters
       temp = User.new(:username=>'nikhil1', 
-                      :password_hash=>Digest::SHA1.hexdigest("sonie1"),
+                      :password=>"sonie1",
                       :first_name=>'abcd',
                       :last_name=>'cdef', 
                       :email=>'nsonie2@uiuc.edu',
@@ -52,9 +51,9 @@ class UserTest < Test::Unit::TestCase
       temp.destroy
       assert_equal(true, ret_val)  
  
-     #password should be more than 6 characters
+      #password should be more than 6 characters
       temp = User.new(:username=>'nikhil1', 
-                      :password_hash=>Digest::SHA1.hexdigest("sonie"),
+                      :password=>"sonie",
                       :first_name=>'abcd',
                       :last_name=>'cdef', 
                       :email=>'nsonie2@uiuc.edu',
@@ -88,7 +87,7 @@ class UserTest < Test::Unit::TestCase
  
  # should fail as username cannot be null
  temp = User.new(:username=>'  ', 
-                 :password_hash=>Digest::SHA1.hexdigest("nsonie2"),
+                 :password=>"nsonie2",
                  :first_name=>'abcd',
                  :last_name=>'cdef', 
                  :email=>'nsonie2@uiuc.edu',
@@ -107,7 +106,7 @@ class UserTest < Test::Unit::TestCase
  
  # should fail as username cannot be null
  temp = User.new(:username=>'nonie2', 
-                 :password_hash=>Digest::SHA1.hexdigest(" "),
+                 :password=>" ",
                  :first_name=>'abcd',
                  :last_name=>'cdef', 
                  :email=>'nsonie2@uiuc.edu',
@@ -127,7 +126,7 @@ class UserTest < Test::Unit::TestCase
  
  # should fail as we are not using *@*.*
  temp = User.new(:username=>'nsonie2', 
-                 :password_hash=>Digest::SHA1.hexdigest("nsonie2"),
+                 :password=>"nsonie2",
                  :first_name=>'abcd',
                  :last_name=>'cdef', 
                  :email=>'nsonie2',
@@ -143,7 +142,7 @@ class UserTest < Test::Unit::TestCase
 
  # should pass as it is valid
  temp1 = User.new(:username=>'nsonie2', 
-                 :password_hash=>Digest::SHA1.hexdigest("nsonie2"),
+                 :password=>"nsonie2",
                  :first_name=>'abcd',
                  :last_name=>'cdef', 
                  :email=>'nsonie2@uiuc.edu',
