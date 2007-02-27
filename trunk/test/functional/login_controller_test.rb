@@ -5,6 +5,8 @@ require 'login_controller'
 class LoginController; def rescue_action(e) raise e end; end
 
 class LoginControllerTest < Test::Unit::TestCase
+  fixtures :users
+
   def setup
     @controller = LoginController.new
     @request    = ActionController::TestRequest.new
