@@ -33,8 +33,12 @@ class FriendsController < ApplicationController
     friend = User.find params[:id]
     
     if user != friend
-      user.friends.concat friend
-      friend.friends.concat user
+      if !user.friends.exists?(params[:id])
+        user.friends.concat friend
+        friend.friends.concat user
+      else
+        flash[:error] = 'Sorry, you cannot add the same friend more than once.'
+      end
       redirect_to :controller => 'profile', :action => 'show'
     else
       flash[:error] = 'Sorry, you cannot be your own friend.'
