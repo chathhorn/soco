@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class UserTest < Test::Unit::TestCase
 
- fixtures :users
+ fixtures :users, :colleges, :majors, :course_bins, :semesters
 
   def test_invalid_authentication
     #finding something that is not in database
@@ -104,21 +104,21 @@ class UserTest < Test::Unit::TestCase
  
  def test_null_password_object_creation
  
- # should fail as username cannot be null
- temp = User.new(:username=>'nonie2', 
-                 :password=>" ",
-                 :first_name=>'abcd',
-                 :last_name=>'cdef', 
-                 :email=>'nsonie2@uiuc.edu',
-                 :start_year=>'2009',
-                 :start_sem=>'FA', 
-                 :birthday=>'1990-10-29', 
-                 :college => College.find(:first),
-                 :major => Major.find(:first)
-                 )     
-  ret_val = temp.save
-  temp.destroy
-  assert_equal(false, ret_val)
+    # should fail as username cannot be null
+    temp = User.new(:username=>'nonie2', 
+                   :password=>" ",
+                   :first_name=>'abcd',
+                   :last_name=>'cdef', 
+                   :email=>'nsonie2@uiuc.edu',
+                   :start_year=>'2009',
+                   :start_sem=>'FA', 
+                   :birthday=>'1990-10-29', 
+                   :college => College.find(:first),
+                   :major => Major.find(:first)
+                   )     
+    ret_val = temp.save
+    temp.destroy
+    assert_equal(false, ret_val)
   
  end
   
@@ -157,5 +157,54 @@ class UserTest < Test::Unit::TestCase
  temp1.destroy
  assert_equal(false, ret_val)  
  end
+ 
+ def test_semester_creation
+    temp = User.new(:username=>'nonie2', 
+                   :password=>"1234567",
+                   :first_name=>'abcd',
+                   :last_name=>'cdef', 
+                   :email=>'nsonie2@uiuc.edu',
+                   :start_year=>'2009',
+                   :start_sem=>'FA', 
+                   :birthday=>'1990-10-29', 
+                   :college => College.find(:first),
+                   :major => Major.find(:first)
+                   )     
+    
+    assert_equal(true, temp.save)
+    
+    sems = Semester.find(:all, :conditions => ["user_id = ?", temp.id] )
+    
+    assert_equal 8, sems.size
+ 
+ end
+ 
+ 
+ def test_semester_destruction
+     temp = User.new(:username=>'nonie2', 
+                   :password=>"1234567",
+                   :first_name=>'abcd',
+                   :last_name=>'cdef', 
+                   :email=>'nsonie2@uiuc.edu',
+                   :start_year=>'2009',
+                   :start_sem=>'FA', 
+                   :birthday=>'1990-10-29', 
+                   :college => College.find(:first),
+                   :major => Major.find(:first)
+                   )     
+    
+    assert_equal(true, temp.save)
+    
+    sems = Semester.find(:all, :conditions => ["user_id = ?", temp.id] )
+    
+    assert_equal 8, sems.size 
+    
+    temp.destroy
+    
+    sems = Semester.find(:all, :conditions => ["user_id = ?", temp.id] )
+    
+    assert_equal 0, sems.size
+ end
+ 
  
 end

@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html 
+
+friends_users_001:
+  user_id: 2
+  friend_id: 3
+
+friends_users_002:
+  user_id: 3
+  friend_id: 2
