@@ -1,5 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'profile_controller'
+require 'vendor/plugins/RBook/lib/facebook_web_session'
 
 # Re-raise errors caught by the controller.
 class ProfileController; def rescue_action(e) raise e end; end
@@ -11,14 +12,21 @@ class ProfileControllerTest < Test::Unit::TestCase
     @controller = ProfileController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    
-    @request.session[:user] = 1
   end
 
   def test_index
     get :index
-    assert_response :redirect
-    assert_redirected_to :action => 'show'
+    assert_response :success
+    assert_template 'list'
+  end
+
+  def test_list
+    get :list
+
+    assert_response :success
+    assert_template 'list'
+
+    assert_not_nil assigns(:users)
   end
 
   def test_show
@@ -28,36 +36,43 @@ class ProfileControllerTest < Test::Unit::TestCase
     assert_template 'show'
 
     assert_not_nil assigns(:user)
+    assert assigns(:user).valid?
   end
 
-  def test_register
+  def test_new
+    get :new
+
+    assert_response :success
+    assert_template 'new'
+
+    assert_not_nil assigns(:user)
+  end
+
+  def test_create
     num_users = User.count
 
-    post :register, :user => {  :username=>'nikhil', 
-                                :password=>'sonie123',
-                                :first_name=>'abcd',
-                                :last_name=>'cdef', 
-                                :email=>'nsonie2@uiuc.edu',
-                                :start_year=>'2009',
-                                :start_sem=>'FA', 
-                                :birthday=>'1990-10-29', 
-                                :college => College.find(:first),
-                                :major => Major.find(:first)
-                                }
+    post :create, :user => {}
 
     assert_response :redirect
-    assert_redirected_to :action => 'show'
+    assert_redirected_to :action => 'list'
 
     assert_equal num_users + 1, User.count
   end
 
   def test_edit
-    get :edit
+    get :edit, :id => 1
 
     assert_response :success
     assert_template 'edit'
 
     assert_not_nil assigns(:user)
+    assert assigns(:user).valid?
+  end
+
+  def test_update
+    post :update, :id => 1
+    assert_response :redirect
+    assert_redirected_to :action => 'show', :id => 1
   end
 
   def test_destroy
@@ -65,7 +80,7 @@ class ProfileControllerTest < Test::Unit::TestCase
 
     post :destroy, :id => 1
     assert_response :redirect
-    assert_redirected_to :controller => 'login'
+    assert_redirected_to :action => 'list'
 
     assert_raise(ActiveRecord::RecordNotFound) {
       User.find(1)

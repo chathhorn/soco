@@ -11,31 +11,5 @@ james:
   start_year: 2007
   start_sem: SP
   birthday: 1985-02-17
-  college_id: 1
-  major_id: 1
   
-john:
-  id: 2
-  username: john
-  password_hash: <%= Digest::SHA1.hexdigest 'doe' %>
-  first_name: John
-  last_name: Doe
-  email: jdoe2@uiuc.edu
-  start_year: 2007
-  start_sem: SP
-  birthday: 1985-02-17
-  college_id: 1
-  major_id: 1
-  
-jane:
-  id: 3
-  username: jane
-  password_hash: <%= Digest::SHA1.hexdigest 'doe' %>
-  first_name: Jane
-  last_name: Doe
-  email: jdoe3@uiuc.edu
-  start_year: 2007
-  start_sem: SP
-  birthday: 1985-02-17
-  college_id: 1
-  major_id: 1
+ 
