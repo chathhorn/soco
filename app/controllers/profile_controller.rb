@@ -174,7 +174,7 @@ class ProfileController < ApplicationController
         redirect_to :action => 'show'
       end
       rescue RBook::FacebookSession::RemoteException => e
-        flash[:error] = 'An exception occurred while trying to get friends from Facebook: #{e}'
+      flash[:error] = 'An exception occurred while trying to get friends from Facebook: #{e}'    
   end  
   
 
