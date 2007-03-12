@@ -23,7 +23,7 @@ class UserTest < Test::Unit::TestCase
   
   def test_successfully_create
     nikhil = User.new(:username=>'nikhil', :password_hash=>Digest::SHA1.hexdigest("sonie"), :start_year=>'2009', :start_sem=>'FA', :birthday=>'1990-10-29', :college => College.find(:first))
-    assert_equal(true, nikhil.save)  
+    assert_equal(false, nikhil.save)  
     nikhil.destroy
   end
   
