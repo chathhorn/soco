@@ -8,10 +8,6 @@
 <%= password_field 'user', 'password'  %></p>
 </p>
 
-<p><label for="user_password_confirmation">Re-type Password</label><br/>
-<%= password_field 'user', 'password_confirmation'  %></p>
-</p>
-
 <p><label for="user_first_name">First Name</label><br/>
 <%= text_field 'user', 'first_name'  %></p>
 
@@ -34,6 +30,6 @@
 <%= select_year(Date.today.year, :prefix => 'user', :field_name => 'start_year', :start_year => Date.today.year + 1, :end_year => Date.today.year - 10 ) %></p>
 
 <p><label for="user_birthday">Birthday</label><br/>
-<%= date_select 'user', 'birthday', :start_year => Date.today.year-90, :end_year => Date.today.year-13, :order => [:month, :day, :year] %></p>
+<%= date_select 'user', 'birthday', :start_year => 1970, :order => [:month, :day, :year] %></p>
 <!--[eoform:user]-->
 

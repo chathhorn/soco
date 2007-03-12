@@ -1,21 +1,20 @@
 require 'digest/sha1'
 
 class User < ActiveRecord::Base
-  attr_accessor :password
-
   has_one :course_bin, :dependent => :destroy
   has_many :semesters, :dependent => :destroy
   belongs_to :college
   belongs_to :major
   has_and_belongs_to_many :friends, :class_name => 'User', :association_foreign_key => 'friend_id', :join_table => 'friends_users'
   
-  validates_uniqueness_of :username, :email
-  validates_presence_of :username, :start_sem, :start_year, :college, :major, :email
-  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
-  validates_length_of :password, :within => 6..40, :if => :needs_password_update?
-  validates_confirmation_of :password, :if => :needs_password_update?
-
-  before_save :encrypt_password
+  validates_uniqueness_of :username
+  validates_presence_of :username
+  validates_presence_of :start_sem
+  validates_presence_of :start_year
+  validates_presence_of :college
+  validates_presence_of :major
+  validates_presence_of :password_hash
+  
   after_create :create_dependancies
   
   def self.authenticate(username, password)
@@ -24,17 +23,17 @@ class User < ActiveRecord::Base
     )
   end
 
-  private
-  def encrypt_password
-    unless password.empty?
-      self.password_hash = Digest::SHA1.hexdigest(password)
+  def password=(str)
+    unless str.empty? 
+      write_attribute("password_hash", Digest::SHA1.hexdigest(str))
     end
   end
 
-  def needs_password_update?
-    password_hash.empty? or not password.empty?
+  def password
+    "" 
   end
   
+  private
   def create_dependancies
     create_course_bin()
 
@@ -51,32 +50,6 @@ class User < ActiveRecord::Base
       end
     end
   end
-
-  def self.search(query)
-    if query == ""
-      return []
-    end
-      
-    terms = query.split
-    fields = ['first_name', 'last_name', 'username', 'email']
-    
-    fields.collect! {|field| field += " LIKE ?"}
-    
-    query_string_short = fields.join " OR "
-    
-    query_string = []
-    
-    terms.each {|term| query_string.push query_string_short}
-    
-    conditions = [query_string.join(" AND "),]
-    
-    terms.each {|term| fields.each {|field| conditions.push '%' << term << '%' } }
-    
-    users = find :all,
-      :conditions => conditions,
-      :limit => 100
-    
-    return users   
-  end  
+  
 
 end

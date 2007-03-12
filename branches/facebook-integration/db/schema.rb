@@ -39,9 +39,9 @@ ActiveRecord::Schema.define() do
   end
 
   create_table "cis_semesters", :force => true do |t|
-    t.column "cis_course_id", :integer,                            :null => false
-    t.column "year",          :integer, :limit => 4,               :null => false
-    t.column "semester",      :enum,    :limit => [:SP, :SU, :FA], :null => false
+    t.column "cis_course_id", :integer,                              :null => false
+    t.column "year",          :integer, :limit => 4,                 :null => false
+    t.column "semester",      :string,  :limit => 0, :default => "", :null => false
   end
 
   create_table "cis_subjects", :force => true do |t|
@@ -74,22 +74,22 @@ ActiveRecord::Schema.define() do
   end
 
   create_table "semesters", :force => true do |t|
-    t.column "user_id",  :integer,                            :null => false
-    t.column "year",     :integer, :limit => 4,               :null => false
-    t.column "semester", :enum,    :limit => [:SP, :SU, :FA], :null => false
+    t.column "user_id",  :integer,                              :null => false
+    t.column "year",     :integer, :limit => 4,                 :null => false
+    t.column "semester", :string,  :limit => 0, :default => "", :null => false
   end
 
   create_table "users", :force => true do |t|
-    t.column "username",      :string,                             :default => "", :null => false
-    t.column "password_hash", :binary,                             :default => "", :null => false
-    t.column "first_name",    :string,                             :default => "", :null => false
-    t.column "last_name",     :string,                             :default => "", :null => false
-    t.column "email",         :string,                             :default => "", :null => false
-    t.column "start_year",    :integer, :limit => 4,                               :null => false
-    t.column "start_sem",     :enum,    :limit => [:SP, :SU, :FA],                 :null => false
-    t.column "birthday",      :date,                                               :null => false
-    t.column "college_id",    :integer, :limit => 10,                              :null => false
-    t.column "major_id",      :integer, :limit => 10,                              :null => false
+    t.column "username",      :string,                :default => "", :null => false
+    t.column "password_hash", :binary,                :default => "", :null => false
+    t.column "first_name",    :string,                :default => "", :null => false
+    t.column "last_name",     :string,                :default => "", :null => false
+    t.column "email",         :string,                :default => "", :null => false
+    t.column "start_year",    :integer, :limit => 4,                  :null => false
+    t.column "start_sem",     :string,  :limit => 0,  :default => "", :null => false
+    t.column "birthday",      :date,                                  :null => false
+    t.column "college_id",    :integer, :limit => 10,                 :null => false
+    t.column "major_id",      :integer, :limit => 10,                 :null => false
   end
 
   add_index "users", ["username"], :name => "username", :unique => true
