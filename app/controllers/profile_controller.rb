@@ -50,7 +50,10 @@ class ProfileController < ApplicationController
   end
   
   def facesession
+      #peter's key
       session[:facebook_session] = RBook::FacebookWebSession.new('485ba0cb3fc98c3ab2d02e91cd605608', '6961a47b0e8022253dcb6925332af0ee')
+      #matt's key
+      #session[:facebook_session] = RBook::FacebookWebSession.new('db204644ba402b4d86ac2886372a96bf', '776bfd48e704d1e64f1dcaf24c867bc5')
       redirect_to session[:facebook_session].get_login_url    
   end
     
@@ -59,7 +62,7 @@ class ProfileController < ApplicationController
       session[:facebook_session].init_with_token(params[:auth_token])
       redirect_to :action => 'friendsGet'
       rescue RBook::FacebookSession::RemoteException => e
-        flash[:error] = 'An exception occurred while trying to authenticate with Facebook: #{e}'
+        flash[:error] = 'An exception occurred while trying to authenticate with Facebook: ' + e
   end 
     
   def friendsGet
@@ -99,7 +102,7 @@ class ProfileController < ApplicationController
       end
       redirect_to :action => 'show'
       rescue RBook::FacebookSession::RemoteException => e
-        flash[:error] = 'An exception occurred while trying to get friends from Facebook: #{e}'
+        flash[:error] = 'An exception occurred while trying to get friends from Facebook: ' + e
   end  
 
   def usersInfo
@@ -114,7 +117,7 @@ class ProfileController < ApplicationController
       end
       redirect_to :action => 'show'
       rescue RBook::FacebookSession::RemoteException => e
-      flash[:error] = 'An exception occurred while trying to get friends names from Facebook: #{e}'    
+      flash[:error] = 'An exception occurred while trying to get friends names from Facebook: ' + e 
   end   
   
   def checkFriends(first_name, last_name)
@@ -145,7 +148,7 @@ class ProfileController < ApplicationController
       puts myResponse.to_html
       redirect_to :action => 'show'
       rescue RBook::FacebookSession::RemoteException => e
-      flash[:error] = 'An exception occurred while trying to authenticate with Facebook: #{e}'    
+      flash[:error] = 'An exception occurred while trying to authenticate with Facebook: ' + e  
   end  
    
   def friendsGetNotWorking
@@ -174,7 +177,7 @@ class ProfileController < ApplicationController
         redirect_to :action => 'show'
       end
       rescue RBook::FacebookSession::RemoteException => e
-      flash[:error] = 'An exception occurred while trying to get friends from Facebook: #{e}'    
+      flash[:error] = 'An exception occurred while trying to get friends from Facebook: ' + e  
   end  
   
 
