@@ -5,3 +5,6 @@ first:
 another:
   id: 2
   code: MATH
+third:
+  id: 3
+  code: PSYCH

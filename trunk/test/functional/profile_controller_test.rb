@@ -11,7 +11,6 @@ class ProfileControllerTest < Test::Unit::TestCase
     @controller = ProfileController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    
     @request.session[:user] = 1
   end
 

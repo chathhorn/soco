@@ -14,7 +14,7 @@ class CisSubjectTest < Test::Unit::TestCase
   
   # Test if search function is functioning correctly
   def test_unsuccessful_search_for_courses
-      assert CisSubject.search_for_course('PSYCH').empty?
+      assert CisSubject.search_for_course('TEMPE').empty?
       assert CisSubject.search_for_course('P9OP').empty? 
       assert CisSubject.search_for_course('CS2255').empty?     
   end
