@@ -7,7 +7,20 @@ james:
   password_hash: <%= Digest::SHA1.hexdigest 'bond' %>
   first_name: nikhil
   last_name: sonie
-  email: nsonie2
+  email: mirani@uiuc.edu
+  start_year: 2007
+  start_sem: SP
+  birthday: 1985-02-17
+  college_id: 1
+  major_id: 1
+  
+tanmay:
+  id: 4
+  username: tanmay
+  password_hash: <%= Digest::SHA1.hexdigest 'monkey' %>
+  first_name: tanmay
+  last_name: mirani
+  email: nson@gmail.com
   start_year: 2007
   start_sem: SP
   birthday: 1985-02-17
@@ -39,3 +52,6 @@ jane:
   birthday: 1985-02-17
   college_id: 1
   major_id: 1
+  
+  
+  

@@ -16,3 +16,9 @@ another:
   cis_subject_id: 2
   number: 412
   title: Horrible Graph Theory
+
+fourth:
+  id: 4
+  cis_subject_id: 3
+  number: 100
+  title: Intro to PSYCH
