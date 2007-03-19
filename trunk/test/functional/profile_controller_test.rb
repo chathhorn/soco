@@ -58,6 +58,28 @@ class ProfileControllerTest < Test::Unit::TestCase
 
     assert_not_nil assigns(:user)
   end
+  
+  def test_edit_submit
+    post:edit, :id=>1, :user => {:username=>'nikhil', 
+                                :password=>'sonie123',
+                                :first_name=>'abcd',
+                                :last_name=>'cdef', 
+                                :email=>'nsonie2@uiuc.edu',
+                                :start_year=>'2009',
+                                :start_sem=>'FA', 
+                                :birthday=>'1990-10-29', 
+                                :college => College.find(:first),
+                                :major => Major.find(:first)
+                                }    
+  
+    assert_response :redirect
+    assert_redirected_to :controller=>'profile', :action=>'show'
+    
+    assert_not_nil assigns("user")
+    
+    assert User.exists?(:username=>'nikhil', :first_name=>"abcd", :last_name=>"cdef",:email=>'nsonie2@uiuc.edu')
+     
+  end
 
   def test_destroy
     assert_not_nil User.find(1)
