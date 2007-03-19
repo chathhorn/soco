@@ -206,5 +206,39 @@ class UserTest < Test::Unit::TestCase
     assert_equal 0, sems.size
  end
  
+ def test_duplicate_user_real_name 
+  
+  # Create a new user 
+  user1 = User.new(:username=>'koala', 
+   :password=>"koala1",
+   :first_name=>'Chris',
+   :last_name=>'Horneck', 
+   :email=>'chorneck@uiuc.edu',
+   :start_year=>'2009',
+   :start_sem=>'FA', 
+   :birthday=>'1990-10-29', 
+   :college => College.find(:first),
+   :major => Major.find(:first)
+   )                     
+  #Save the user 
+  assert user1.save
+  
+  #Create a new user with the same real name 
+  user2 = User.new(:username=>'koala2', 
+   :password=>"koala1",
+   :first_name=>'Chris',
+   :last_name=>'Horneck', 
+   :email=>'koala1@uiuc.edu',
+   :start_year=>'2009',
+   :start_sem=>'FA', 
+   :birthday=>'1990-10-29', 
+   :college => College.find(:first),
+   :major => Major.find(:first)
+   )            
+  assert user2.save 
+  
+  user1.destroy 
+  user2.destroy 
+end 
  
 end
