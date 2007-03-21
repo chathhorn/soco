@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
   validates_length_of :password, :within => 6..40, :if => :needs_password_update?
   validates_confirmation_of :password, :if => :needs_password_update?
+  validates_date :birthday
 
   before_save :encrypt_password
   after_create :create_dependancies
