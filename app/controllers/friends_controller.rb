@@ -19,7 +19,7 @@ class FriendsController < ApplicationController
   
   def list
     @user = User.find(session[:user])
-    @friends = @user.friends.slice(0,10)
+    @friends = @user.friends
   end
   
   def browse
