@@ -40,16 +40,22 @@ class User < ActiveRecord::Base
     create_course_bin()
 
     #create 8 default semesters
-    i_year = start_year.to_i;
-    i_semester = start_sem;
-    for i in 1..8
-      semesters.create(:year => i_year, :semester => i_semester)  
+    create_semesters(start_sem, start_year.to_i, 8) {|semester| semesters.concat semester} 
+  end
+
+  def create_semesters(start_semester, start_year, num_of_semesters)
+    i_year = start_year
+    i_semester = start_semester
+  
+    for i in 1..num_of_semesters
+      sem = Semester.new(:year => i_year, :semester => i_semester)  
       if i_semester == 'SP'
         i_semester = 'FA'
       else
         i_semester = 'SP'
         i_year += 1
       end
+      yield sem
     end
   end
 
