@@ -137,7 +137,7 @@ class UserTest < Test::Unit::TestCase
                  :major => Major.find(:first)
                  )                      
 
-  ret_val = temp.save
+  assert_equal temp.save, false
   temp.destroy
 
  # should pass as it is valid
@@ -154,8 +154,7 @@ class UserTest < Test::Unit::TestCase
                  )                     
                  
  assert_equal(true, temp1.save)  
- temp1.destroy
- assert_equal(false, ret_val)  
+ temp1.destroy 
  end
  
  def test_semester_creation
@@ -239,6 +238,22 @@ class UserTest < Test::Unit::TestCase
   
   user1.destroy 
   user2.destroy 
-end 
+end
+
+def test_invalid_birthday
+  temp = User.new(:username=>'fake', 
+                 :password=>"userpassword",
+                 :first_name=>'abcd',
+                 :last_name=>'cdef', 
+                 :email=>'none@none.com',
+                 :start_year=>'2009',
+                 :start_sem=>'FA', 
+                 :birthday=>'1990-2-31', 
+                 :college => College.find(:first),
+                 :major => Major.find(:first)
+                 )                      
+
+  assert_equal temp.save, false
+end
  
 end
