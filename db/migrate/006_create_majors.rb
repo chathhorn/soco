@@ -4,6 +4,8 @@ class CreateMajors < ActiveRecord::Migration
       t.column "name",       :string,                :default => "", :null => false
       t.column "college_id", :integer, :limit => 10,                 :null => false
     end
+
+    restore_table_from_fixture "majors"
   end
 
   def self.down

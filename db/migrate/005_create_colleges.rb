@@ -4,6 +4,8 @@ class CreateColleges < ActiveRecord::Migration
       t.column "code", :string, :limit => 2,  :default => "", :null => false
       t.column "name", :string, :limit => 45, :default => "", :null => false
     end
+
+    restore_table_from_fixture "colleges"
   end
 
   def self.down
