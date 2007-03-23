@@ -1,6 +1,6 @@
 class CreateCourseBins < ActiveRecord::Migration
   def self.up
-    create_table "course_bins", :force => true do |t|
+    create_table :course_bins do |t|
       t.column "user_id", :integer, :null => false
     end
   end

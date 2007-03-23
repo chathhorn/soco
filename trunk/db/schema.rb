@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define() do
+ActiveRecord::Schema.define(:version => 14) do
 
   create_table "cis_courses", :force => true do |t|
     t.column "cis_subject_id", :integer,                               :null => false
@@ -69,8 +69,8 @@ ActiveRecord::Schema.define() do
   end
 
   create_table "majors", :force => true do |t|
-    t.column "name",       :string,                :default => "", :null => false
-    t.column "college_id", :integer, :limit => 10,                 :null => false
+    t.column "name",       :string,  :default => "", :null => false
+    t.column "college_id", :integer,                 :null => false
   end
 
   create_table "semesters", :force => true do |t|
@@ -88,8 +88,8 @@ ActiveRecord::Schema.define() do
     t.column "start_year",    :integer, :limit => 4,                               :null => false
     t.column "start_sem",     :enum,    :limit => [:SP, :SU, :FA],                 :null => false
     t.column "birthday",      :date,                                               :null => false
-    t.column "college_id",    :integer, :limit => 10,                              :null => false
-    t.column "major_id",      :integer, :limit => 10,                              :null => false
+    t.column "college_id",    :integer,                                            :null => false
+    t.column "major_id",      :integer,                                            :null => false
   end
 
   add_index "users", ["username"], :name => "username", :unique => true
