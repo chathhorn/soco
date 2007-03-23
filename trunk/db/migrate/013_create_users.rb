@@ -9,8 +9,8 @@ class CreateUsers < ActiveRecord::Migration
       t.column "start_year",    :integer, :limit => 4,                               :null => false
       t.column "start_sem",     :enum,    :limit => [:SP, :SU, :FA],                 :null => false
       t.column "birthday",      :date,                                               :null => false
-      t.column "college_id",    :integer, :limit => 10,                              :null => false
-      t.column "major_id",      :integer, :limit => 10,                              :null => false
+      t.column "college_id",    :integer,                                            :null => false
+      t.column "major_id",      :integer,                                            :null => false
     end
 
     add_index "users", ["username"], :name => "username", :unique => true
