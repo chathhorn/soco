@@ -1,6 +1,6 @@
 class CreateCisSections < ActiveRecord::Migration
   def self.up
-    create_table "cis_sections", :force => true do |t|
+    create_table :cis_sections do |t|
       t.column "cis_semester_id", :integer,                               :null => false
       t.column "crn",             :integer,                               :null => false
       t.column "stype",           :string,  :limit => 15, :default => "", :null => false
