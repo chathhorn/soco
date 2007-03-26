@@ -350,7 +350,7 @@ sub ParseCoursePrerequisites($$)
 		#remove " (formerly ...)" from description
 		$description =~ s/ \(formerly [^\)]*\)//g;
 	
-                ParsePrerequisite($course_dependency_id, $description);
+		ParsePrerequisite($course_dependency_id, $description);
 	}
 }
 
@@ -359,38 +359,38 @@ sub ParsePrerequisite($$)
 {
 	my ($parent_id, $text) = @_;
         
-        #remove words we don't want
-        $text =~ s/\bcredit\b//gi;
-        $text =~ s/\bequivalent\b//gi;
-        $text =~ s/\bconsent of (the )?instructor\b//gi;
-        $text =~ s/\bconsent of (the )?department\b//gi;
-        $text =~ s/\b[a-z]+\s+(standing|status)\b//gi;
-        #remove "or" and spaces at beginning or end
-        $text =~ s/^\s*(\bor\b)?\s*//gi;
-        $text =~ s/\s*(\bor\b)?\s*$//gi;
-        
-        if ($text eq "")
-        {
-            return;
-        }
-        
-        #split prerequisites on semicolons (these are AND relationships (most important)) and parse individually
-        if ($text =~ /;/)
-        {
-            foreach my $and_courses (split /\s*;\s*/, $text) {
-                    &ParsePrerequisite($parent_id, $and_courses);
-            }
-            return;
-        }
-        
-        #check for commas now with identifiers
-        if ($text =~ s/,\s*and\b/,/gi)
-        {
-            foreach my $and_courses (split /\s*,\s*/, $text) {
-                    &ParsePrerequisite($parent_id, $and_courses);
-            }
-            return;
-        }
+	#remove words we don't want
+	$text =~ s/\bcredit\b//gi;
+	$text =~ s/\bequivalent\b//gi;
+	$text =~ s/\bconsent of (the )?instructor\b//gi;
+	$text =~ s/\bconsent of (the )?department\b//gi;
+	$text =~ s/\b[a-z]+\s+(standing|status)\b//gi;
+	#remove "or" and spaces at beginning or end
+	$text =~ s/^\s*(\bor\b)?\s*//gi;
+	$text =~ s/\s*(\bor\b)?\s*$//gi;
+	
+	if ($text eq "")
+	{
+		return;
+	}
+	
+	#split prerequisites on semicolons (these are AND relationships (most important)) and parse individually
+	if ($text =~ /;/)
+	{
+		foreach my $and_courses (split /\s*;\s*/, $text) {
+			&ParsePrerequisite($parent_id, $and_courses);
+		}
+		return;
+	}
+	
+	#check for commas now with identifiers
+	if ($text =~ s/,\s*and\b/,/gi)
+	{
+		foreach my $and_courses (split /\s*,\s*/, $text) {
+			&ParsePrerequisite($parent_id, $and_courses);
+		}
+		return;
+	}
         
 	#look for for "one of ..." or ", or" and split on commas
 	my $split_string;
@@ -433,10 +433,10 @@ sub ParsePrerequisite($$)
 				#link
 				$sth{'COURSE_DEPENDENCY_EDGE_LINK_QUERY'}->execute($parent_id, $child_dependency_id);
 			}else{
-				warn "ERROR: Cannot find dependency node for Subject = $subject and Rubric = $rubric in database\n";
+				warn "WARNING: Cannot find dependency node for Subject = $subject and Rubric = $rubric in database\n";
 			}
 		}else{
-			warn "ERROR: Cannot get Subject and Rubric from '$text'\n";
+			warn "WARNING: Cannot Parse '$text'\n";
 		}
 	}
 
@@ -453,6 +453,8 @@ sub CreateChildPrerequisiteNode($$)
 
 	#link
 	$sth{'COURSE_DEPENDENCY_EDGE_LINK_QUERY'}->execute($parent_id, $child_id);
+
+	return $child_id;
 }
 
 
