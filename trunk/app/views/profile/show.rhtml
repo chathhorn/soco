@@ -1,3 +1,4 @@
+<%= render :partial => 'cursession' %>
 <h4>User Profile:</h4>
 <table>
 <tr>
@@ -22,6 +23,7 @@
 
 
 <br/>
+<%= link_to 'Profile', :controller => 'profile' %> |
 <%= link_to 'Edit', :action => 'edit' %> | 
 <%= link_to 'List Friends', :controller => 'friends', :action => 'list' %> | 
 <%= link_to 'Browse/Search Users', :controller => 'friends', :action => 'browse' %> |
@@ -29,3 +31,4 @@
 <%= link_to 'Logout', :controller => 'login', :action => 'logout' %>
 <br/><br/>
 <%= link_to 'Delete Your Account', {:action => 'destroy'}, :confirm => "Are you sure?\nThis cannot be undone!" %>
+<br/>
