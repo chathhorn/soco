@@ -18,7 +18,7 @@ development:
 #  password: iP4dpA
 #  host: csil-projects.cs.uiuc.edu
   password: monkey
-  host: www.cowelldesign.com
+  host: localhost
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
@@ -28,7 +28,7 @@ test:
   database: soco_test
   username: soco
   password: monkey
-  host: www.cowelldesign.com
+  host: localhost
 
 production:
   development
