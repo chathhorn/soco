@@ -1,7 +1,7 @@
 class CreateCourseDependencies < ActiveRecord::Migration
   def self.up
     create_table :course_dependencies do |t|
-      t.column "type", :enum, :limit => [:COURSE, :CONCURRENT, :OR], :null => false
+      t.column "node_type", :enum, :limit => [:COURSE, :CONCURRENT, :OR], :null => false
     end
   end
 

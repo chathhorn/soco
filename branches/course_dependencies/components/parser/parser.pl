@@ -20,13 +20,13 @@ use constant SECTION_INSERT_QUERY => "INSERT INTO cis_sections (`cis_semester_id
 
 use constant COURSE_DEPENDENCY_SELECT_BY_COURSE_ID_QUERY => "SELECT course_dependency_id FROM cis_courses WHERE id = ?";
 use constant COURSE_DEPENDENCY_SELECT_BY_SUBJECT_AND_RUBRIC_QUERY => "SELECT cis_courses.course_dependency_id FROM cis_courses INNER JOIN cis_subjects ON cis_subjects.id = cis_courses.cis_subject_id WHERE cis_subjects.code = ? AND cis_courses.number = ?";
-use constant COURSE_DEPENDENCY_INSERT_QUERY => "INSERT INTO course_dependencies (`type`) VALUES (?)";
+use constant COURSE_DEPENDENCY_INSERT_QUERY => "INSERT INTO course_dependencies (`node_type`) VALUES (?)";
 use constant CIS_COURSE_FIELD_COURSE_DEPENDENCY_UPDATE_QUERY => "UPDATE cis_courses SET course_dependency_id = ? WHERE id = ?";
 use constant COURSE_DEPENDENCY_EDGE_LINK_QUERY => "INSERT INTO course_dependency_edges (`parent_id`,`child_id`) VALUES (?,?)";
 
 use constant SELECT_ALL_CIS_COURSES => "SELECT course_dependency_id, description FROM cis_courses";
 
-use constant COURSE_DEPENDENCY_SELECT_CHILDREN => "SELECT course_dependencies.id, course_dependencies.type FROM course_dependencies INNER JOIN course_dependency_edges ON course_dependency_edges.child_id = course_dependencies.id WHERE course_dependency_edges.parent_id = ?";
+use constant COURSE_DEPENDENCY_SELECT_CHILDREN => "SELECT course_dependencies.id, course_dependencies.node_type FROM course_dependencies INNER JOIN course_dependency_edges ON course_dependency_edges.child_id = course_dependencies.id WHERE course_dependency_edges.parent_id = ?";
 
 use constant COURSE_DEPENDENCY_DELETE_LINK => "DELETE FROM course_dependency_edges WHERE parent_id = ? AND child_id = ?";
 use constant COURSE_DEPENDENCY_DELETE => "DELETE FROM course_dependencies WHERE id = ?";
@@ -47,7 +47,7 @@ sub main()
 
 	PrepareStatementHandles();
 
-	my $doc = $parser->parsefile(CATALOG_BASE_URL . "/index.xml");
+        my $doc = $parser->parsefile(CATALOG_BASE_URL . "/index.xml");
 
 	foreach my $subject ($doc->getElementsByTagName("subject"))
 	{
@@ -253,7 +253,7 @@ sub GetCourseDependencyNode($$)
 	if (!defined $course_dependency_id) {
 		if ($description =~ /\bSame as (.*?)\./)
 		{
-			foreach $course (split /(,| and )/, $1) {
+			foreach $course (split /,| and /, $1) {
 				my ($subject, $rubric) = split / /, $course;
 				#lookup course in database
 				$sth{'COURSE_DEPENDENCY_SELECT_BY_SUBJECT_AND_RUBRIC_QUERY'}->execute($subject, $rubric);
@@ -349,11 +349,8 @@ sub ParseCoursePrerequisites($$)
 	{
 		#remove " (formerly ...)" from description
 		$description =~ s/ \(formerly [^\)]*\)//g;
-		
-		#split prerequisites on semicolons (these are AND relationships) and parse individually
-		foreach my $and_courses (split /; /, $description) {
-			ParsePrerequisite($course_dependency_id, $and_courses);
-		}
+	
+                ParsePrerequisite($course_dependency_id, $description);
 	}
 }
 
@@ -361,20 +358,50 @@ sub ParseCoursePrerequisites($$)
 sub ParsePrerequisite($$)
 {
 	my ($parent_id, $text) = @_;
-
-	#look for for "one of ..." and split on commas
+        
+        #remove words we don't want
+        $text =~ s/\bcredit\b//gi;
+        $text =~ s/\bequivalent\b//gi;
+        $text =~ s/\bconsent of (the )?instructor\b//gi;
+        $text =~ s/\bconsent of (the )?department\b//gi;
+        $text =~ s/\b[a-z]+\s+(standing|status)\b//gi;
+        #remove "or" and spaces at beginning or end
+        $text =~ s/^\s*(\bor\b)?\s*//gi;
+        $text =~ s/\s*(\bor\b)?\s*$//gi;
+        
+        if ($text eq "")
+        {
+            return;
+        }
+        
+        #split prerequisites on semicolons (these are AND relationships (most important)) and parse individually
+        if ($text =~ /;/)
+        {
+            foreach my $and_courses (split /\s*;\s*/, $text) {
+                    &ParsePrerequisite($parent_id, $and_courses);
+            }
+            return;
+        }
+        
+        #check for commas now with identifiers
+        if ($text =~ s/,\s*and\b/,/gi)
+        {
+            foreach my $and_courses (split /\s*,\s*/, $text) {
+                    &ParsePrerequisite($parent_id, $and_courses);
+            }
+            return;
+        }
+        
+	#look for for "one of ..." or ", or" and split on commas
 	my $split_string;
-	if ($text =~ s/^one of //) {
-		$split_string = ", ";
+	if ($text =~ s/,\s*or\b/,/gi || $text =~ s/^one of\b\s*//) {
+		$split_string = qr/\s*,\s*/;
 	}else{
 		#else split on " or " (watch out for "credit or concurrent registration in" and " or equivalent" though)
-		$text =~ s/credit or //g;
-		$text =~ s/ or equivalent//g;
-		$text =~ s/ or consent of instructor//g;
-		$split_string = " or ";
+		$split_string = qr/\s*\bor\b\s*/;
 	}
 
-	my @or_array = split($split_string, $text);
+	my @or_array = split(m/$split_string/, $text);
 
 	#if successful split, then create an OR node and recursively call ParsePrerequisite()
 	if ($#or_array >= 1) {
@@ -387,7 +414,7 @@ sub ParsePrerequisite($$)
 		#we have a single node
 
 		#look for "concurrent registration in" and link
-		if ($text =~ s/concurrent registration in (.*)//) {
+		if ($text =~ s/concurrent registration in (.*)/$1/) {
 			$parent_id = CreateChildPrerequisiteNode("CONCURRENT", $parent_id);
 		}
 
@@ -430,4 +457,5 @@ sub CreateChildPrerequisiteNode($$)
 
 
 main();
+
 
