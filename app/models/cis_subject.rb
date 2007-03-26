@@ -25,4 +25,8 @@ class CisSubject < ActiveRecord::Base
     
     return subjects    
   end
+  
+  def to_s
+    return code
+  end
 end
