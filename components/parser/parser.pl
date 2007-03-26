@@ -349,7 +349,14 @@ sub ParseCoursePrerequisites($$)
 	{
 		#remove " (formerly ...)" from description
 		$description =~ s/ \(formerly [^\)]*\)//g;
-	
+
+		#remove words we don't want
+		$description =~ s/\bcredit\b//gi;
+		$description =~ s/\bequivalent\b//gi;
+		$description =~ s/\bconsent of (the )?instructor\b//gi;
+		$description =~ s/\bconsent of (the )?department\b//gi;
+		$description =~ s/\b[a-z]+\s+(standing|status)\b//gi;
+
 		ParsePrerequisite($course_dependency_id, $description);
 	}
 }
@@ -359,12 +366,6 @@ sub ParsePrerequisite($$)
 {
 	my ($parent_id, $text) = @_;
         
-	#remove words we don't want
-	$text =~ s/\bcredit\b//gi;
-	$text =~ s/\bequivalent\b//gi;
-	$text =~ s/\bconsent of (the )?instructor\b//gi;
-	$text =~ s/\bconsent of (the )?department\b//gi;
-	$text =~ s/\b[a-z]+\s+(standing|status)\b//gi;
 	#remove "or" and spaces at beginning or end
 	$text =~ s/^\s*(\bor\b)?\s*//gi;
 	$text =~ s/\s*(\bor\b)?\s*$//gi;
@@ -373,9 +374,11 @@ sub ParsePrerequisite($$)
 	{
 		return;
 	}
-	
-	#split prerequisites on semicolons (these are AND relationships (most important)) and parse individually
-	if ($text =~ /;/)
+
+	my $split_string = "";
+
+	#split prerequisites on semicolons and AND
+	if ($text =~ s/;\s*and\b/;/gi)
 	{
 		foreach my $and_courses (split /\s*;\s*/, $text) {
 			&ParsePrerequisite($parent_id, $and_courses);
@@ -383,33 +386,65 @@ sub ParsePrerequisite($$)
 		return;
 	}
 	
+	#split prerequisites on semicolons and OR
+	elsif ($text =~ s/;\s*or\b/;/gi)
+	{
+		$split_string = qr/\s*;\s*/;
+	}
+
+	#split prerequisites on semicolons (AND)
+	elsif ($text =~ /;/)
+	{
+		foreach my $and_courses (split /\s*;\s*/, $text) {
+			&ParsePrerequisite($parent_id, $and_courses);
+		}
+		return;
+	}
+
 	#check for commas now with identifiers
-	if ($text =~ s/,\s*and\b/,/gi)
+	elsif ($text =~ s/,\s*and\b/,/gi)
 	{
 		foreach my $and_courses (split /\s*,\s*/, $text) {
 			&ParsePrerequisite($parent_id, $and_courses);
 		}
 		return;
 	}
-        
-	#look for for "one of ..." or ", or" and split on commas
-	my $split_string;
-	if ($text =~ s/,\s*or\b/,/gi || $text =~ s/^one of\b\s*//) {
+    
+	#check for commas now with identifiers
+	elsif ($text =~ s/,\s*or\b/,/gi)
+	{
 		$split_string = qr/\s*,\s*/;
-	}else{
-		#else split on " or " (watch out for "credit or concurrent registration in" and " or equivalent" though)
+	}
+
+	#look for "and" by itself
+	elsif ($text =~ /\band\b/i)
+	{
+		foreach my $and_courses (split /\s*\band\b\s*/, $text) {
+			&ParsePrerequisite($parent_id, $and_courses);
+		}
+		return;
+	}
+
+	#look for for "one of ..."
+	elsif ($text =~ s/^one of\b\s*//) {
+		$split_string = qr/\s*,\s*/;
+	}
+
+	#try "or" by itself
+	elsif ($text =~ s/\bor\b//) {
 		$split_string = qr/\s*\bor\b\s*/;
 	}
 
-	my @or_array = split(m/$split_string/, $text);
+	#this will happen if an or clause was found
+	if ($split_string ne "") {
+		my @or_array = split(m/$split_string/, $text);
 
-	#if successful split, then create an OR node and recursively call ParsePrerequisite()
-	if ($#or_array >= 1) {
 		my $or_node_id = CreateChildPrerequisiteNode("OR", $parent_id);
 
 		foreach $course (@or_array) {
 			&ParsePrerequisite($or_node_id, $course);
 		}
+
 	}else{
 		#we have a single node
 
