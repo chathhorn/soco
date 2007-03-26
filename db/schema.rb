@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(:version => 17) do
   end
 
   create_table "course_dependencies", :force => true do |t|
-    t.column "type", :enum, :limit => [:COURSE, :CONCURRENT, :OR], :null => false
+    t.column "node_type", :enum, :limit => [:COURSE, :CONCURRENT, :OR], :null => false
   end
 
   create_table "course_dependency_edges", :id => false, :force => true do |t|
