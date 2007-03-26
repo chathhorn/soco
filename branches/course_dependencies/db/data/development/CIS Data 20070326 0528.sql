@@ -14,27 +14,14 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 
---
--- Create schema soco_development
---
 
-CREATE DATABASE IF NOT EXISTS soco_development;
 USE soco_development;
 
 --
 -- Definition of table `cis_courses`
 --
 
-DROP TABLE IF EXISTS `cis_courses`;
-CREATE TABLE `cis_courses` (
-  `id` int(11) NOT NULL auto_increment,
-  `cis_subject_id` int(11) NOT NULL,
-  `number` int(3) NOT NULL,
-  `title` varchar(30) NOT NULL default '',
-  `course_dependency_id` int(11) default NULL,
-  `description` text,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+TRUNCATE TABLE `cis_courses`;
 
 --
 -- Dumping data for table `cis_courses`
@@ -9422,21 +9409,7 @@ INSERT INTO `cis_courses` (`id`,`cis_subject_id`,`number`,`title`,`course_depend
 -- Definition of table `cis_sections`
 --
 
-DROP TABLE IF EXISTS `cis_sections`;
-CREATE TABLE `cis_sections` (
-  `id` int(11) NOT NULL auto_increment,
-  `cis_semester_id` int(11) NOT NULL,
-  `crn` int(11) default NULL,
-  `stype` varchar(15) NOT NULL default '',
-  `name` varchar(255) NOT NULL default '',
-  `startTime` time default NULL,
-  `endTime` time default NULL,
-  `days` varchar(13) NOT NULL default '',
-  `room` varchar(255) NOT NULL default '',
-  `building` varchar(255) NOT NULL default '',
-  `instructor` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+TRUNCATE TABLE `cis_sections`;
 
 --
 -- Dumping data for table `cis_sections`
@@ -21363,14 +21336,7 @@ INSERT INTO `cis_sections` (`id`,`cis_semester_id`,`crn`,`stype`,`name`,`startTi
 -- Definition of table `cis_semesters`
 --
 
-DROP TABLE IF EXISTS `cis_semesters`;
-CREATE TABLE `cis_semesters` (
-  `id` int(11) NOT NULL auto_increment,
-  `cis_course_id` int(11) NOT NULL,
-  `year` int(4) NOT NULL,
-  `semester` enum('SP','SU','FA') NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+TRUNCATE TABLE `cis_semesters`;
 
 --
 -- Dumping data for table `cis_semesters`
@@ -25282,13 +25248,7 @@ INSERT INTO `cis_semesters` (`id`,`cis_course_id`,`year`,`semester`) VALUES
 -- Definition of table `cis_subjects`
 --
 
-DROP TABLE IF EXISTS `cis_subjects`;
-CREATE TABLE `cis_subjects` (
-  `id` int(11) NOT NULL auto_increment,
-  `code` varchar(6) NOT NULL default '',
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `code` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+TRUNCATE TABLE `cis_subjects`;
 
 --
 -- Dumping data for table `cis_subjects`
@@ -25481,12 +25441,7 @@ INSERT INTO `cis_subjects` (`id`,`code`) VALUES
 -- Definition of table `course_dependencies`
 --
 
-DROP TABLE IF EXISTS `course_dependencies`;
-CREATE TABLE `course_dependencies` (
-  `id` int(11) NOT NULL auto_increment,
-  `node_type` enum('COURSE','CONCURRENT','OR') NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+TRUNCATE TABLE `course_dependencies`;
 
 --
 -- Dumping data for table `course_dependencies`
@@ -33612,11 +33567,7 @@ INSERT INTO `course_dependencies` (`id`,`node_type`) VALUES
 -- Definition of table `course_dependency_edges`
 --
 
-DROP TABLE IF EXISTS `course_dependency_edges`;
-CREATE TABLE `course_dependency_edges` (
-  `parent_id` int(11) NOT NULL,
-  `child_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+TRUNCATE TABLE `course_dependency_edges`;
 
 --
 -- Dumping data for table `course_dependency_edges`
