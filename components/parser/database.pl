@@ -5,8 +5,8 @@ use DBI;
 
 sub ConnectToDatabase()
 {
-	my $dbname = "soco_test";
-	my $hostname = "www.cowelldesign.com";
+	my $dbname = "soco_development";
+	my $hostname = "localhost";
 	my $username = "soco";
 	my $password = "monkey";
 
