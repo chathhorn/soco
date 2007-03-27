@@ -3,7 +3,7 @@
 $ENV{PATH} = $ENV{PATH} . ';c:\Program Files\mySQL\MySQL Server 5.0\bin';
 
 print "[*  ] Creating Database and User\n";
-system("mysql -u root < CREATE.SQL") and die "Can't create database and user\n";
+system("mysql -f -u root < CREATE.SQL") and die "Can't create database and user\n";
 
 chdir("../..");
 
