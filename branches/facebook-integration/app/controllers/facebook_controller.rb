@@ -35,7 +35,6 @@ class FacebookController < ApplicationController
             puts my2ndstring
             
             @friends_names << my2ndstring
-#            friend.find(friend[:last_name]) if @user.nil? && session[:id]
             ffirst_name = ''
             flast_name = ''
             index = 0
@@ -50,10 +49,9 @@ class FacebookController < ApplicationController
             puts "first_name = " + ffirst_name
             puts "last_name = " + flast_name 
             checkFriends(ffirst_name, flast_name)     
-#            friend.create(:first_name => ffirst_name, :last_name => flast_name)
           end
       end
-      redirect_to :action => 'show'
+      redirect_to :controller => 'profile', :action => 'show'
       rescue RBook::FacebookSession::RemoteException => e
         flash[:error] = 'An exception occurred while trying to get friends from Facebook: #{e}'
   end  
@@ -68,9 +66,9 @@ class FacebookController < ApplicationController
         @friends_names << my2ndstring
         @friends << my2ndString
       end
-      redirect_to :action => 'show'
+      redirect_to :controller => 'profile', :action =>'show'
       rescue RBook::FacebookSession::RemoteException => e
-      flash[:error] = 'An exception occurred while trying to get friends names from Facebook: #{e}'    
+      flash[:error] = 'An exception occurred while trying to get friends userInfo from Facebook: #{e}'    
   end   
   
   def checkFriends(first_name, last_name)
@@ -96,41 +94,41 @@ class FacebookController < ApplicationController
      end
   end
   
-  def usersInfoOld
-      myResponse = session[:facebook_session].users_getInfo({:uids => [1908269, 1914700], :fields => ['about_me', 'activities', 'birthday']})
-      puts myResponse.to_html
-      redirect_to :action => 'show'
-      rescue RBook::FacebookSession::RemoteException => e
-      flash[:error] = 'An exception occurred while trying to authenticate with Facebook: #{e}'    
-  end  
+#  def usersInfoOld
+#      myResponse = session[:facebook_session].users_getInfo({:uids => [1908269, 1914700], :fields => ['about_me', 'activities', 'birthday']})
+#      puts myResponse.to_html
+#      redirect_to :action => 'show'
+#      rescue RBook::FacebookSession::RemoteException => e
+#      flash[:error] = 'An exception occurred while trying to authenticate with Facebook: #{e}'    
+#  end  
    
-  def friendsGetNotWorking
-      myResponse = session[:facebook_session].friends_get({:uids => [@session_uid]})
-      puts myResponse.to_html
-      @friends_uids = []
-      @friends_names = []
-      @combined_uid = '['
-      myElementArray = myResponse.search("//uid");
-      index = 0
-      myElementArray.each do |test| 
-        mystring = test.innerHTML
-        puts mystring 
-        @friends_uids << mystring
-        @combined_uid += mystring
-        index += 1
-        if(index < myElementArray.length) 
-          @combined_uid += ", "
-        end
-      end
-      @combined_uid += ']'
-      puts 'friends_uids = ' + @combined_uid
-      if(index > 0)
-        redirect_to :action => 'usersInfo'
-      else
-        redirect_to :action => 'show'
-      end
-      rescue RBook::FacebookSession::RemoteException => e
-      flash[:error] = 'An exception occurred while trying to get friends from Facebook: #{e}'    
-  end  
+#  def friendsGetNotWorking
+#      myResponse = session[:facebook_session].friends_get({:uids => [@session_uid]})
+#      puts myResponse.to_html
+#      @friends_uids = []
+#      @friends_names = []
+#      @combined_uid = '['
+#      myElementArray = myResponse.search("//uid");
+#      index = 0
+#      myElementArray.each do |test| 
+#        mystring = test.innerHTML
+#        puts mystring 
+#        @friends_uids << mystring
+#        @combined_uid += mystring
+#        index += 1
+#        if(index < myElementArray.length) 
+#          @combined_uid += ", "
+#        end
+#      end
+#      @combined_uid += ']'
+#      puts 'friends_uids = ' + @combined_uid
+#      if(index > 0)
+#        redirect_to :action => 'usersInfo'
+#      else
+#        redirect_to :action => 'show'
+#      end
+#      rescue RBook::FacebookSession::RemoteException => e
+#      flash[:error] = 'An exception occurred while trying to get friends from Facebook: #{e}'    
+#  end  
   
 end

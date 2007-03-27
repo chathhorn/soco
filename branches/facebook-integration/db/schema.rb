@@ -5,9 +5,9 @@
 ActiveRecord::Schema.define() do
 
   create_table "cis_courses", :force => true do |t|
-    t.column "cis_subject_id", :integer,                               :null => false
-    t.column "number",         :integer, :limit => 3,                  :null => false
-    t.column "title",          :string,  :limit => 30, :default => "", :null => false
+    t.column "cis_subject", :integer
+    t.column "number",      :integer, :limit => 3
+    t.column "title",       :string
   end
 
   create_table "cis_courses_course_bins", :id => false, :force => true do |t|
