@@ -1,6 +1,6 @@
-DROP DATABASE soco_development;
+DROP DATABASE IF EXISTS soco_development;
+DROP DATABASE IF EXISTS soco_test;
 CREATE DATABASE soco_development;
-DROP DATABASE soco_test;
 CREATE DATABASE soco_test;
 
 DROP USER 'soco'@'localhost';
