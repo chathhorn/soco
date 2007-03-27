@@ -1,5 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'profile_controller'
+require 'vendor/plugins/RBook/lib/facebook_web_session'
 
 # Re-raise errors caught by the controller.
 class ProfileController; def rescue_action(e) raise e end; end
