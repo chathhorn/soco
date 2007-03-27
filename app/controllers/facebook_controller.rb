@@ -1,4 +1,3 @@
-require 'vendor/plugins/RBook/lib/facebook_web_session'
 
 class FacebookController < ApplicationController
   def index
