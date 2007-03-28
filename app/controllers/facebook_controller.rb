@@ -10,14 +10,21 @@ class FacebookController < ApplicationController
   end
     
   def facefriends
+    begin
       puts 'facebook auth_token now = ' + params[:auth_token]
       session[:facebook_session].init_with_token(params[:auth_token])
-      redirect_to :action => 'friendsGet'
-      rescue RBook::FacebookSession::RemoteException => e
-        flash[:error] = 'An exception occurred while trying to authenticate with Facebook: #{e}'
+      redirect_to :action => 'friends_get'
+    rescue RBook::FacebookSession::RemoteException => e
+      flash[:error] = "An exception occurred while trying to authenticate with Facebook: #{e}"
+      redirect_to :controller => 'profile', :action => 'show'
+    end
   end 
     
-  def friendsGet
+  def friends_get
+    begin
+      #this is queued up, not taken immediately
+      redirect_to :controller => 'profile', :action => 'show'
+
       myResponse = session[:facebook_session].friends_get({:uids => [@session_uid]})
       puts myResponse.to_html
       @friends_uids = []
@@ -47,15 +54,19 @@ class FacebookController < ApplicationController
             }
             puts "first_name = " + ffirst_name
             puts "last_name = " + flast_name 
-            checkFriends(ffirst_name, flast_name)     
+            check_friends(ffirst_name, flast_name)     
           end
       end
-      redirect_to :controller => 'profile', :action => 'show'
-      rescue RBook::FacebookSession::RemoteException => e
-        flash[:error] = 'An exception occurred while trying to get friends from Facebook: #{e}'
+    rescue RBook::FacebookSession::RemoteException => e
+      flash[:error] = "An exception occurred while trying to get friends from Facebook: #{e}"
+    end
   end  
 
-  def usersInfo
+  def users_info
+    begin
+      #this is queued up, not taken immediately
+      redirect_to :controller => 'profile', :action => 'show'
+
       my2ndResponse = session[:facebook_session].users_getInfo({:uids => @friends_uid, :fields => ['name']})
       puts my2ndResponse.to_html
       @friends_names = []
@@ -65,12 +76,13 @@ class FacebookController < ApplicationController
         @friends_names << my2ndstring
         @friends << my2ndString
       end
-      redirect_to :controller => 'profile', :action =>'show'
-      rescue RBook::FacebookSession::RemoteException => e
-      flash[:error] = 'An exception occurred while trying to get friends userInfo from Facebook: #{e}'    
+    rescue RBook::FacebookSession::RemoteException => e
+      flash[:error] = "An exception occurred while trying to get friends userInfo from Facebook: #{e}"
+    end
   end   
   
-  def checkFriends(first_name, last_name)
+  private
+  def check_friends(first_name, last_name)
       @friends_all.each do |aUser | 
         if(first_name == aUser.first_name and last_name == aUser.last_name)
             friend = User.find aUser.id
@@ -93,15 +105,15 @@ class FacebookController < ApplicationController
      end
   end
   
-#  def usersInfoOld
+#  def users_info_old
 #      myResponse = session[:facebook_session].users_getInfo({:uids => [1908269, 1914700], :fields => ['about_me', 'activities', 'birthday']})
 #      puts myResponse.to_html
 #      redirect_to :action => 'show'
 #      rescue RBook::FacebookSession::RemoteException => e
-#      flash[:error] = 'An exception occurred while trying to authenticate with Facebook: #{e}'    
+#      flash[:error] = "An exception occurred while trying to authenticate with Facebook: #{e}"    
 #  end  
    
-#  def friendsGetNotWorking
+#  def friends_get_not_working
 #      myResponse = session[:facebook_session].friends_get({:uids => [@session_uid]})
 #      puts myResponse.to_html
 #      @friends_uids = []
@@ -122,12 +134,12 @@ class FacebookController < ApplicationController
 #      @combined_uid += ']'
 #      puts 'friends_uids = ' + @combined_uid
 #      if(index > 0)
-#        redirect_to :action => 'usersInfo'
+#        redirect_to :action => 'users_info'
 #      else
 #        redirect_to :action => 'show'
 #      end
 #      rescue RBook::FacebookSession::RemoteException => e
-#      flash[:error] = 'An exception occurred while trying to get friends from Facebook: #{e}'    
+#      flash[:error] = "An exception occurred while trying to get friends from Facebook: #{e}"    
 #  end  
   
 end
