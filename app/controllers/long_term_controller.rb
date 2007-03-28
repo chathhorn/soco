@@ -52,6 +52,7 @@ class LongTermController < ApplicationController
     else
       course.semesters.delete(Semester.find(old_semester_id))
     end
+    render :nothing => true
   end
   
   
