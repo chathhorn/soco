@@ -40,4 +40,27 @@ class CourseBinTest < Test::Unit::TestCase
     cb.destroy 
   end
   
+  def test_course_bin_remove_course
+    cb = CourseBin.new(:id=>3, :user_id=>0)
+    cb.save
+    
+    course = CisCourse.find(1)
+    course1 = CisCourse.find(3)
+    
+    cb.cis_courses.concat(course)
+    cb.cis_courses.concat(course1)
+    
+    assert cb.cis_courses.exists?(course.id)
+    assert cb.cis_courses.exists?(course1.id)
+    
+    cb.cis_courses.delete(course)
+    
+    assert !cb.cis_courses.exists?(course.id)
+    assert cb.cis_courses.exists?(course1.id)
+    
+    assert_equal(1, cb.cis_courses.count)
+    
+    cb.destroy
+  end
+  
 end
