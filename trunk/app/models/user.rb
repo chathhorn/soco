@@ -79,7 +79,8 @@ class User < ActiveRecord::Base
     
     terms.each {|term| fields.each {|field| conditions.push '%' << term << '%' } }
     
-    users = find :all,
+    users = find :all, 
+      :order => 'last_name ASC, first_name ASC',
       :conditions => conditions,
       :limit => 100
     
