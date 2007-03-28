@@ -1,7 +1,7 @@
 class LongTermController < ApplicationController
   def index
-    @title = 'Long Term Planner'
-    @user = User.find(session[:user])
+    @title = 'Long Term Planner'    
+    @user = User.find params[:id]          
     @course_bin_courses = @user.course_bin.cis_courses
     @semesters = @user.semesters.find(:all, :order => 'year ASC, semester ASC')
   end
@@ -21,13 +21,13 @@ class LongTermController < ApplicationController
     
     redirect_to(:action => 'index')
   end
-    
+  
   def update_semester
     @user = User.find(session[:user])
     course = CisCourse.find(params[:id].split('_')[2].to_i)
     new_semester_id = params[:new_semester].to_i
     old_semester_id = params[:id].split('_')[1].to_i
-        
+    
     if old_semester_id == -1
       @user.course_bin.cis_courses.delete(course)
     else
@@ -41,12 +41,12 @@ class LongTermController < ApplicationController
     
     render :partial => 'course', :object => course, :locals => {:semester => new_semester_id, :effect => true}
   end
-    
+  
   def remove
     @user = User.find(session[:user])
     course = CisCourse.find(params[:id].split('_')[2].to_i)
     old_semester_id = params[:id].split('_')[1].to_i
-        
+    
     if old_semester_id == -1
       @user.course_bin.cis_courses.delete(course)
     else

@@ -5,8 +5,8 @@ class FriendsController < ApplicationController
     @course_bin_courses = @user.course_bin.cis_courses
     @semesters = @user.semesters.find(:all, :order => 'year ASC, semester ASC')
   end
-
-
+  
+  
   def search
     @user = User.find(session[:user])
     if (params[:q])
@@ -27,7 +27,7 @@ class FriendsController < ApplicationController
     @friends = User.find :all, :order => 'last_name ASC, first_name ASC'
     render :action => 'list'
   end
-
+  
   def add
     user = User.find session[:user]
     friend = User.find params[:id]
@@ -46,7 +46,7 @@ class FriendsController < ApplicationController
     end
     
   end
- 
+  
   def remove
     user = User.find session[:user]
     friend = User.find params[:id]
