@@ -1,0 +1,6 @@
+
+<br/>
+<% @curuser = User.find(session[:user]) %>
+<font size="-8">You are logged in as
+    <font color="red"><%= @curuser.username %></font>
+</font>
