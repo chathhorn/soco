@@ -4,23 +4,20 @@ class FacebookController < ApplicationController
       redirect_to controller[:profile].show
   end
   
-  def facesession
-      session[:facebook_session] = RBook::FacebookWebSession.new('485ba0cb3fc98c3ab2d02e91cd605608', '6961a47b0e8022253dcb6925332af0ee')
+  def start_session
+      session[:facebook_session] = RBook::FacebookWebSession.new('db204644ba402b4d86ac2886372a96bf', '776bfd48e704d1e64f1dcaf24c867bc5')
       redirect_to session[:facebook_session].get_login_url    
   end
     
-  def facefriends
+  def friends_get
     begin
       puts 'facebook auth_token now = ' + params[:auth_token]
       session[:facebook_session].init_with_token(params[:auth_token])
-      redirect_to :action => 'friends_get'
     rescue RBook::FacebookSession::RemoteException => e
       flash[:error] = "An exception occurred while trying to authenticate with Facebook: #{e}"
       redirect_to :controller => 'profile', :action => 'show'
     end
-  end 
     
-  def friends_get
     begin
       #this is queued up, not taken immediately
       redirect_to :controller => 'profile', :action => 'show'
