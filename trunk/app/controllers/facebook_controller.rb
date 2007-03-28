@@ -11,48 +11,27 @@ class FacebookController < ApplicationController
     
   def friends_get
     begin
-      puts 'facebook auth_token now = ' + params[:auth_token]
       session[:facebook_session].init_with_token(params[:auth_token])
     rescue RBook::FacebookSession::RemoteException => e
       flash[:error] = "An exception occurred while trying to authenticate with Facebook: #{e}"
       redirect_to :controller => 'profile', :action => 'show'
+      return
     end
     
     begin
       #this is queued up, not taken immediately
       redirect_to :controller => 'profile', :action => 'show'
-
-      myResponse = session[:facebook_session].friends_get({:uids => [@session_uid]})
-      puts myResponse.to_html
-      @friends_uids = []
-      @friends_names = []
-      @friends_all = User.find :all, :order => 'last_name ASC, first_name ASC'
-      myResponse.search("//uid").each do|test| 
-        mystring = test.innerHTML
-        puts mystring 
-        @friends_uids << mystring
-        my2ndResponse = session[:facebook_session].users_getInfo({:uids => [mystring], :fields => ['name']})
-        puts my2ndResponse.to_html
-          my2ndResponse.search("//name").each do | test2 |
-            my2ndstring = test2.innerHTML
-            puts my2ndstring
-            
-            @friends_names << my2ndstring
-            ffirst_name = ''
-            flast_name = ''
-            index = 0
-            my2ndstring.scan(/\w+/){ |word|
-              if(index > 0)
-                flast_name = word
-              else
-                ffirst_name = word
-              end
-              index += 1 
-            }
-            puts "first_name = " + ffirst_name
-            puts "last_name = " + flast_name 
-            check_friends(ffirst_name, flast_name)     
-          end
+      
+      @user = User.find session[:user]
+      uid = session[:facebook_session].session_uid
+      
+      #do we want to add "AND is_app_user"?
+      myResponse = session[:facebook_session].fql_query({:query => "SELECT first_name, last_name FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1=#{uid})"})
+      
+      (myResponse/"//user").each do |user|
+        first_name = user.at("first_name").inner_html
+        last_name = user.at("last_name").inner_html
+        check_friends(first_name, last_name)
       end
     rescue RBook::FacebookSession::RemoteException => e
       flash[:error] = "An exception occurred while trying to get friends from Facebook: #{e}"
@@ -80,26 +59,13 @@ class FacebookController < ApplicationController
   
   private
   def check_friends(first_name, last_name)
-      @friends_all.each do |aUser | 
-        if(first_name == aUser.first_name and last_name == aUser.last_name)
-            friend = User.find aUser.id
-            user = User.find session[:user]
-            puts "friend = " + friend.to_s
-            bfound = 0
-            user.friends.each do |eUser |
-              if(eUser.id == aUser.id)
-                bfound = 1
-              end
-            end
-            if(bfound == 1)
-              puts 'friend id already exists'
-            else
-              puts 'adding friend id'
-              user.friends.concat friend
-              friend.friends.concat user
-            end
-        end
-     end
+    friends = User.find :all, :conditions => ["first_name = ? AND last_name = ?", first_name, last_name]
+    friends.each do |friend| 
+      if not @user.friends.exists? friend.id
+        @user.friends.concat friend
+        friend.friends.concat @user
+      end
+   end
   end
   
 #  def users_info_old
