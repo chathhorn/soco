@@ -16,11 +16,6 @@ class LongTermControllerTest < Test::Unit::TestCase
     @request.session[:user] = 1
   end
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
-  end
-  
  def test_index
  
    get :index
@@ -29,10 +24,7 @@ class LongTermControllerTest < Test::Unit::TestCase
  end
   
  def test_add_class
-   
-   get :index
-   
-   user = User.find(session[:user]) 
+   user = User.find(@request.session[:user]) 
    count = user.course_bin.cis_courses.count   
    
    post :add_class,  :course=>{:number=>"CS225"}
@@ -41,9 +33,50 @@ class LongTermControllerTest < Test::Unit::TestCase
    assert_redirected_to :action => 'index'  
    assert flash.empty?       
         
-   assert_equal count+1, user.course_bin.cis_courses.count   
-              
+   assert_equal count+1, user.course_bin.cis_courses.count
+   
  end
+ 
+ def test_remove_class_from_course_bin
+ 
+  user = User.find(@request.session[:user])
+  
+  post :add_class, :course=>{:number=>"CS225"}
+  post :add_class, :course=>{:number=>"CS473"}
+  
+  assert_equal 2, user.course_bin.cis_courses.count
+  
+  post :remove, :id=>'coursediv_-1_3'
+  assert_response :success
+  assert_equal 1, user.course_bin.cis_courses.count  
+
+ end
+ 
+ def test_update_semester
+  user = User.find(@request.session[:user])
+  
+  post :add_class, :course=>{:number=>"CS225"}
+  post :add_class, :course=>{:number=>"CS473"}
+  
+  assert_equal 2, user.course_bin.cis_courses.count
+  
+  post :update_semester, {:id=>'coursediv_-1_3', :new_semester=>1}
+  assert_response :success
+  
+  post :update_semester, {:id=>'coursediv_-1_1', :new_semester=>1}
+  assert_response :success
+  
+  assert_equal 0, user.course_bin.cis_courses.count
+  
+  semester = Semester.find(1)
+  assert_equal 2, semester.cis_courses.count
+  
+  post :remove, :id=>'coursediv_1_1'
+  
+  assert_equal 1, semester.cis_courses.count
+
+ end
+ 
 # 
 # /* Added by Nikhil and Tanmay... this test does not work ... 
 # we got confused how to test it 
@@ -104,10 +137,7 @@ class LongTermControllerTest < Test::Unit::TestCase
 
  #add the course if it exists in DB
  def test_course_name_lt_6_chars
- 
-     get :index
-   
-     user = User.find(session[:user]) 
+     user = User.find(@request.session[:user]) 
      count = user.course_bin.cis_courses.count   
  
     post :add_class, :course=>{:number=>"PSYCH100"}
@@ -128,10 +158,7 @@ class LongTermControllerTest < Test::Unit::TestCase
     
  #adds the first course in the auto complete      
  def test_course_number_lt_3_digits
- 
-     get :index
-   
-     user = User.find(session[:user]) 
+     user = User.find(@request.session[:user]) 
      count = user.course_bin.cis_courses.count   
    
  
