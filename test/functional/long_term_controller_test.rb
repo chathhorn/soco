@@ -17,10 +17,15 @@ class LongTermControllerTest < Test::Unit::TestCase
   end
 
  def test_index
- 
    get :index
    assert_response :success
-   
+ end
+ 
+ def test_show  
+  get :show, :id => @request.session[:user]
+  assert_response :success
+  assert_template 'show'
+  assert_not_nil assigns(:user)  
  end
   
  def test_add_class
