@@ -3,7 +3,7 @@ class FriendsController < ApplicationController
     @title = ''
     @user = User.find(session[:user])
     @course_bin_courses = @user.course_bin.cis_courses
-    @semesters = @user.semesters.find(:all, :order => 'year ASC, semester ASC')
+    @semesters = @user.semesters.find :all
   end
 
 
@@ -24,7 +24,7 @@ class FriendsController < ApplicationController
   
   def browse
     @user = User.find(session[:user])
-    @friends = User.find :all, :order => 'last_name ASC, first_name ASC'
+    @friends = User.find :all
     render :action => 'list'
   end
 
