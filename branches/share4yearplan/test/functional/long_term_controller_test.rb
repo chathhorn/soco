@@ -16,16 +16,19 @@ class LongTermControllerTest < Test::Unit::TestCase
     @request.session[:user] = 1
   end
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
-  end
   
  def test_index
  
    get :index
    assert_response :success
    
+ end
+ 
+ def test_show  
+  get :show, :id => @request.session[:user]
+  assert_response :success
+  assert_template 'show'
+  assert_not_nil assigns(:user)  
  end
   
  def test_add_class

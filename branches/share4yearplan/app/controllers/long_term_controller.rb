@@ -1,10 +1,17 @@
 class LongTermController < ApplicationController
   def index
-    @title = 'Long Term Planner'    
-    @user = User.find params[:id]          
+    @user = User.find session[:user]          
+    @title = 'Long Term Planner of '.concat(@user.username)    
     @course_bin_courses = @user.course_bin.cis_courses
     @semesters = @user.semesters.find(:all, :order => 'year ASC, semester ASC')
   end
+  
+  def show
+    @user = User.find params[:id]          
+    @title = 'Long Term Planner of '.concat(@user.username)    
+    @course_bin_courses = @user.course_bin.cis_courses
+    @semesters = @user.semesters.find(:all, :order => 'year ASC, semester ASC')        
+  end  
   
   def add_class
     user = User.find(session[:user])
