@@ -1,5 +1,9 @@
 class LoginController < ApplicationController
   def index
+    if session[:user]
+      redirect_to :controller => 'profile', :action => 'show'
+    end
+
     @title = "Login"
   end
   
@@ -15,7 +19,8 @@ class LoginController < ApplicationController
   end
   
   def logout
-    session[:user] = nil
-    render :action => 'index'
+    reset_session
+    flash[:alert] = "Logged out" 
+    redirect_to :action => "index" 
   end
 end
