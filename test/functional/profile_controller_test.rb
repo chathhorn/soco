@@ -5,7 +5,7 @@ require 'profile_controller'
 class ProfileController; def rescue_action(e) raise e end; end
 
 class ProfileControllerTest < Test::Unit::TestCase
-  fixtures :users
+  fixtures :users, :friends_users
 
   def setup
     @controller = ProfileController.new
@@ -91,5 +91,30 @@ class ProfileControllerTest < Test::Unit::TestCase
     assert_raise(ActiveRecord::RecordNotFound) {
       User.find(1)
     }
+  end
+  
+  def test_destroy_cleanup
+    assert_not_nil User.find(1)
+
+    post :destroy, :id => 1
+    assert_response :redirect
+    assert_redirected_to :controller => 'login'
+
+    assert_raise(ActiveRecord::RecordNotFound) {
+      User.find(1)
+    }
+    
+    aUser = User.find(3)
+    assert_not_nil aUser
+    
+    #Make sure friends are cleaned up
+    assert !aUser.friends.exists?(1)
+    assert aUser.friends.exists?(2)
+    
+    #Make sure coursebin is deleted
+    assert !CourseBin.exists?(1)
+    
+    #Make sure semesters are deleted
+    assert !Semester.exists?(:user_id=>1)
   end
 end
