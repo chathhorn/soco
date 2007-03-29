@@ -184,5 +184,34 @@ class LongTermControllerTest < Test::Unit::TestCase
     assert_equal "Invalid Course" ,flash[:error]            
  end
  
+ def test_invalid_chars
+    post :add_class, :course =>{:number=> "CS42*"}
+    assert_response :redirect
+    assert_redirected_to :action => 'index'
+    assert_equal "Invalid Course", flash[:error]
+    
+    post :add_class, :course =>{:number => "ECE&^%"}
+    assert_response :redirect
+    assert_redirected_to :action => 'index'
+    assert_equal "Invalid Course", flash[:error]
+    
+    post :add_class, :course =>{:number => "C*&^%"}
+    assert_response :redirect
+    assert_redirected_to :action => 'index'
+    assert_equal "Invalid Course", flash[:error]
+ end
+ 
+ def test_invalid_courses_correct_length
+    post :add_class, :course =>{:number => "ECE900"}
+    assert_response :redirect
+    assert_redirected_to :action => 'index'
+    assert_equal "Invalid Course", flash[:error]
+    
+    post :add_class, :course =>{:number => "ECE429"}
+    assert_response :redirect
+    assert_redirected_to :action => 'index'
+    assert_equal "Invalid Course", flash[:error]
+ end
+   
      
 end
