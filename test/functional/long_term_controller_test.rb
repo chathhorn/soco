@@ -42,6 +42,22 @@ class LongTermControllerTest < Test::Unit::TestCase
    
  end
  
+ #see issue 67#
+ def test_add_class_for_invalid_course_name
+   user = User.find(@request.session[:user]) 
+   count = user.course_bin.cis_courses.count   
+   
+   post :add_class,  :course=>{:number=>"Accy"}
+            
+   assert_response :redirect
+   assert_redirected_to :action => 'index'  
+   assert_equal flash[:error], "Invalid Course"
+        
+   assert_equal count, user.course_bin.cis_courses.count
+   
+ end
+ 
+ 
  def test_remove_class_from_course_bin
  
   user = User.find(@request.session[:user])
