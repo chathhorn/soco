@@ -1,0 +1,60 @@
+<HTML>
+<HEAD>
+<style>
+body {
+        margin-left: 0px;
+        margin-top: 0px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+}
+.inputstyle, INPUT.text {
+	font-family:Tahoma, Verdana, Arial;
+	font-size:11px;
+	color:#333333;
+	background-color:#EDF5FB;
+	border-style:solid;
+	border-width:1px;
+	border-color:#6F8B99;
+	height:20;
+}
+</style>
+
+       
+
+        <%= stylesheet_link_tag 'application' %>
+        <%= stylesheet_link_tag controller.controller_name %>
+        <%= javascript_include_tag :defaults %>
+
+</HEAD>
+<body>
+<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td align="center" valign="middle">
+<tr><td>
+<div align=center>
+
+
+        <% if flash[:error] -%>
+            <div id="error"><b>Error: </b><%= flash[:error] %></div><br />
+            <script language="javascript" type="text/javascript">
+                <%= visual_effect :highlight, 'error', :duration => 2, :startcolor => '\'#ff0000\'' %>
+            </script>
+        <% end -%>
+        <% if flash[:notice] -%>
+            <div id="notice"><%= flash[:notice] %></div><br />
+        <% end -%>
+        
+        
+<img border=0 border=0 src=../images/login/socologin.jpg>
+
+<form name=myform action="/login/validate" method="post">
+
+<input name="user" ONFOCUS="this.value='';" class=inputstyle type=text size=23 style="position: relative; left: 176px; top: -113px" value="          - username -" ><br>
+<input type=text ONFOCUS="this.type='password';this.value='';" name="pass" class=inputstyle size=23 style="position: relative; left: 194px; top: -112px" value="        &nbsp; - password -">
+<a href="javascript:document.myform.submit()" alt="Log in"><img width=31 height=13 border=0 src=../images/login/go.gif style="position: relative; left: 157px; top: -87px"></a>
+<input name="commit" type="hidden" value="Login" />
+</form>
+<a href=register alt="Register"><img src=../images/login/register.gif border=0 style="position: relative; left: 225px; top: -80px"></a>
+
+</div>
+</td></tr></td></tr></table>
