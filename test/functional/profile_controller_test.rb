@@ -5,7 +5,7 @@ require 'profile_controller'
 class ProfileController; def rescue_action(e) raise e end; end
 
 class ProfileControllerTest < Test::Unit::TestCase
-  fixtures :users, :friends_users
+  fixtures :users, :friends_users, :colleges, :majors
 
   def setup
     @controller = ProfileController.new
@@ -80,6 +80,47 @@ class ProfileControllerTest < Test::Unit::TestCase
     assert User.exists?(:username=>'nikhil', :first_name=>"abcd", :last_name=>"cdef",:email=>'nsonie2@uiuc.edu')
      
   end
+  
+  def test_edit_submit_withoutpassword
+  post:edit, :id=>1, :user => {:username=>'nikhil', 
+                                :password=>'',
+                                :first_name=>'abcd',
+                                :last_name=>'cdef', 
+                                :email=>'nsonie2@uiuc.edu',
+                                :start_year=>'2009',
+                                :start_sem=>'FA', 
+                                :birthday=>'1990-10-29', 
+                                :college => College.find(:first),
+                                :major => Major.find(:first)
+                                }    
+  
+    assert_response :redirect
+    assert_redirected_to :controller=>'profile', :action=>'show'
+    
+    assert_not_nil assigns("user")
+    
+    assert User.exists?(:username=>'nikhil', :first_name=>"abcd", :last_name=>"cdef",:email=>'nsonie2@uiuc.edu')
+     
+  end
+  
+  def test_edit_college_major
+    post :edit, :id => 1, :user => {:username =>'james',
+                                    :password => '',
+                                    :first_name => 'nikhil',
+                                    :last_name => 'sonie',
+                                    :email => 'mirani@uiuc.edu',
+                                    :birthday => '1985-02-17',
+                                    :college_id => 4,
+                                    :major_id => 54}
+   
+    assert_response :redirect
+    assert_redirected_to :controller=>'profile', :action=>'show'
+    
+    assert_not_nil assigns("user")
+    
+    assert User.exists?(:username=>'james', :first_name=>'nikhil', :last_name=>'sonie',:email=>'mirani@uiuc.edu', :college_id => 4, :major_id => 54)
+       
+  end                                    
 
   def test_destroy
     assert_not_nil User.find(1)
