@@ -1,35 +1,32 @@
-<%= render :partial => 'cursession' %>
-<h4>User Profile:</h4>
+<img src=../images/headers/my_profile.gif><br><br>
+<div class="dt box">
+<img src=../images/headers/profile2.jpg align=right>
 <table>
-<tr>
-<td class="info_field">Name:</td><td><%= @user.first_name %> <%= @user.last_name %></td>
+<tr> 
+<td class="info_field"><strong>Name: &nbsp;</strong></td><td><%= @user.first_name %> <%= @user.last_name %></td>
 </tr><tr>
-<td class="info_field">Email:</td><td><%= @user.email %></td>
+<td class="info_field"><strong>Email: &nbsp;</strong></td><td><%= @user.email %></td>
 </tr><tr>
-<td class="info_field">Start Date:</td><td><%= @user.start_sem %> <%= @user.start_year %></td>
+<td class="info_field"><strong>Sdtart Date: &nbsp;</strong></td><td><%= @user.start_sem %> <%= @user.start_year %></td>
 </tr><tr>
-<td class="info_field">College:</td><td><%= @user.college.name %></td>
+<td class="info_field"><strong>College: &nbsp;</strong></td><td><%= @user.college.name %></td>
 </tr><tr>
-<td class="info_field">Major:</td><td><%= @user.major.name %></td>
+<td class="info_field"><strong>Major: &nbsp;</strong></td><td><%= @user.major.name %></td>
 </tr><tr>
-<td class="info_field">Birthday:</td><td><%= @user.birthday %></td>
+<td class="info_field"><strong>Birthday: &nbsp;</strong></td><td><%= @user.birthday %></td>
 </tr>
 </table>
+</div>
 
-<h4>Friends:</h4>
+<br><br><img src=../images/headers/friends.gif><br><br>
 <ul id="friend_list">
 <%= render :partial => 'friend', :collection => @friends %>
-</ul>
+</ul><br>
+<img alt="" src="images/spacer.gif" width="1" height="25"><br>
+<div class="h_l"><img alt="" src="images/spacer.gif" width="1" height="1"></div>
+<br>
 
-
+<%= link_to '<img border=0 src=../images/headers/edit_profile.gif align=left>', :action => 'edit' %>
+<%= link_to '<img src=../images/headers/delete_account.gif align=right>', {:action => 'destroy'}, :confirm => "Are you sure?\nThis cannot be undone!" %>
 <br/>
-<%= link_to 'Profile', :controller => 'profile' %> |
-<%= link_to 'Edit', :action => 'edit' %> | 
-<%= link_to 'List Friends', :controller => 'friends', :action => 'list' %> | 
-<%= link_to 'Browse/Search Users', :controller => 'friends', :action => 'browse' %> |
-<%= link_to 'Long Term View', :controller => 'long_term' %> |
-<%= link_to 'Facebook Friends Sync', :controller => 'facebook', :action => 'start_session' %> |
-<%= link_to 'Logout', :controller => 'login', :action => 'logout' %>
-<br/><br/>
-<%= link_to 'Delete Your Account', {:action => 'destroy'}, :confirm => "Are you sure?\nThis cannot be undone!" %>
-<br/>
+<br><br><br>

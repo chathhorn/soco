@@ -1,4 +1,5 @@
 <li class="friend">
+
 <%= link_to "#{friend.first_name} #{friend.last_name}", :controller => 'profile', :action => 'show', :id => friend %>
 <% if @user.friends.include? friend -%>
     <%= link_to '[remove]', {:action => 'remove', :id => friend},
