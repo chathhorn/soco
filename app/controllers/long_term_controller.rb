@@ -21,21 +21,23 @@ class LongTermController < ApplicationController
     user = User.find(session[:user])
     class_id = params[:course][:number]  
     class_id.upcase!
-   (subject, white, number) = class_id.scan(/^([A-Z]*)(\s*)(\d*)$/)[0]           
-               
-    if number.blank? && white.empty?
+     (subject, white, number) = class_id.scan(/^([A-Z]*)(\s*)(\d*)$/)[0]           
+    
+    if subject.nil? 
       flash[:error] = "Invalid Course"
     else
-      results = CisSubject.search_for_course(class_id)
-      if results.size == 1
-        course = CisCourse.find results[0].id
-        user.course_bin.cis_courses.concat course
-      else
+      if number.blank? && white.empty?
         flash[:error] = "Invalid Course"
+      else
+        results = CisSubject.search_for_course(class_id)
+        if results.size == 1
+          course = CisCourse.find results[0].id
+          user.course_bin.cis_courses.concat course
+        else
+          flash[:error] = "Invalid Course"
+        end
       end
     end
-    
-    
     redirect_to(:action => 'index')
   end
   
