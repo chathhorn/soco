@@ -14,6 +14,7 @@ class CisSubject < ActiveRecord::Base
       subjects = find :all,
         :conditions => [ 'cis_subjects.code LIKE ?', subject + '%' ],
         :limit => 10
+        
     else
       subjects = find :all,
         :conditions => [ 'cis_subjects.code = ? AND cis_courses.number LIKE ?',
