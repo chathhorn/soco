@@ -109,4 +109,34 @@ def test_friends_system
   assert_redirected_to :controller => 'profile',:action=>'show'
   assert_equal count, user.friends.count
 end
+
+
+def test_list_more_than_ten_friends
+  get :browse
+  user = User.find(session[:user]) 
+  count = user.friends.count
+
+#add 10 more friends 
+  post :add, :id=>2
+  post :add, :id=>4
+  post :add, :id=>5
+  post :add, :id=>6
+  post :add, :id=>7
+  post :add, :id=>8
+  post :add, :id=>9
+  post :add, :id=>10
+  post :add, :id=>11
+  post :add, :id=>12
+  
+#ensure 10 friends were added
+  assert_response :redirect
+  assert_redirected_to :controller => 'profile',:action=>'show'
+  assert_equal count + 10, user.friends.count
+
+#check more than 10 friends appear on list of friends page
+#Note: if pagination put in place later for lists, this will need to change
+  get :list
+  assert_select "li", :count => count + 10
+end
+
 end
