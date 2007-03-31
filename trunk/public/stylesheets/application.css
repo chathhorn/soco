@@ -42,6 +42,7 @@ body
     white-space: nowrap;
     font-weight: bold;
     border-top: 1px dashed #000;
+	background-image: none;
 }
 
 .auto_complete ul li:first-child

@@ -1,31 +1,21 @@
-<%
-#FIX ME MAT FIX ME!!!
-%>
-<script>
-parent.location="/login/welcome"
-</script>
+<div align="center">
+  <% if flash[:error] -%>
+      <div id="error"><b>Error: </b><%= flash[:error] %></div><br />
+      <script language="javascript" type="text/javascript">
+          <%= visual_effect :highlight, 'error', :duration => 2, :startcolor => '\'#ff0000\'' %>
+      </script>
+  <% end -%>
+  <% if flash[:notice] -%>
+      <div id="notice"><%= flash[:notice] %></div><br />
+  <% end -%>
 
-<!--
-<% form_tag :action => 'validate' do %>
-    <table style="border: 1px solid black;" cellspacing="0">
-        <tr bgcolor="#CCCCCC"><td colspan="2" align="center">Login</td></tr>
-        <tr>
-            <td align="right"> Name:</td>
-            <td><input type="text" name="user" id="user" /></td>
-        </tr>
-        <tr>
-            <td align="right"> Password:</td>
-            <td><input type="password" name="pass" id="pass" /></td>
-        </tr>
-        <tr>
-            <td colspan="2" align="center">
-                <%= submit_tag 'Login' %>
-            </td>
-        </tr>
-    </table>
-<% end %>
+  <img src="/images/login/socologin.jpg">
 
-New to SoCo?:
-<%= link_to 'Create an Account', :controller => 'profile', :action => 'register' %>
+  <% form_tag :action => 'validate' do %>
+    <input name="user" type="text" onfocus="this.value='';this.style.textAlign='left'"  size="23" style="position: relative; left: 176px; top: -113px; text-align: center" value="- username -" ><br>
+    <input name="pass" type="text" onfocus="this.type='password';this.value='';this.style.textAlign='left'" size="23" style="position: relative; left: 194px; top: -112px; text-align: center" value="- password -">
+    <%= image_submit_tag "login/go.gif", :width => 31, :height => 13, :style => "position: relative; left: 157px; top: -87px" %>
+  <% end %>
 
--->
+  <%= link_to image_tag("/images/login/register.gif", :border => 0, :style => "position: relative; left: 225px; top: -67px"), :controller => 'profile', :action => 'register'  %>
+</div>
