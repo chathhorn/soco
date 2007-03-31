@@ -1,0 +1,32 @@
+<img src=../images/headers/my_profile.gif><br><br>
+<div class="dt box">
+<img src=../images/headers/profile2.jpg align=right>
+<table>
+<tr> 
+<td class="info_field"><strong>Name: &nbsp;</strong></td><td><%= @user.first_name %> <%= @user.last_name %></td>
+</tr><tr>
+<td class="info_field"><strong>Email: &nbsp;</strong></td><td><%= @user.email %></td>
+</tr><tr>
+<td class="info_field"><strong>Sdtart Date: &nbsp;</strong></td><td><%= @user.start_sem %> <%= @user.start_year %></td>
+</tr><tr>
+<td class="info_field"><strong>College: &nbsp;</strong></td><td><%= @user.college.name %></td>
+</tr><tr>
+<td class="info_field"><strong>Major: &nbsp;</strong></td><td><%= @user.major.name %></td>
+</tr><tr>
+<td class="info_field"><strong>Birthday: &nbsp;</strong></td><td><%= @user.birthday %></td>
+</tr>
+</table>
+</div>
+
+<br><br><img src=../images/headers/friends.gif><br><br>
+<ul id="friend_list">
+<%= render :partial => 'friend', :collection => @friends %>
+</ul><br>
+<img alt="" src="images/spacer.gif" width="1" height="25"><br>
+<div class="h_l"><img alt="" src="images/spacer.gif" width="1" height="1"></div>
+<br>
+
+<%= link_to '<img border=0 src=../images/headers/edit_profile.gif align=left>', :action => 'edit' %>
+<%= link_to '<img src=../images/headers/delete_account.gif align=right>', {:action => 'destroy'}, :confirm => "Are you sure?\nThis cannot be undone!" %>
+<br/>
+<br><br><br>

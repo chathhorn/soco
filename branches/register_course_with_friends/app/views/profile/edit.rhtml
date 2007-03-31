@@ -1,0 +1,8 @@
+<img src=../images/headers/edit.gif><br><br>
+
+<% form_tag :action => 'edit', :id => @user do %>
+  <%= render :partial => 'form', :locals => {:reg => false} %>
+  <%= submit_tag 'Save' %>
+<% end %>
+
+<%= link_to 'Cancel (changeme)', :action => 'show' %>
