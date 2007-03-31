@@ -1,0 +1,8 @@
+<li class="friend">
+<b><%= link_to "#{friend.first_name} #{friend.last_name}", :action => 'show', :id => friend %></b>
+<% if session[:user] == @user.id %>
+    <%= link_to '[remove]', {:controller => 'friends', :action => 'remove', :id => friend},
+        :confirm => "Are you sure you want to remove this friend?" %>
+    <%= link_to '[Long Term View]', {:controller => 'long_term', :action =>'show', :id => friend}%>        
+<% end %>
+</li>
