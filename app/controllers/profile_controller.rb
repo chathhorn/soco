@@ -1,4 +1,6 @@
 class ProfileController < ApplicationController
+  skip_filter :authenticate, :only => :register
+
   def index
     redirect_to :action => 'show'
   end

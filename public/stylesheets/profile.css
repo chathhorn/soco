@@ -1,13 +1,12 @@
-.info_field {
+table.profile_info tr td:first-child {
     text-align: right;
     font-weight: bold;
-    margin-right: 1em;
+    padding-right: 1em;
+	color:#DE7D00;
 }
 
 #friend_list {
     /*
     list-style-type: none;
-    margin: 0;
-    padding: 0;
     */
 }

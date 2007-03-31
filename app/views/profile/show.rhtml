@@ -1,32 +1,43 @@
-<img src=../images/headers/my_profile.gif><br><br>
+<%= image_tag "headers/my_profile.gif", :alt => 'My Profile' %>
+<br/><br/>
+
 <div class="dt box">
-<img src=../images/headers/profile2.jpg align=right>
-<table>
-<tr> 
-<td class="info_field"><strong>Name: &nbsp;</strong></td><td><%= @user.first_name %> <%= @user.last_name %></td>
-</tr><tr>
-<td class="info_field"><strong>Email: &nbsp;</strong></td><td><%= @user.email %></td>
-</tr><tr>
-<td class="info_field"><strong>Sdtart Date: &nbsp;</strong></td><td><%= @user.start_sem %> <%= @user.start_year %></td>
-</tr><tr>
-<td class="info_field"><strong>College: &nbsp;</strong></td><td><%= @user.college.name %></td>
-</tr><tr>
-<td class="info_field"><strong>Major: &nbsp;</strong></td><td><%= @user.major.name %></td>
-</tr><tr>
-<td class="info_field"><strong>Birthday: &nbsp;</strong></td><td><%= @user.birthday %></td>
-</tr>
-</table>
+  <%= image_tag "headers/profile2.jpg", :alt => 'Profile Picture', :align => 'right' %>
+  <table class="profile_info">
+    <tr> 
+      <td>Name:</td><td><%= @user.first_name %> <%= @user.last_name %></td>
+    </tr><tr>
+      <td>Email:</td>
+      <td><%= @user.email %></td>
+    </tr><tr>
+      <td>Start Date:</td>
+      <td><%= @user.start_sem %> <%= @user.start_year %></td>
+    </tr><tr>
+      <td>College:</td>
+      <td><%= @user.college.name %></td>
+    </tr><tr>
+      <td>Major:</td>
+      <td><%= @user.major.name %></td>
+    </tr><tr>
+      <td>Birthday:</td>
+      <td><%= @user.birthday %></td>
+    </tr>
+  </table>
 </div>
 
-<br><br><img src=../images/headers/friends.gif><br><br>
-<ul id="friend_list">
-<%= render :partial => 'friend', :collection => @friends %>
-</ul><br>
-<img alt="" src="images/spacer.gif" width="1" height="25"><br>
-<div class="h_l"><img alt="" src="images/spacer.gif" width="1" height="1"></div>
-<br>
-
-<%= link_to '<img border=0 src=../images/headers/edit_profile.gif align=left>', :action => 'edit' %>
-<%= link_to '<img src=../images/headers/delete_account.gif align=right>', {:action => 'destroy'}, :confirm => "Are you sure?\nThis cannot be undone!" %>
+<br/><br/>
+<%= image_tag "headers/friends.gif" %>
 <br/>
-<br><br><br>
+<ul id="friend_list">
+  <%= render :partial => 'friend', :collection => @friends %>
+</ul>
+<br/>
+<div class="h_l"></div>
+<br/>
+
+<%= link_to image_tag("headers/edit_profile.gif", :alt => 'Edit Profile', :border => 0, :align => 'left'), :action => 'edit' %>
+<%= link_to image_tag("headers/delete_account.gif", :alt => 'Delete Account', :border => 0, :align => 'right'), {:action => 'destroy'}, :confirm => "Are you sure?\nThis cannot be undone!" %>
+
+<br/>
+<br/>
+<br/>
