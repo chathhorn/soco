@@ -11,3 +11,14 @@ class FriendMailer < ActionMailer::Base
     @headers    = {}
   end
 end
+#    to use the above please call this routine like the below snippet
+#    fullname = @user.first_name + " " + @user.last_name
+#    puts("calling FriendMailer now")
+#    mail = FriendMailer.create_see_my_schedule(fullname, "petergits@gmail.com", "Peter Gitsburg", "pgits@cisco.com", "classOneTesting")
+#    breakpoint "FriendMailer#index"
+#    FriendMailer.deliver(mail)
+#    rescue => err
+#      puts "Exception: #{err}"
+#        err
+#    end
+#  breakpointer "FriendMailer#delivermailend"
