@@ -58,7 +58,7 @@ end
 # Mime::Type.register "application/x-mobile", :mobile
 # :port           => 25, 
 ActionMailer::Base.delivery_method = :smtp
-ActionMailer::Base.server_settings = {
+ActionMailer::Base.smtp_settings = {
   :address => "smtp.gmail.com",
   :port => "587",
   :domain => "pgits-wxp01.cisco.com",
@@ -67,15 +67,6 @@ ActionMailer::Base.server_settings = {
   :password => "soco.web"
 }
 
-#ActionMailer::Base.server_settings = {
-#  :address        => "smtp.express.cities.uiuc.edu",
-#  :port           => 25,
-#  :domain         => "uiuc.edu",
-#  :authentication => :login,
-#  :user_name      => "pgits2",
-#  :password       => "255Middau"
-#}
-#ActionMailer::Base.delivery_method = :sendmail
 ActionMailer::Base.raise_delivery_errors = true
 #ActionMailer::Base.default_content_type = "text/html"
 ActionMailer::Base.default_content_type = "text/plain"
