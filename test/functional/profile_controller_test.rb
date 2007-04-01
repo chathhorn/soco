@@ -49,6 +49,44 @@ class ProfileControllerTest < Test::Unit::TestCase
 
     assert_equal num_users + 1, User.count
   end
+  
+  def test_register_duplicate_email
+    num_users = User.count
+
+    post :register, :user => {  :username=>'nikhil', 
+                                :password=>'sonie123',
+                                :first_name=>'abcd',
+                                :last_name=>'cdef', 
+                                :email=>'nsonie2@uiuc.edu',
+                                :start_year=>'2009',
+                                :start_sem=>'FA', 
+                                :birthday=>'1990-10-29', 
+                                :college => College.find(:first),
+                                :major => Major.find(:first)
+                                }
+
+    assert_response :redirect
+    assert_redirected_to :action => 'show'
+
+    assert_equal num_users + 1, User.count
+    
+    #now create a second user with the same email
+    post :register, :user => {  :username=>'chorneck', 
+                                :password=>'illinwek',
+                                :first_name=>'abcd',
+                                :last_name=>'cdef', 
+                                :email=>'nsonie2@uiuc.edu',
+                                :start_year=>'2009',
+                                :start_sem=>'FA', 
+                                :birthday=>'1990-10-29', 
+                                :college => College.find(:first),
+                                :major => Major.find(:first)
+                                }
+    # Make sure the register page is returned instead of a redirect
+    assert_response :success
+    assert_template "profile/register"    
+    
+  end
 
   def test_edit
     get :edit
