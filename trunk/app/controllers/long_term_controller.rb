@@ -2,6 +2,12 @@ class LongTermController < ApplicationController
   def index
     @user = User.find session[:user]
     @title = "Long Term Planner of " << @user.first_name << " " << @user.last_name
+  end
+  
+  def iframe
+    @style_disable = true
+    @user = User.find session[:user]
+    @title = "Long Term Planner of " << @user.first_name << " " << @user.last_name
     @course_bin_courses = @user.course_bin.cis_courses
     @semesters = @user.semesters.find :all
   end
@@ -9,7 +15,7 @@ class LongTermController < ApplicationController
   def show
     @user = User.find params[:id]
     if @user == nil
-      redirect_to :action => 'index'
+      redirect_to :action => 'iframe'
     end
     
     @title = "Long Term Planner of " << @user.first_name << " " << @user.last_name
@@ -38,7 +44,7 @@ class LongTermController < ApplicationController
         end
       end
     end
-    redirect_to(:action => 'index')
+    redirect_to(:action => 'iframe')
   end
   
   def update_semester
