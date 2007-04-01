@@ -255,5 +255,43 @@ def test_invalid_birthday
 
   assert_equal temp.save, false
 end
+
+def test_duplicate_email_address
+  # Create a new user 
+  user1 = User.new(:username=>'koala', 
+   :password=>"koala1",
+   :first_name=>'Chris',
+   :last_name=>'Horneck', 
+   :email=>'chorneck@uiuc.edu',
+   :start_year=>'2009',
+   :start_sem=>'FA', 
+   :birthday=>'1990-10-29', 
+   :college => College.find(:first),
+   :major => Major.find(:first)
+   )                     
+  #Save the user 
+  assert user1.save
+  
+  #Create a new user with the same email address
+  user2 = User.new(:username=>'koala2', 
+   :password=>"koala1",
+   :first_name=>'Chris',
+   :last_name=>'Horneck', 
+   :email=>'chorneck@uiuc.edu',
+   :start_year=>'2009',
+   :start_sem=>'FA', 
+   :birthday=>'1990-10-29', 
+   :college => College.find(:first),
+   :major => Major.find(:first)
+   )
+  
+  # Attempt to save the user            
+    assert_raise(ActiveRecord::RecordInvalid) {
+      user2.save!
+    }
+  
+  user1.destroy
+  user2.destroy            
+end
  
 end
