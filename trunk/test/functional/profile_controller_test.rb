@@ -87,7 +87,7 @@ class ProfileControllerTest < Test::Unit::TestCase
     assert_template "profile/register"    
     
   end
-
+  
   def test_edit
     get :edit
 
@@ -195,5 +195,35 @@ class ProfileControllerTest < Test::Unit::TestCase
     
     #Make sure semesters are deleted
     assert !Semester.exists?(:user_id=>1)
+  end
+  
+  def test_destroy_reuse_email
+     assert_not_nil User.find(1)
+
+     post :destroy, :id => 1
+     assert_response :redirect
+     assert_redirected_to :controller => 'login'
+     assert_raise(ActiveRecord::RecordNotFound) {
+      User.find(1)
+    }
+    
+    # now we should be able to reuse the email for the user_id 1 from the fixtures
+    num_users = User.count
+    post :register, :user => {  :username=>'nikhil', 
+                                :password=>'sonie123',
+                                :first_name=>'abcd',
+                                :last_name=>'cdef', 
+                                :email=>'mirani@uiuc.edu',
+                                :start_year=>'2009',
+                                :start_sem=>'FA', 
+                                :birthday=>'1990-10-29', 
+                                :college => College.find(:first),
+                                :major => Major.find(:first)
+                                }
+
+    assert_response :redirect
+    assert_redirected_to :action => 'show'
+
+    assert_equal num_users + 1, User.count
   end
 end
