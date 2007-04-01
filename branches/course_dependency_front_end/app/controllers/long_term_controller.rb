@@ -46,18 +46,20 @@ class LongTermController < ApplicationController
     course = CisCourse.find(params[:id].split('_')[2].to_i)
     new_semester_id = params[:new_semester].to_i
     old_semester_id = params[:id].split('_')[1].to_i
-    
+     
     if old_semester_id == -1
-      @user.course_bin.cis_courses.delete(course)
-    else
+      @user.course_bin.cis_courses.delete(course)    
+    else        
       course.semesters.delete(Semester.find(old_semester_id))
     end
+    
     if new_semester_id == -1
       @user.course_bin.cis_courses.concat(course)
     else
       course.semesters.concat(Semester.find(new_semester_id))
+      course.dependencies_satisfied = check_course_dependencies(course, Semester.find(new_semester_id))
     end
-    
+
     render :partial => 'course', :object => course, :locals => {:semester => new_semester_id, :effect => true}
   end
   
@@ -79,4 +81,70 @@ class LongTermController < ApplicationController
     @courses = CisSubject.search_for_course(params[:course][:number])
     render :partial => 'auto_complete_course'
   end
+  
+  private
+  def check_course_dependencies(course, semester)
+    result = true
+    course.course_dependency.children.each do |dep|
+        result = myfunction(dep, semester.id) && result
+    end
+    return result
+    
+  end
+  
+  def myfunction(dep, semester_id)
+
+    if dep.node_type == :COURSE
+      return look_for_course(dep.cis_courses[0], semester_id) 
+    else
+      if dep.node_type == :OR
+        result = false
+        dep.children.each do |child_dep|
+          result || myfunction(child_dep, semester_id)
+        end
+        return result        
+      else
+        #node_type = concurrent
+        result = true
+        dep.children.each do |child_dep|
+          result && myfunction(child_dep, semester_id + 1)
+        end
+        return result
+      end
+    end
+  end
+  
+  def look_for_course(search_course, semester_id)
+    user = User.find(session[:user])
+    
+    if !user.semesters.exists?(semester_id)
+      return false
+    else  
+      search_semesters = user.semesters.find(:all, :conditions=>['id < ?', semester_id])
+      result = false
+      search_semesters.each do |sem|
+        if sem.cis_courses.exists?(search_course.id)
+          result = true
+        end
+        if sem.id == semester_id
+          break
+        end  
+      end
+      return result
+    end
+  end
+  
+  # This function is useless right now because only one course is rendered at once
+  def check_all_courses_on_schedule
+    user = User.find(session[:user])
+    semesters = user.semesters.find(:all)
+    semesters.each do |sem|
+      courses = sem.cis_courses.find(:all)
+      courses.each do |course|      
+      course.dependencies_satisfied= check_course_dependencies(course, sem)
+      puts course.dependencies_satisfied
+      end
+    end  
+  end
+  
 end
