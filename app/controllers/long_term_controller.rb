@@ -17,6 +17,19 @@ class LongTermController < ApplicationController
     @semesters = @user.semesters.find :all
   end  
   
+  def remove
+    @user = User.find(session[:user])
+    course = CisCourse.find(params[:course_id].to_i)
+    old_semester_id = params[:semester_id].to_i
+    
+    if old_semester_id == -1
+      @user.course_bin.cis_courses.delete(course)
+    else
+      course.semesters.delete(Semester.find(old_semester_id))
+    end
+    redirect_to :action => "index"
+  end
+
   def add_class
     user = User.find(session[:user])
     class_id = params[:course][:number]  
@@ -65,21 +78,7 @@ class LongTermController < ApplicationController
     end
 
     render :partial => 'course', :object => course, :locals => {:semester_obj => semester_obj || nil, :effect => true}
-  end
-  
-  def remove
-    @user = User.find(session[:user])
-    course = CisCourse.find(params[:id].split('_')[2].to_i)
-    old_semester_id = params[:id].split('_')[1].to_i
-    
-    if old_semester_id == -1
-      @user.course_bin.cis_courses.delete(course)
-    else
-      course.semesters.delete(Semester.find(old_semester_id))
-    end
-    render :nothing => true
-  end
-  
+  end  
   
   def auto_complete_for_course_number
     @courses = CisSubject.search_for_course(params[:course][:number])
