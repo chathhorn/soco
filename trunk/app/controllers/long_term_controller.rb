@@ -20,12 +20,13 @@ class LongTermController < ApplicationController
   def remove
     @user = User.find(session[:user])
     course = CisCourse.find(params[:course_id].to_i)
-    old_semester_id = params[:semester_id].to_i
+    semester_id = params[:semester_id].to_i
     
-    if old_semester_id == -1
+    if semester_id == -1
       @user.course_bin.cis_courses.delete(course)
     else
-      course.semesters.delete(Semester.find(old_semester_id))
+      semester = Semester.find(semester_id)
+      semester.cis_courses.delete(course_id)
     end
     redirect_to :action => "index"
   end
