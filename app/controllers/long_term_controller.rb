@@ -4,12 +4,8 @@ class LongTermController < ApplicationController
     @title = "Long Term Planner of " << @user.first_name << " " << @user.last_name
     @course_bin_courses = @user.course_bin.cis_courses
     @semesters = @user.semesters.find :all
-
-    @semesters.each do |sem|
-      sem.cis_courses.each do |course|      
-        course.dependencies_satisfied= check_course_dependencies(course, sem)
-      end
-    end     
+    
+    update_all_course_dependencies(@semesters)  
   end
   
   def show
@@ -92,14 +88,13 @@ class LongTermController < ApplicationController
   def check_course_dependencies(course, semester)
     result = true
     course.course_dependency.children.each do |dep|
-        result = myfunction(dep, semester.id) && result
+        result = check_course_dependencies_helper(dep, semester.id) && result
     end
     return result
-    
   end
   
-  private
-  def myfunction(dep, semester_id)
+
+  def check_course_dependencies_helper(dep, semester_id)
 
     if dep.node_type == :COURSE
       return look_for_course(dep.cis_courses[0], semester_id) 
@@ -107,21 +102,21 @@ class LongTermController < ApplicationController
       if dep.node_type == :OR
         result = false
         dep.children.each do |child_dep|
-          result = result || myfunction(child_dep, semester_id)
+          result = result || check_course_dependencies_helper(child_dep, semester_id)
         end
         return result        
       else
         #node_type = concurrent
         result = true
         dep.children.each do |child_dep|
-          result && myfunction(child_dep, semester_id + 1)
+          result && check_course_dependencies_helper(child_dep, semester_id + 1)
         end
         return result
       end
     end
   end
   
-  private
+
   def look_for_course(search_course, semester_id)
     user = User.find(session[:user])
     
@@ -140,6 +135,15 @@ class LongTermController < ApplicationController
       end    
       return result
     end
+  end
+  
+
+  def update_all_course_dependencies(semesters)
+    semesters.each do |sem|
+      sem.cis_courses.each do |course|      
+        course.dependencies_satisfied= check_course_dependencies(course, sem)
+      end
+    end    
   end
   
 end
