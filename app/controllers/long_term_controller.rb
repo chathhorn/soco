@@ -4,6 +4,12 @@ class LongTermController < ApplicationController
     @title = "Long Term Planner of " << @user.first_name << " " << @user.last_name
     @course_bin_courses = @user.course_bin.cis_courses
     @semesters = @user.semesters.find :all
+
+    @semesters.each do |sem|
+      sem.cis_courses.each do |course|      
+        course.dependencies_satisfied= check_course_dependencies(course, sem)
+      end
+    end     
   end
   
   def show
@@ -134,19 +140,6 @@ class LongTermController < ApplicationController
       end    
       return result
     end
-  end
-  
-  # This function is useless right now because only one course is rendered at once
-  def check_all_courses_on_schedule
-    user = User.find(session[:user])
-    semesters = user.semesters.find(:all)
-    semesters.each do |sem|
-      courses = sem.cis_courses.find(:all)
-      courses.each do |course|      
-      course.dependencies_satisfied= check_course_dependencies(course, sem)
-      puts course.dependencies_satisfied
-      end
-    end  
   end
   
 end
