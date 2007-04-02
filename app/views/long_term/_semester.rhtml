@@ -4,7 +4,7 @@
        <%= "#{semester.semester} #{semester.year}"%> <%= link_to_remote "sched>", {:url => {:action => 'show_semester_schedule', :id => semester.id}}, {:class => 'semester_link'} %>
     </div>
     <hr />
-    <%= render :partial => 'course', :collection => semester.cis_courses, :locals => {:semester => semester.id, :effect => false} %>
+    <%= render :partial => 'course', :collection => semester.cis_courses, :locals => {:semester_obj => semester, :effect => false} %>
 </div>
 <% if session[:user] == @user.id -%>
 	<%= drop_receiving_element("semesterdiv_#{semester.id}", 
