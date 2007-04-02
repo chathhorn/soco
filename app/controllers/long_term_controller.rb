@@ -122,7 +122,7 @@ class LongTermController < ApplicationController
 
     render :update do |page|
       session[:viewing_schedule] == @semester.id and page.replace_html 'times_row', :partial => 'times_row', :locals => {:semester => @semester}
-      page.replace_html "sects_#{@semester.id}_#{course.id}", :partial => 'section_choice', :collection => sections.cis_sections, :locals => {:semester => @semester}
+      page.replace_html "sects_#{@semester.id}_#{course.id}", :partial => 'section_choice', :collection => sections, :locals => {:semester => @semester}
     end
     
   end
