@@ -56,7 +56,8 @@ class UserFriendsTest < Test::Unit::TestCase
         end
       end
       assert bFound
-      assert_equal(@friends_all.size, user1.friends.length)
+      #can't be friends with self
+      assert_equal(@friends_all.size - 1, user1.friends.length)
 #      oneLess = @friends_all.length - 1;
 #      assert_equal(user1.friends.length, oneLess)
       user1.destroy
