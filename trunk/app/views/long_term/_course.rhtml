@@ -11,7 +11,7 @@
         | <a href="http://www.coursefire.com/view_stats.php?courseID=<%= course.cis_subject.code + course.number.to_s %>" target="_blank" > Coursefire Page</a>
    </div>
    <div style='display:none' class='sections_list' id='<%="sects_#{semester}_#{course.id}"%>'>
-         <%= render :partial => 'section_choice', :collection => course.cis_semesters[0].cis_sections, :locals => {:semester => semester} %>
+         <%= course.cis_semesters and render :partial => 'section_choice', :collection => course.cis_semesters[0].cis_sections, :locals => {:semester => semester} %>
    </div>
 </div>
 
