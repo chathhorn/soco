@@ -29,11 +29,12 @@ use constant COURSE_DEPENDENCY_EDGE_LINK_QUERY => "INSERT INTO course_dependency
 use constant SELECT_ALL_CIS_COURSES => "SELECT course_dependency_id, description FROM cis_courses";
 
 use constant COURSE_DEPENDENCY_SELECT_CHILDREN => "SELECT course_dependencies.id, course_dependencies.node_type FROM course_dependencies INNER JOIN course_dependency_edges ON course_dependency_edges.child_id = course_dependencies.id WHERE course_dependency_edges.parent_id = ?";
+use constant COURSE_DEPENDENCY_SELECT_TYPE => "SELECT node_type FROM course_dependencies WHERE id = ?";
 
 use constant COURSE_DEPENDENCY_DELETE_LINK => "DELETE FROM course_dependency_edges WHERE parent_id = ? AND child_id = ?";
 use constant COURSE_DEPENDENCY_DELETE => "DELETE FROM course_dependencies WHERE id = ?";
 
-use constant STATEMENTS => qw( SUBJECT_INSERT_QUERY SUBJECT_ID_SELECT_QUERY COURSE_INSERT_QUERY COURSE_ID_SELECT_QUERY SEMESTER_INSERT_QUERY SEMESTER_ID_SELECT_QUERY SECTION_INSERT_QUERY COURSE_DEPENDENCY_SELECT_BY_COURSE_ID_QUERY COURSE_DEPENDENCY_SELECT_BY_SUBJECT_AND_RUBRIC_QUERY COURSE_DEPENDENCY_INSERT_QUERY CIS_COURSE_FIELD_COURSE_DEPENDENCY_UPDATE_QUERY COURSE_DEPENDENCY_EDGE_LINK_QUERY SELECT_ALL_CIS_COURSES COURSE_DEPENDENCY_SELECT_CHILDREN COURSE_DEPENDENCY_DELETE_LINK COURSE_DEPENDENCY_DELETE);
+use constant STATEMENTS => qw( SUBJECT_INSERT_QUERY SUBJECT_ID_SELECT_QUERY COURSE_INSERT_QUERY COURSE_ID_SELECT_QUERY SEMESTER_INSERT_QUERY SEMESTER_ID_SELECT_QUERY SECTION_INSERT_QUERY COURSE_DEPENDENCY_SELECT_BY_COURSE_ID_QUERY COURSE_DEPENDENCY_SELECT_BY_SUBJECT_AND_RUBRIC_QUERY COURSE_DEPENDENCY_INSERT_QUERY CIS_COURSE_FIELD_COURSE_DEPENDENCY_UPDATE_QUERY COURSE_DEPENDENCY_EDGE_LINK_QUERY SELECT_ALL_CIS_COURSES COURSE_DEPENDENCY_SELECT_CHILDREN COURSE_DEPENDENCY_DELETE_LINK COURSE_DEPENDENCY_DELETE COURSE_DEPENDENCY_SELECT_TYPE );
 
 use XML::DOM;
 use DBI;
@@ -404,72 +405,69 @@ sub ParsePrerequisite($$)
 	}
 
 	my $split_string = "";
+	my $type = "";
 
 	#split prerequisites on semicolons and AND
 	if ($text =~ s/;\s*and\b/;/gi)
 	{
-		foreach my $and_courses (split /\s*;\s*/, $text) {
-			&ParsePrerequisite($parent_id, $and_courses);
-		}
-		return;
+		$split_string = qr/\s*;\s*/;
+		$type = "AND";
 	}
 
 	#split prerequisites on semicolons and OR
 	elsif ($text =~ s/;\s*or\b/;/gi)
 	{
 		$split_string = qr/\s*;\s*/;
+		$type = "OR";
 	}
 
 	#split prerequisites on semicolons (AND)
 	elsif ($text =~ /;/)
 	{
-		foreach my $and_courses (split /\s*;\s*/, $text) {
-			&ParsePrerequisite($parent_id, $and_courses);
-		}
-		return;
+		$split_string = qr/\s*;\s*/;
+		$type = "AND";
 	}
 
 	#check for commas now with identifiers
 	elsif ($text =~ s/,\s*and\b/,/gi)
 	{
-		foreach my $and_courses (split /\s*,\s*/, $text) {
-			&ParsePrerequisite($parent_id, $and_courses);
-		}
-		return;
+		$split_string = qr/\s*,\s*/;
+		$type = "AND";
 	}
 
 	#check for commas now with identifiers
 	elsif ($text =~ s/,\s*or\b/,/gi)
 	{
 		$split_string = qr/\s*,\s*/;
+		$type = "OR";
 	}
 
 	#look for "and" by itself
 	elsif ($text =~ /\band\b/i)
 	{
-		foreach my $and_courses (split /\s*\band\b\s*/, $text) {
-			&ParsePrerequisite($parent_id, $and_courses);
-		}
-		return;
+		$split_string = qr/\s*\band\b\s*/;
+		$type = "AND";
 	}
 
 	#look for for "one of ..."
 	elsif ($text =~ s/^one of\b\s*//) {
 		$split_string = qr/\s*,\s*/;
+		$type = "OR";
 	}
 
 	#try "or" by itself
 	elsif ($text =~ /\bor\b/) {
 		$split_string = qr/\s*\bor\b\s*/;
+		$type = "OR";
 	}
 
 	#this will happen if an or clause was found
-	if ($split_string ne "") {
-		my @or_array = split(m/$split_string/, $text);
+	if ($type ne "") {
+		my @split_array = split(m/$split_string/, $text);
 
-		my $or_node_id = CreateChildPrerequisiteNode("OR", $parent_id);
+		my $or_node_id = CreateChildPrerequisiteNode($type, $parent_id);
 
-		foreach my $course (@or_array) {
+		foreach my $course (@split_array) {
 			&ParsePrerequisite($or_node_id, $course);
 		}
 
@@ -477,7 +475,7 @@ sub ParsePrerequisite($$)
 		#we have a single node
 
 		#look for "concurrent registration in" and link
-		if ($text =~ s/concurrent registration in (.*)/$1/) {
+		if ($text =~ s/concurrent registration (?:in|with) (.*)/$1/) {
 			$parent_id = CreateChildPrerequisiteNode("CONCURRENT", $parent_id);
 		}
 
@@ -511,6 +509,19 @@ sub ParsePrerequisite($$)
 sub CreateChildPrerequisiteNode($$)
 {
 	my ($type, $parent_id) = @_;
+
+	#if type is AND and type of parent is COURSE, just return $parent_id
+	if ($type eq "AND")
+	{
+		$sth{'COURSE_DEPENDENCY_SELECT_TYPE'}->execute($parent_id);
+		my $parent_type = $sth{'COURSE_DEPENDENCY_SELECT_TYPE'}->fetchrow();
+		$sth{'COURSE_DEPENDENCY_SELECT_TYPE'}->finish;
+
+		if ($parent_type eq "COURSE")
+		{
+			return $parent_id;
+		}
+	}
 
 	#insert new node
 	$sth{'COURSE_DEPENDENCY_INSERT_QUERY'}->execute($type);

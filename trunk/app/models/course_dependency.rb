@@ -12,6 +12,8 @@ class CourseDependency < ActiveRecord::Base
       return "(" << courses.join(" or ") << ")"
     end
     
+    #type is either COURSE or AND
+    
     return "(" << courses.join(" and ") << ")"
   end
   

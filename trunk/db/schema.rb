@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 17) do
+ActiveRecord::Schema.define(:version => 18) do
 
   create_table "cis_courses", :force => true do |t|
     t.column "cis_subject_id",       :integer,                               :null => false
@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(:version => 17) do
   end
 
   create_table "course_dependencies", :force => true do |t|
-    t.column "node_type", :enum, :limit => [:COURSE, :CONCURRENT, :OR], :null => false
+    t.column "node_type", :enum, :limit => [:COURSE, :CONCURRENT, :OR, :AND], :null => false
   end
 
   create_table "course_dependency_edges", :id => false, :force => true do |t|
