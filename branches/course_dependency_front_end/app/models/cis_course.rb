@@ -5,14 +5,8 @@ class CisCourse < ActiveRecord::Base
   belongs_to :course_dependency
   has_and_belongs_to_many :course_bins
   has_and_belongs_to_many :semesters
-  
-  def dependencies_satisfied
-    @dependencies_satisfied
-  end
-  
-  def dependencies_satisfied=(ds)
-    @dependencies_satisfied = ds
-  end
+  attr_accessor :dependencies_satisfied
+
    
   def to_s
     return cis_subject.to_s + ' ' + number.to_s
