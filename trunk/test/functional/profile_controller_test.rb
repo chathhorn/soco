@@ -158,7 +158,22 @@ class ProfileControllerTest < Test::Unit::TestCase
     
     assert User.exists?(:username=>'james', :first_name=>'nikhil', :last_name=>'sonie',:email=>'mirani@uiuc.edu', :college_id => 4, :major_id => 54)
        
-  end                                    
+  end    
+  
+  def test_edit_name
+    post :edit, :id => 1, :user => {:username => 'james',
+                                    :password => '',
+                                    :first_name => 'Kailey',
+                                    :last_name => 'Szalko'}
+    
+    assert_response :redirect
+    assert_redirected_to :controller => 'profile', :action => 'show'
+    assert User.exists?(:username => 'james', :first_name => 'Kailey', :last_name => 'Szalko')
+    
+    #make sure edited name now displayed on profile
+    get :show, :id =>1
+    assert_select "td", :count => 1, :text => "Kailey Szalko"
+  end
 
   def test_destroy
     assert_not_nil User.find(1)
