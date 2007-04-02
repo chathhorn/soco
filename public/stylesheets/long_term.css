@@ -62,6 +62,16 @@
     text-align: center;
 }
 
+.course .course_prerequisites
+{   
+    font-size: .7em;
+    margin: 5px;
+    text-align: center;
+	color: red;
+}
+
+
+
 .course .links
 {
     font-size: .6em;
