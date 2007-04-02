@@ -2,8 +2,8 @@
 if semester_obj != nil
   semester = semester_obj.id
   #FIXME - should be first line
-  #current_cis_semester = course.cis_semesters.find(:first, :conditions => ["year = ? AND semester = ?", semester_obj.year, semester_obj.semester])
-  current_cis_semester = course.cis_semesters[0]
+  current_cis_semester = course.cis_semesters.find(:first, :conditions => ['year = ? AND semester = ?', semester_obj.year, semester_obj.semester])
+  #current_cis_semester = course.cis_semesters[0]
 else
   semester = -1
 end

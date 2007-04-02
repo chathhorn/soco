@@ -46,7 +46,7 @@ class LongTermController < ApplicationController
     course = CisCourse.find(params[:id].split('_')[2].to_i)
     new_semester_id = params[:new_semester].to_i
     old_semester_id = params[:id].split('_')[1].to_i
-    
+
     if old_semester_id == -1
       @user.course_bin.cis_courses.delete(course)
     else
@@ -59,8 +59,12 @@ class LongTermController < ApplicationController
     else
       course.semesters.concat(Semester.find(new_semester_id))
     end
-    
-    render :partial => 'course', :object => course, :locals => {:semester => new_semester_id, :effect => true}
+
+    if new_semester_id != -1
+      semester_obj = Semester.find(new_semester_id)
+    end
+
+    render :partial => 'course', :object => course, :locals => {:semester_obj => semester_obj || nil, :effect => true}
   end
   
   def remove
@@ -129,8 +133,8 @@ class LongTermController < ApplicationController
   # TODO doesn't work right yet
   def sections_from_course course, semester
       begin
-            return course.cis_semesters[0].cis_sections
-            #return course.cis_semesters.find(:all, :conditions => ["semester = ? and year = ?", semester.semester, semester.year])[0].cis_sections
+            #return course.cis_semesters[0].cis_sections
+            return course.cis_semesters.find(:first, :conditions => ["semester = ? and year = ?", semester.semester, semester.year]).cis_sections
       rescue
             return nil
       end
