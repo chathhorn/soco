@@ -6,7 +6,7 @@ class LongTermController; def rescue_action(e) raise e end; end
 
 class LongTermControllerTest < Test::Unit::TestCase
 
-  fixtures :users, :cis_courses, :course_bins, :cis_subjects
+  fixtures :users, :cis_courses, :course_bins, :cis_subjects, :course_dependencies
 
   
   def setup
@@ -67,9 +67,9 @@ class LongTermControllerTest < Test::Unit::TestCase
   
   assert_equal 2, user.course_bin.cis_courses.count
   
-  post :remove, :id=>'coursediv_-1_3'
-  assert_response :success
-  assert_equal 1, user.course_bin.cis_courses.count  
+  post :remove, :course_id=> cis_courses('cs225').id, :semester_id => -1
+  
+  assert_equal 1, user.course_bin.cis_courses.count
 
  end
  
@@ -88,13 +88,6 @@ class LongTermControllerTest < Test::Unit::TestCase
   assert_response :success
   
   assert_equal 0, user.course_bin.cis_courses.count
-  
-  semester = Semester.find(1)
-  assert_equal 2, semester.cis_courses.count
-  
-  post :remove, :id=>'coursediv_1_1'
-  
-  assert_equal 1, semester.cis_courses.count
 
  end
  
