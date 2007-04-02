@@ -16,10 +16,10 @@ print "[**   ] Running migrations to create tables\n";
 system("rake db:migrate") and die "Migration failed\n";
 
 print "[***  ] Clearing existing CIS course data\n";
-system("mysql -u soco -pmonkey < \"db/data/development/TRUNCATE CIS Data.sql\"") and die "Truncate failed\n";
+system("mysql -usoco -pmonkey soco_development < \"db/data/development/TRUNCATE CIS Data.sql\"") and die "Truncate failed\n";
 
 print "[**** ] Importing CIS course data\n";
-system("mysql -u root -pmonkey < \"db/data/development/CIS Data.sql\"") and die "Data import failed\n";
+system("mysql -usoco -pmonkey soco_development < \"db/data/development/CIS Data.sql\"") and die "Data import failed\n";
 
 print "[*****] Creating testing tables\n";
 system("rake db:test:clone_structure") and die "Testing table creation failed\n";
