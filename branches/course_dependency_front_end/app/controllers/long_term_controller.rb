@@ -92,6 +92,7 @@ class LongTermController < ApplicationController
     
   end
   
+  private
   def myfunction(dep, semester_id)
 
     if dep.node_type == :COURSE
@@ -100,7 +101,7 @@ class LongTermController < ApplicationController
       if dep.node_type == :OR
         result = false
         dep.children.each do |child_dep|
-          result || myfunction(child_dep, semester_id)
+          result = result || myfunction(child_dep, semester_id)
         end
         return result        
       else
@@ -114,6 +115,7 @@ class LongTermController < ApplicationController
     end
   end
   
+  private
   def look_for_course(search_course, semester_id)
     user = User.find(session[:user])
     
@@ -129,7 +131,7 @@ class LongTermController < ApplicationController
         if sem.id == semester_id
           break
         end  
-      end
+      end    
       return result
     end
   end

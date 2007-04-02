@@ -1,5 +1,5 @@
 <div class="course" id="<%= "coursediv_#{semester}_#{course.id}" %>" style="<% if effect %>display:none;<% end%>">
-    <div class="course_code"<%if !course.dependencies_satisfied%> style="background-color:red;"<%end%> ><%= course.cis_subject.code %> <%= course.number %></div>
+    <div class="course_code"<%if !course.dependencies_satisfied && course.dependencies_satisfied != nil %> style="background-color:red;"<%end%> ><%= course.cis_subject.code %> <%= course.number %></div>
     <div class="course_desc"><%= course.title %></div>
     <div class="links">
         <a href="http://courses.uiuc.edu/cis/catalog/urbana/<%= lookup_year(Time.now) %>/<%= lookup_semester_word(Time.now) %>/<%= course.cis_subject.code %>/<%= course.number %>.html" target="_blank">Course info</a>
