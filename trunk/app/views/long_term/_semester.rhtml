@@ -1,11 +1,14 @@
 <td>
 <div class="semester" id="<%= "semesterdiv_#{semester.id}" %>">
-    <div class="semester_header"><%= semester.semester %> <%= semester.year %></div>
+    <div class="semester_header">
+       <%= "#{semester.semester} #{semester.year}"%> <%= link_to_remote "sched>", {:url => {:action => 'show_semester_schedule', :id => semester.id}}, {:class => 'semester_link'} %>
+    </div>
     <hr />
     <%= render :partial => 'course', :collection => semester.cis_courses, :locals => {:semester => semester.id, :effect => false} %>
 </div>
 <% if session[:user] == @user.id -%>
 	<%= drop_receiving_element("semesterdiv_#{semester.id}", 
+	    :accept => 'course',
 	    :position => 'bottom', :update => "semesterdiv_#{semester.id}", 
 	    :url => { :action => 'update_semester'}, 
 	    :loading => "element.style.display = 'none'; Element.show('getting_results');  Element.hide('loading_stopped')", 

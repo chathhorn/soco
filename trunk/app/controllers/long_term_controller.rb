@@ -51,6 +51,8 @@ class LongTermController < ApplicationController
       @user.course_bin.cis_courses.delete(course)
     else
       course.semesters.delete(Semester.find(old_semester_id))
+      # remove sections from old semester
+      sections_from_course(course, Semester.find(old_semester_id)) and @user.semesters.find(old_semester_id).course_plan.remove_cis_sections sections_from_course(course, Semester.find(old_semester_id))
     end
     if new_semester_id == -1
       @user.course_bin.cis_courses.concat(course)
@@ -79,4 +81,61 @@ class LongTermController < ApplicationController
     @courses = CisSubject.search_for_course(params[:course][:number])
     render :partial => 'auto_complete_course'
   end
+
+  # added for semester schedule
+  def show_semester_schedule
+      @semester = Semester.find(params[:id]);
+
+      render :update do |page|
+            page.replace_html 'times_row', :partial => 'times_row', :locals => {:semester => @semester}
+            page.replace_html 'schedule_semester_label', "#{@semester.semester} #{@semester.year}"
+            page.visual_effect :blind_down, 'schedule_container'
+      end
+
+      session[:viewing_schedule] = @semester.id
+  end
+
+  def toggle_section
+    user = User.find(session[:user])
+    section = CisSection.find(params[:section])
+    plan = user.semesters.find(params[:id]).course_plan
+
+    begin
+      plan.cis_sections.find params[:section]
+    rescue ActiveRecord::RecordNotFound
+      plan.add_cis_sections section
+    else
+      plan.remove_cis_sections section
+    end
+
+    @semester = Semester.find(params[:id])
+    
+    # TODO clean this up
+    @start_time = DateTime.new(0,1,1,8)
+    @end_time = DateTime.new(0,1,1,21,30)
+    @time_inc = 15/(24.0*60)
+    @courses = @semester.cis_courses
+    @plan = @semester.course_plan
+    course = section.cis_semester.cis_course;
+
+    sections = sections_from_course course, @semester
+
+    render :update do |page|
+      session[:viewing_schedule] == @semester.id and page.replace_html 'times_row', :partial => 'times_row', :locals => {:semester => @semester}
+      page.replace_html "sects_#{@semester.id}_#{course.id}", :partial => 'section_choice', :collection => sections.cis_sections, :locals => {:semester => @semester}
+    end
+    
+  end
+
+  private
+  # TODO doesn't work right yet
+  def sections_from_course course, semester
+      begin
+            return course.cis_semesters[0].cis_sections
+            #return course.cis_semesters.find(:all, :conditions => "semester = '#{semester.semester}' and year = '#{semester.year}'")[0].cis_sections
+      rescue
+            return nil
+      end
+  end
+
 end
