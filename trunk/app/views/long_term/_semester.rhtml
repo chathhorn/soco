@@ -1,9 +1,10 @@
-<div class="course_container" id="<%= "semesterdiv_#{semester.id}" %>">
+<td>
+<div class="semester" id="<%= "semesterdiv_#{semester.id}" %>">
     <div class="semester_header"><%= semester.semester %> <%= semester.year %></div>
     <hr />
     <%= render :partial => 'course', :collection => semester.cis_courses, :locals => {:semester => semester.id, :effect => false} %>
 </div>
-<% if session[:user] == @user.id %>
+<% if session[:user] == @user.id -%>
 	<%= drop_receiving_element("semesterdiv_#{semester.id}", 
 	    :position => 'bottom', :update => "semesterdiv_#{semester.id}", 
 	    :url => { :action => 'update_semester'}, 
@@ -11,4 +12,5 @@
 	    :complete => "Element.hide('getting_results'); Element.show('loading_stopped')", 
 	    :hoverclass => "drop_hover", 
 	    :with => "'id=' + encodeURIComponent(element.id) + '&new_semester=' + encodeURIComponent(#{semester.id})") %>
-<% end %>
+<% end -%>
+</td>

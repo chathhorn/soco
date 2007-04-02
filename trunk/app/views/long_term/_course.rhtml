@@ -12,11 +12,11 @@
 </div>
 
 <% if session[:user] == @user.id %>
-<% if effect %>
-<script language="javascript" type="text/javascript">
-    <%= visual_effect :blind_down, "coursediv_#{semester}_#{course.id}", :duration => 1 %>
-</script>
-<% end %>
+  <% if effect %>
+  <script language="javascript" type="text/javascript">
+      <%= visual_effect :blind_down, "coursediv_#{semester}_#{course.id}", :duration => 1 %>
+  </script>
+  <% end %>
 
-    <%= draggable_element "coursediv_#{semester}_#{course.id}", :revert => true %>
+  <%= draggable_element "coursediv_#{semester}_#{course.id}", :revert => true %>
 <% end %>

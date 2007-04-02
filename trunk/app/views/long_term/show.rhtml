@@ -1,22 +1,16 @@
-<div id="body_container">
-    <div class="course_container" id="course_bin">
-        <span id="loading_stopped"><%= image_tag "loading_stopped.gif", :width => '100%' %></span>
-        <span id="getting_results" style="display:none;"><%= image_tag "loading.gif", :width => '100%' %></span>
-        <hr/>
-        <strong>Menu:</strong>
-        <ul>
-            <li><%= link_to 'Profile', :controller => 'profile' %></li>
-            <li><%= link_to 'Logout', :controller => 'login', :action => 'logout' %></li>
-        </ul>
-        <hr/>
+<div id="course_bin">
+  <div id="add_course">
         <strong>Course Bin:</strong>
-        <br />
-        <%= render :partial => 'course', :collection => @course_bin_courses, :locals => {:semester => -1, :effect => false} %>
-    </div>
-    <div id="semesters_container">
-        <div id="semesters">
-            <%= render :partial => 'semester', :collection => @semesters %>
-        </div>
-    </div>
+  </div>
+  <div id="course_bin_courses">
+    <%= render :partial => 'course', :collection => @course_bin_courses, :locals => {:semester => -1, :effect => false} %>
+  </div>
+  <p class="clear"></p>
 </div>
-
+<div id="semesters">
+  <table>
+    <tr>
+      <%= render :partial => 'semester', :collection => @semesters %>
+    </tr>
+  </table>
+</div>
