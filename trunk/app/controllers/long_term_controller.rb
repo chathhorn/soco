@@ -100,14 +100,12 @@ class LongTermController < ApplicationController
     section = CisSection.find(params[:section])
     plan = user.semesters.find(params[:id]).course_plan
 
-    begin
-      plan.cis_sections.find params[:section]
-    rescue ActiveRecord::RecordNotFound
-      plan.add_cis_sections section
-    else
+    if plan.cis_sections.exists? params[:section]
       plan.remove_cis_sections section
+    else
+      plan.add_cis_sections section
     end
-
+      
     @semester = Semester.find(params[:id])
     
     # TODO clean this up
@@ -132,7 +130,7 @@ class LongTermController < ApplicationController
   def sections_from_course course, semester
       begin
             return course.cis_semesters[0].cis_sections
-            #return course.cis_semesters.find(:all, :conditions => "semester = '#{semester.semester}' and year = '#{semester.year}'")[0].cis_sections
+            #return course.cis_semesters.find(:all, :conditions => ["semester = ? and year = ?", semester.semester, semester.year])[0].cis_sections
       rescue
             return nil
       end
