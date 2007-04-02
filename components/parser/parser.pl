@@ -1,9 +1,11 @@
-#!/usr/bin/perl -w
+#!env perl -w
+
+use strict;
 
 use constant YEAR => "2007";
 use constant SEMESTER => "Spring";
-%SEMESTER_HASH = ('Spring' => 'SP', 'Fall' => 'FA', 'Summer' => 'SU');
-$SEMESTER_LETTERS = $SEMESTER_HASH{+SEMESTER};
+my %SEMESTER_HASH = ('Spring' => 'SP', 'Fall' => 'FA', 'Summer' => 'SU');
+my $SEMESTER_LETTERS = $SEMESTER_HASH{+SEMESTER};
 use constant SCHEDULE_BASE_URL => "http://courses.uiuc.edu/cis/schedule/urbana/" . YEAR . "/" . SEMESTER . "/";
 use constant CATALOG_BASE_URL => "http://courses.uiuc.edu/cis/catalog/urbana/" . YEAR . "/" . SEMESTER . "/";
 
@@ -38,6 +40,11 @@ use DBI;
 
 require 'database.pl';
 
+#globals
+my $DataHandle;
+my $parser;
+my %sth;
+
 sub main()
 {
 	$DataHandle = ConnectToDatabase();
@@ -47,7 +54,7 @@ sub main()
 
 	PrepareStatementHandles();
 
-        my $doc = $parser->parsefile(CATALOG_BASE_URL . "/index.xml");
+	my $doc = $parser->parsefile(CATALOG_BASE_URL . "/index.xml");
 
 	foreach my $subject ($doc->getElementsByTagName("subject"))
 	{
@@ -126,10 +133,12 @@ sub ParseSubject($)
 		$sth{'SUBJECT_ID_SELECT_QUERY'}->execute($subjectCode);
 
 		$cis_subject_id = $sth{'SUBJECT_ID_SELECT_QUERY'}->fetchrow();
+		$sth{'SUBJECT_ID_SELECT_QUERY'}->finish;
 
 		if (!defined $cis_subject_id) {
 			#need to insert
 			$sth{'SUBJECT_INSERT_QUERY'}->execute($subjectCode);
+			$sth{'SUBJECT_INSERT_QUERY'}->finish;
 		}
 	} until (defined $cis_subject_id);
 
@@ -165,10 +174,12 @@ sub ParseCourse($$$)
 		$sth{'COURSE_ID_SELECT_QUERY'}->execute($cis_subject_id, $courseNumber);
 
 		$cis_course_id = $sth{'COURSE_ID_SELECT_QUERY'}->fetchrow();
+		$sth{'COURSE_ID_SELECT_QUERY'}->finish;
 
 		if (!defined $cis_course_id) {
 			#need to insert
 			$sth{'COURSE_INSERT_QUERY'}->execute($cis_subject_id, $courseNumber, $courseTitle, $description);
+			$sth{'COURSE_INSERT_QUERY'}->finish;
 		}
 	} until (defined $cis_course_id);
 
@@ -177,29 +188,31 @@ sub ParseCourse($$$)
 
 	#my $doc = $parser->parsefile(CATALOG_BASE_URL."/$subjectCode/$courseNumber.xml");
 
-	@sections = $course->getElementsByTagName("section");
+	my @sections = $course->getElementsByTagName("section");
 
-        if ($#sections >= 0)
-        {
-            #insert semester into database for course, or fetch if it's already there
-            #extract to method possibly
-            my $cis_semester_id;
-            do {
-                    $sth{'SEMESTER_ID_SELECT_QUERY'}->execute($cis_course_id, YEAR, $SEMESTER_LETTERS);
-    
-                    $cis_semester_id = $sth{'SEMESTER_ID_SELECT_QUERY'}->fetchrow();
-    
-                    if (!defined $cis_semester_id) {
-                            #need to insert
-                            $sth{'SEMESTER_INSERT_QUERY'}->execute($cis_course_id, YEAR, $SEMESTER_LETTERS);
-                    }
-            } until (defined $cis_semester_id);
-            
-            foreach my $section (@sections)
-            {
-                    ParseSection($cis_semester_id, $section);
-            }
-        }
+	if ($#sections >= 0)
+	{
+		#insert semester into database for course, or fetch if it's already there
+		#extract to method possibly
+		my $cis_semester_id;
+		do {
+				$sth{'SEMESTER_ID_SELECT_QUERY'}->execute($cis_course_id, YEAR, $SEMESTER_LETTERS);
+
+				$cis_semester_id = $sth{'SEMESTER_ID_SELECT_QUERY'}->fetchrow();
+				$sth{'SEMESTER_ID_SELECT_QUERY'}->finish;
+
+				if (!defined $cis_semester_id) {
+						#need to insert
+						$sth{'SEMESTER_INSERT_QUERY'}->execute($cis_course_id, YEAR, $SEMESTER_LETTERS);
+						$sth{'SEMESTER_INSERT_QUERY'}->finish;
+				}
+		} until (defined $cis_semester_id);
+
+		foreach my $section (@sections)
+		{
+				ParseSection($cis_semester_id, $section);
+		}
+	}
 
 	#$doc->dispose;
 }
@@ -236,6 +249,7 @@ sub ParseSection($$)
 	my $instructor = GetDomNodeText($section, 'instructor');
 
 	$sth{'SECTION_INSERT_QUERY'}->execute($cis_semester_id, $crn, $type, $name, $startTime, $endTime, $days, $room, $building, $instructor);
+	$sth{'SECTION_INSERT_QUERY'}->finish;
 }
 
 
@@ -248,16 +262,18 @@ sub GetCourseDependencyNode($$)
 	$sth{'COURSE_DEPENDENCY_SELECT_BY_COURSE_ID_QUERY'}->execute($cis_course_id);
 
 	$course_dependency_id = $sth{'COURSE_DEPENDENCY_SELECT_BY_COURSE_ID_QUERY'}->fetchrow();
+	$sth{'COURSE_DEPENDENCY_SELECT_BY_COURSE_ID_QUERY'}->finish;
 
 	#if NULL then find and link by looking at "Same as" courses
 	if (!defined $course_dependency_id) {
 		if ($description =~ /\bSame as (.*?)\./)
 		{
-			foreach $course (split /,| and /, $1) {
+			foreach my $course (split /,| and /, $1) {
 				my ($subject, $rubric) = split / /, $course;
 				#lookup course in database
 				$sth{'COURSE_DEPENDENCY_SELECT_BY_SUBJECT_AND_RUBRIC_QUERY'}->execute($subject, $rubric);
 				$course_dependency_id = $sth{'COURSE_DEPENDENCY_SELECT_BY_SUBJECT_AND_RUBRIC_QUERY'}->fetchrow();
+				$sth{'COURSE_DEPENDENCY_SELECT_BY_SUBJECT_AND_RUBRIC_QUERY'}->finish;
 
 				if (defined $course_dependency_id) {
 					last;
@@ -268,17 +284,19 @@ sub GetCourseDependencyNode($$)
 		#if no course_dependency node alreay exists, then create one
 		if (!defined $course_dependency_id) {
 			$sth{'COURSE_DEPENDENCY_INSERT_QUERY'}->execute("COURSE");
+			$sth{'COURSE_DEPENDENCY_INSERT_QUERY'}->finish;
 			$course_dependency_id = $DataHandle->last_insert_id(undef, undef, "course_dependencies", "id");
 		}
 
 		#update course dependency link
 		$sth{'CIS_COURSE_FIELD_COURSE_DEPENDENCY_UPDATE_QUERY'}->execute($course_dependency_id, $cis_course_id);
+		$sth{'CIS_COURSE_FIELD_COURSE_DEPENDENCY_UPDATE_QUERY'}->finish;
 	}
 
 	return $course_dependency_id;
 }
 
-
+sub RemovePrerequisitesWithType($$);
 sub RemovePrerequisitesWithType($$)
 {
 	my ($course_dependency_id, $type) = @_;
@@ -288,18 +306,23 @@ sub RemovePrerequisitesWithType($$)
 	}
 
 	$sth{'COURSE_DEPENDENCY_SELECT_CHILDREN'}->execute($course_dependency_id);
+	my $children = $sth{'COURSE_DEPENDENCY_SELECT_CHILDREN'}->fetchall_arrayref();
+	$sth{'COURSE_DEPENDENCY_SELECT_CHILDREN'}->finish;
 
-	while (my ($child_id, $type) = $sth{'COURSE_DEPENDENCY_SELECT_CHILDREN'}->fetchrow())
+	foreach my $child (@$children)
 	{
+		my ($child_id, $type) = @$child;
+
 		#remove link
 		$sth{'COURSE_DEPENDENCY_DELETE_LINK'}->execute($course_dependency_id, $child_id);
-
+		$sth{'COURSE_DEPENDENCY_DELETE_LINK'}->finish;
 		#recursively remove
-		&RemovePrerequisitesWithType($child_id, $type);
+		RemovePrerequisitesWithType $child_id, $type;
 	}
 
 	#actually remove node
 	$sth{'COURSE_DEPENDENCY_DELETE'}->execute($course_dependency_id);
+	$sth{'COURSE_DEPENDENCY_DELETE'}->finish;
 }
 
 
@@ -308,13 +331,16 @@ sub RemovePrerequisites($)
 	my $course_dependency_id = shift;
 
 	$sth{'COURSE_DEPENDENCY_SELECT_CHILDREN'}->execute($course_dependency_id);
+	my $children = $sth{'COURSE_DEPENDENCY_SELECT_CHILDREN'}->fetchall_arrayref();
+	$sth{'COURSE_DEPENDENCY_SELECT_CHILDREN'}->finish;
 
-	foreach my $row (@{$sth{'COURSE_DEPENDENCY_SELECT_CHILDREN'}->fetchall_arrayref()})
+	foreach my $child (@$children)
 	{
-		my ($child_id, $type) = @{$row};
-			
+		my ($child_id, $type) = @$child;
+
 		#remove link
 		$sth{'COURSE_DEPENDENCY_DELETE_LINK'}->execute($course_dependency_id, $child_id);
+		$sth{'COURSE_DEPENDENCY_DELETE_LINK'}->finish;
 
 		#recursively remove
 		RemovePrerequisitesWithType($child_id, $type);
@@ -329,6 +355,8 @@ sub ParseAllPrerequisites()
 	while (my ($course_dependency_id, $description) = $sth{'SELECT_ALL_CIS_COURSES'}->fetchrow()) {
 		ParseCoursePrerequisites($course_dependency_id, $description);
 	}
+
+	$sth{'SELECT_ALL_CIS_COURSES'}->finish;
 }
 
 
@@ -365,11 +393,11 @@ sub ParseCoursePrerequisites($$)
 sub ParsePrerequisite($$)
 {
 	my ($parent_id, $text) = @_;
-        
+
 	#remove "or" and spaces at beginning or end
 	$text =~ s/^\s*(\bor\b)?\s*//gi;
 	$text =~ s/\s*(\bor\b)?\s*$//gi;
-	
+
 	if ($text eq "")
 	{
 		return;
@@ -385,7 +413,7 @@ sub ParsePrerequisite($$)
 		}
 		return;
 	}
-	
+
 	#split prerequisites on semicolons and OR
 	elsif ($text =~ s/;\s*or\b/;/gi)
 	{
@@ -409,7 +437,7 @@ sub ParsePrerequisite($$)
 		}
 		return;
 	}
-    
+
 	#check for commas now with identifiers
 	elsif ($text =~ s/,\s*or\b/,/gi)
 	{
@@ -431,7 +459,7 @@ sub ParsePrerequisite($$)
 	}
 
 	#try "or" by itself
-	elsif ($text =~ s/\bor\b//) {
+	elsif ($text =~ /\bor\b/) {
 		$split_string = qr/\s*\bor\b\s*/;
 	}
 
@@ -441,7 +469,7 @@ sub ParsePrerequisite($$)
 
 		my $or_node_id = CreateChildPrerequisiteNode("OR", $parent_id);
 
-		foreach $course (@or_array) {
+		foreach my $course (@or_array) {
 			&ParsePrerequisite($or_node_id, $course);
 		}
 
@@ -457,16 +485,18 @@ sub ParsePrerequisite($$)
 		if ($text =~ /([A-Z]+)\s*([0-9]+)/)
 		{
 			my ($subject, $rubric) = ($1, $2);
-	
+
 			#find course dependency in database
 			$sth{'COURSE_DEPENDENCY_SELECT_BY_SUBJECT_AND_RUBRIC_QUERY'}->execute($subject, $rubric);
-	
+
 			my $child_dependency_id = $sth{'COURSE_DEPENDENCY_SELECT_BY_SUBJECT_AND_RUBRIC_QUERY'}->fetchrow();
-			
+			$sth{'COURSE_DEPENDENCY_SELECT_BY_SUBJECT_AND_RUBRIC_QUERY'}->finish;
+
 			if (defined $child_dependency_id)
 			{
 				#link
 				$sth{'COURSE_DEPENDENCY_EDGE_LINK_QUERY'}->execute($parent_id, $child_dependency_id);
+				$sth{'COURSE_DEPENDENCY_EDGE_LINK_QUERY'}->finish;
 			}else{
 				warn "WARNING: Cannot find dependency node for Subject = $subject and Rubric = $rubric in database\n";
 			}
@@ -484,15 +514,15 @@ sub CreateChildPrerequisiteNode($$)
 
 	#insert new node
 	$sth{'COURSE_DEPENDENCY_INSERT_QUERY'}->execute($type);
+	$sth{'COURSE_DEPENDENCY_INSERT_QUERY'}->finish;
 	my $child_id = $DataHandle->last_insert_id(undef, undef, "course_dependencies", "id");
 
 	#link
 	$sth{'COURSE_DEPENDENCY_EDGE_LINK_QUERY'}->execute($parent_id, $child_id);
+	$sth{'COURSE_DEPENDENCY_EDGE_LINK_QUERY'}->finish;
 
 	return $child_id;
 }
 
 
 main();
-
-
