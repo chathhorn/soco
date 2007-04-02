@@ -88,31 +88,33 @@ class LongTermController < ApplicationController
   def check_course_dependencies(course, semester)
     result = true
     course.course_dependency.children.each do |dep|
-        result = check_course_dependencies_helper(dep, semester.id) && result
+        result = result && check_course_dependencies_helper(dep, semester.id) 
     end
     return result
   end
-  
 
   def check_course_dependencies_helper(dep, semester_id)
 
     if dep.node_type == :COURSE
       return look_for_course(dep.cis_courses[0], semester_id) 
-    else
-      if dep.node_type == :OR
-        result = false
-        dep.children.each do |child_dep|
-          result = result || check_course_dependencies_helper(child_dep, semester_id)
-        end
-        return result        
-      else
-        #node_type = concurrent
-        result = true
-        dep.children.each do |child_dep|
-          result && check_course_dependencies_helper(child_dep, semester_id + 1)
-        end
-        return result
+    elsif dep.node_type == :OR
+      result = false
+      dep.children.each do |child_dep|
+        result = result || check_course_dependencies_helper(child_dep, semester_id)
       end
+      return result
+    elsif dep.node_type == :AND
+      result = true
+      dep.children.each do |child_dep|
+        result = result && check_course_dependencies_helper(child_dep, semester_id)
+      end
+      return result
+    else #node_type = concurrent
+      result = true
+      dep.children.each do |child_dep|
+        result && check_course_dependencies_helper(child_dep, semester_id + 1)
+      end
+      return result
     end
   end
   

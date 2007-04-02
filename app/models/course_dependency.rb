@@ -13,8 +13,10 @@ class CourseDependency < ActiveRecord::Base
       return "(" << courses.join(" or ") << ")"
     end
     
+    #type is either COURSE or AND
+    
     return "(" << courses.join(" and ") << ")"
-  end  
+  end
   
   def to_s_helper
     if node_type == :COURSE
@@ -23,4 +25,5 @@ class CourseDependency < ActiveRecord::Base
     
     return to_s
   end
+  
 end
