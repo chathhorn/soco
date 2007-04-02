@@ -56,7 +56,7 @@ class UserFriendsTest < Test::Unit::TestCase
         end
       end
       assert bFound
-      assert_equal(user1.friends.length, 1)
+      assert_equal(@friends_all.size, user1.friends.length)
 #      oneLess = @friends_all.length - 1;
 #      assert_equal(user1.friends.length, oneLess)
       user1.destroy
