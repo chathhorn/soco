@@ -14,3 +14,26 @@
     </tr>
   </table>
 </div>
+
+<div style='display:none' id='schedule_container'>
+      <%= link_to_function 'close', visual_effect(:toggle_blind, 'schedule_container'), :id => 'schedule_close_button' %>
+	<div id='schedule_container_inner'>
+      <table id="schedule">
+      <tr>
+            <th id='schedule_semester_label'></th>
+            <th>Monday</th>
+            <th>Tuesday</th>
+            <th>Wednesday</th>
+            <th>Thursday</th>
+            <th>Friday</th>
+            <th>Saturday</th>
+      </tr>
+
+      <tr id='times_row'>
+            <%= render :partial => 'times_row', :locals => {:semester => @semester || -1} %>
+      </tr>
+      </table>
+	</div>
+</div>
+
+<%= draggable_element "schedule_container", :starteffect => false, :endeffect => false, :revert => false %>
