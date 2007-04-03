@@ -48,17 +48,19 @@ class CourseDependency < ActiveRecord::Base
         end
         return false
       when :AND
-        result = true
         children.each do |child|
-          result &= child.is_satisfied_helper?(course_id, semester_id, user)
+          if not child.is_satisfied_helper?(course_id, semester_id, user)
+            return false
+          end
         end
-        return result
+        return true
       else #:CONCURRENT
-        result = true
         children.each do |child|
-          result &= child.is_satisfied_helper?(course_id, semester_id + 1, user)
+          if not child.is_satisfied_helper?(course_id, semester_id + 1, user)
+            return false
+          end
         end
-        return result
+        return true
     end
   end
   
