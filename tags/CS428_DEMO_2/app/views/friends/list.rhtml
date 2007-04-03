@@ -1,0 +1,22 @@
+<%= image_tag "headers/myfriends.gif", :alt => 'My Friends' %>
+<br/><br/>
+
+<% form_tag :action => 'search', :method => 'get' do %>
+  <label for="q">Search All Users:<br/></label>
+  <input type="text" name="q" />
+  <%= submit_tag '[pic]' %>
+<% end %>
+<br/>
+<% if @friends.size == 0 -%>
+  <h5>None Found.</h5>
+<% else -%>
+  <div class="dt box">
+    <ul id="friend_list">
+      <%= render :partial => 'friend', :collection => @friends %>
+    </ul>
+  </div>
+<% end -%>
+<br/>
+
+<%= link_to 'Browse All Users', :controller => 'friends', :action => 'browse' %> |
+<%= link_to 'Advanced Search' %>

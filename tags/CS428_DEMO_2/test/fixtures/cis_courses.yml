@@ -1,0 +1,28 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+cs225:
+  id: 1
+  course_dependency_id: 1
+  cis_subject_id: 1
+  number: 225
+  title: Data Structures
+
+math412:
+  id: 2
+  course_dependency_id: 2
+  cis_subject_id: 2
+  number: 412
+  title: Horrible Graph Theory
+
+cs473:
+  id: 3
+  course_dependency_id: 3
+  cis_subject_id: 1
+  number: 473
+  title: Algorithms
+  
+phych100:
+  id: 4
+  course_dependency_id: 4
+  cis_subject_id: 3
+  number: 100
+  title: Intro to PSYCH
