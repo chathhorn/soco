@@ -235,3 +235,8 @@
 	position: absolute;
 	right: 1em;
 }
+
+.needs_prereq
+{
+    background-color: #f66 !important;
+}

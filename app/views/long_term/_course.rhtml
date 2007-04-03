@@ -9,7 +9,7 @@ else
 end
 -%>
 <div class="course" id="<%= "coursediv_#{semester}_#{course.id}" %>" style="<% if effect %>display:none;<% end%>">
-    <div class="course_code"<%if !course.dependencies_satisfied(semester, session[:user]) %> style="background-color:red;"<%end%> >
+    <div class="course_code <% if !course.dependencies_satisfied(semester, session[:user]) %>needs_prereq<%end%>" >
     <%= link_to('X', :action => "remove", :course_id => course.id, :semester_id => semester) -%>
     <%= course.cis_subject.code %> <%= course.number %> <%= link_to_function 'sections>', visual_effect(:toggle_blind, "sects_#{semester}_#{course.id}"), :class => 'sections_link' %>
     </div>
