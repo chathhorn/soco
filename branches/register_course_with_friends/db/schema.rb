@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(:version => 17) do
     t.column "semester_id", :integer, :null => false
   end
 
-  create_table "friends_users", :id => false, :force => true do |t|
+  create_table "friends_users", :force => true do |t|
     t.column "friend_id", :integer, :null => false
     t.column "user_id",   :integer, :null => false
   end
@@ -82,6 +82,11 @@ ActiveRecord::Schema.define(:version => 17) do
   create_table "majors", :force => true do |t|
     t.column "name",       :string,  :default => "", :null => false
     t.column "college_id", :integer,                 :null => false
+  end
+
+  create_table "register_with_friends", :force => true do |t|
+    t.column "friends_users_id", :integer, :null => false
+    t.column "cis_courses_id",   :integer, :null => false
   end
 
   create_table "semesters", :force => true do |t|

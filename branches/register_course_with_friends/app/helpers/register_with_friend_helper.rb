@@ -1,0 +1,2 @@
+module RegisterWithFriendHelper
+end
