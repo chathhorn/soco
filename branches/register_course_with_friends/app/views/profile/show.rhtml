@@ -31,11 +31,11 @@
 <ul id="friend_list">
   <%= render :partial => 'friend', :collection => @friends %>
 </ul>
+
+<h3> Registration Log</h3><br/>
+
+<%= link_to 'click here to continue', {:controller => 'register_with_friend', :action => 'list' }%>
 <br/>
-
-<h3> Registration Log </h3>
-<%= link_to '[Registration Log]', {:controller => 'register_with_friend', :action =>'show'}%> 
-
 
 <div class="h_l"></div>
 <br/>

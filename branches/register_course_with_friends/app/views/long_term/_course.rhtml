@@ -8,6 +8,10 @@
             | <a href="http://courses.uiuc.edu/cis/schedule/urbana/<%= lookup_year(Time.now) %>/<%= lookup_semester_word(Time.now) %>/<%= course.cis_subject.code %>/<%= course.number %>.html" target="_blank" >Section schedule</a>
         <% end %>
         | <a href="http://www.coursefire.com/view_stats.php?courseID=<%= course.cis_subject.code + course.number.to_s %>" target="_blank" > Coursefire Page</a>
+        <%if(@user.id != session[:user])%>
+        | <%= link_to "Register this course together", {:controller => "register_with_friend", :action=> "add"}%>      
+        <%end%>
+        
    </div>
 </div>
 

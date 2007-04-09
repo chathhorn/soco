@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>SoCo</title>
+</head>
+<body>
+
+<h1>Registration Log</h1><br/>
+
+Here is the list of courses you are taking with your buddies:<br/>
+
+<table border="1">
+ <tr>
+  <td width="80%"><p align="center"><i><b>Friend</b></i></td>
+  <td width="20%"><p align="center"><i><b>Course</b></i></td>
+ </tr>
+
+ <% @buddies.each do |buddy| %>
+  <tr>
+   <td><%= User.find(buddy.friend_id).username%></td>
+   <td><%= CisCourse.find(buddy.cis_courses_id)%></td>
+  </tr>
+ <% end %>
+</table>
+
+</body>
+</html>
