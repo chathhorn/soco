@@ -1,7 +1,9 @@
 <div class="course_container" id="<%= "semesterdiv_#{semester.id}" %>">
     <div class="semester_header"><%= semester.semester %> <%= semester.year %></div>
     <hr />
-    <%= render :partial => 'course', :collection => semester.cis_courses, :locals => {:semester => semester.id, :effect => false} %>
+    <%= render :partial => 'course', 
+               :collection => semester.cis_courses, 
+               :locals => {:semester => semester.id, :effect => false} %>
 </div>
 <% if session[:user] == @user.id %>
 	<%= drop_receiving_element("semesterdiv_#{semester.id}", 
