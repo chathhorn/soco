@@ -10,8 +10,10 @@ end
 -%>
 <div class="course" id="<%= "coursediv_#{semester}_#{course.id}" %>" style="<% if effect %>display:none;<% end%>">
     <div class="course_code <% if !course.dependencies_satisfied(semester, session[:user]) %>needs_prereq<%end%>" >
-    <%= link_to('X', :action => "remove", :course_id => course.id, :semester_id => semester) -%>
-    <%= course.cis_subject.code %> <%= course.number %> <%= link_to_function 'sections>', visual_effect(:toggle_blind, "sects_#{semester}_#{course.id}"), :class => 'sections_link' %>
+    <% if session[:user] == @user.id -%>
+        <%= link_to('X', :action => "remove", :course_id => course.id, :semester_id => semester) -%>
+    <% end -%>
+        <%= course.cis_subject.code %> <%= course.number %> <%= link_to_function 'sections>', visual_effect(:toggle_blind, "sects_#{semester}_#{course.id}"), :class => 'sections_link' %>
     </div>
     <div class="course_desc"><%= course.title %></div>
     <div class="course_prerequisites"><%= course.course_dependency.to_s %></div>
