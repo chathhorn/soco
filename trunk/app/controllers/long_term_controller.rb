@@ -26,7 +26,7 @@ class LongTermController < ApplicationController
       @user.course_bin.cis_courses.delete(course)
     else
       semester = Semester.find(semester_id)
-      semester.cis_courses.delete(course_id)
+      semester.cis_courses.delete(course)
     end
     redirect_to :action => "index"
   end
