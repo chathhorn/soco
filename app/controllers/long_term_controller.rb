@@ -130,7 +130,6 @@ class LongTermController < ApplicationController
   end
 
   private
-  # TODO doesn't work right yet
   def sections_from_course course, semester
       begin
             #return course.cis_semesters[0].cis_sections
@@ -138,6 +137,34 @@ class LongTermController < ApplicationController
       rescue
             return nil
       end
+  end
+
+  def generate_schedule user, semester
+
+      courses = semester.cis_courses
+
+      root = Array.new
+
+      courses.each do |course|
+            sections = sections_from_course course, semester
+
+            root = Hash.new
+
+            sections.each do |section|
+                  symbols = section.name.split
+
+                  working = root
+                  symbols.each do |sym|
+                        working = (working[sym] ||= Hash.new)
+                  end
+                  working[sym] = section
+
+            end
+            
+            root.push 
+
+      end
+
   end
 
 end
