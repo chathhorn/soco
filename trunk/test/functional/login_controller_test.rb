@@ -22,7 +22,7 @@ class LoginControllerTest < Test::Unit::TestCase
   
     #check for login success
   def test_login_success
-    get :validate, :user=>"james", :pass=>"bond"
+    get :validate, :user=>"james", :pass=>"bondness"
     assert_not_nil assigns["user"]
     assert_equal 1, assigns["user"].id
     assert_equal 1, session[:user]
@@ -69,7 +69,7 @@ class LoginControllerTest < Test::Unit::TestCase
        j.concat("c")
     end
     
-    post :validate, "user"=>j, "pass"=>"son"
+    post :validate, "user"=>j, "pass"=>"sonie123"
     assert_response :redirect
     assert_redirected_to :action => 'index'
     assert_equal false,  flash.empty?
@@ -77,7 +77,7 @@ class LoginControllerTest < Test::Unit::TestCase
   end
   
   def test_nil_username
-    post :validate, "user"=>"", "pass"=>"temp"
+    post :validate, "user"=>"", "pass"=>"temp123"
     assert_response :redirect
     assert_redirected_to :action => 'index'
     assert_equal false,  flash.empty?
@@ -95,7 +95,7 @@ class LoginControllerTest < Test::Unit::TestCase
     assert_response :success
   
 #check for login success
-    get :validate, :user=>"james", :pass=>"bond"
+    get :validate, :user=>"james", :pass=>"bondness"
     assert_not_nil assigns["user"]
     assert_equal 1, assigns["user"].id
     assert_equal 1, session[:user]

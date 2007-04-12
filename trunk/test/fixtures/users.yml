@@ -4,7 +4,7 @@
 james:
   id: 1
   username: james
-  password_hash: <%= Digest::SHA1.hexdigest 'bond' %>
+  password_hash: <%= Digest::SHA1.hexdigest 'bondness' %>
   first_name: nikhil
   last_name: sonie
   email: mirani@uiuc.edu
@@ -30,7 +30,7 @@ tanmay:
 john:
   id: 2
   username: john
-  password_hash: <%= Digest::SHA1.hexdigest 'doe' %>
+  password_hash: <%= Digest::SHA1.hexdigest 'doe123' %>
   first_name: John
   last_name: Doe
   email: jdoe2@uiuc.edu
@@ -43,7 +43,7 @@ john:
 jane:
   id: 3
   username: jane
-  password_hash: <%= Digest::SHA1.hexdigest 'doe' %>
+  password_hash: <%= Digest::SHA1.hexdigest 'doe123' %>
   first_name: Jane
   last_name: Doe
   email: jdoe3@uiuc.edu

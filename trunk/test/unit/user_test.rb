@@ -11,7 +11,7 @@ class UserTest < Test::Unit::TestCase
   end
   
   def test_duplicate_user_object_creation
-    james = User.new(:username=>'james', :password=>"bond")
+    james = User.new(:username=>'james', :password=>"bondness")
     assert_equal(james.save, false)
   end
   
@@ -72,14 +72,14 @@ class UserTest < Test::Unit::TestCase
   def test_case_sensitivity
     #find something that in the database
     #check if the username and password are stored correctly 
-    assert_nil(User.authenticate("JAMES","BOND"))
-    assert_nil(User.authenticate("James","Bond"))  
-    assert User.authenticate("james", "bond")
+    assert_nil(User.authenticate("JAMES","BONDNESS"))
+    assert_nil(User.authenticate("James","Bondness"))  
+    assert User.authenticate("james", "bondness")
   end
   
   def test_valid_authentication
-    assert_equal("james", User.authenticate("james","bond").username)
-    assert_equal(Digest::SHA1.hexdigest("bond"), User.authenticate("james","bond").password_hash)
+    assert_equal("james", User.authenticate("james","bondness").username)
+    assert_equal(Digest::SHA1.hexdigest("bondness"), User.authenticate("james","bondness").password_hash)
   end
  
 
