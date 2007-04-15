@@ -34,8 +34,15 @@ class FriendsController < ApplicationController
     
     if user != friend
       if !user.friends.exists?(params[:id])
-        user.friends.concat friend
-        friend.friends.concat user
+        
+        x = FriendsUsers.new(:friend_id => friend.id,
+                             :user_id => user.id)
+        x.save
+        y = FriendsUsers.new(:friend_id => user.id,
+                             :user_id => friend.id)
+        y.save                             
+#        user.friends.push friend
+#        friend.friends.push user
       else
         flash[:error] = 'Sorry, you cannot add the same friend more than once.'
       end
