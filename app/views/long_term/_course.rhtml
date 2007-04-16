@@ -9,7 +9,14 @@
         <% end %>
         | <a href="http://www.coursefire.com/view_stats.php?courseID=<%= course.cis_subject.code + course.number.to_s %>" target="_blank" > Coursefire Page</a>
         <%if(@user.id != session[:user])%>
-        | Register this course together<%= #link_to "Register this course together", {:controller => "register_with_friend", :action=> "add"}
+        | 
+
+        <%=link_to "Register this course together", 
+        {:controller => "register_with_friend", :action=> "add",
+        :course => course.id,
+       # :course => course.cis_subject.code,
+       # :number => course.number,
+        :friend => @user.id}
         %>      
         <%end%>
         
