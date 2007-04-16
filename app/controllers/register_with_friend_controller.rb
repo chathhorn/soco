@@ -16,7 +16,8 @@ class RegisterWithFriendController < ApplicationController
   end
   
   def add
-    # add a course to register together        
+    # add a course to register together   
+         
     # first case: add it into the log
     # second case: if planned to register together make "register together 
     # link" inactive from 4 year schedule
