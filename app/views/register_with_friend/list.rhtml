@@ -10,14 +10,21 @@ Here is the list of courses you are taking with your buddies:<br/>
 
 <table border="1">
  <tr>
-  <td width="80%"><p align="center"><i><b>Friend</b></i></td>
-  <td width="20%"><p align="center"><i><b>Course</b></i></td>
+  <td width="60%"><p align="center"><i><b>Friend</b></i></td>
+  <td width="30%"><p align="center"><i><b>Course</b></i></td>
+  <td width="10%"><p align="center"><i><b>Action</b></i></td>
  </tr>
 
  <% @buddies.each do |buddy| %>
   <tr>
    <td><%= User.find(buddy.friend_id).username%></td>
    <td><%= CisCourse.find(buddy.cis_courses_id)%></td>
+      <td><%= link_to 'Remove', {:controller => "register_with_friend", 
+                                 :action => "remove",
+                                 :friend => buddy.friend_id,
+                                 :course => buddy.cis_courses_id
+                                 } %>                          
+                                 </td>
   </tr>
  <% end %>
 </table>
