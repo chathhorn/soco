@@ -14,8 +14,6 @@
         <%=link_to "Register this course together", 
         {:controller => "register_with_friend", :action=> "add",
         :course => course.id,
-       # :course => course.cis_subject.code,
-       # :number => course.number,
         :friend => @user.id}
         %>      
         <%end%>

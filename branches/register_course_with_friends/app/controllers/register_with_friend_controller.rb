@@ -31,16 +31,26 @@ class RegisterWithFriendController < ApplicationController
                           :conditions => {:user_id => friend,
       :friend_id => user})
     
-    #need to add condition of uniqueness    
+
     if ((x!= nil) and (y != nil))
-      RegisterWithFriend.new(:friends_users_id => x.id,
-                             :cis_courses_id => course_id).save
       
-      RegisterWithFriend.new(:friends_users_id => y.id,
-                             :cis_courses_id => course_id).save                                                                                                                                                                                                          
+      user_side = RegisterWithFriend.new(:friends_users_id => x.id,
+                                         :cis_courses_id => course_id).save      
+      buddy_side = RegisterWithFriend.new(:friends_users_id => y.id, 
+                                          :cis_courses_id => course_id).save   
+      
+      #check uniqueness                                          
+      if (user_side and buddy_side)           
+        flash[:notice] = "Operation Successful!"                             
+      else
+        flash[:error] = "You guys have already registered this course together!"      
+      end
+      
+    else
+      flash[:error] = "Cannot find you two as friend in database"                                                                                                                                                                                                      
     end                           
     
-    flash[:notice] = "Operation Successful!"
+    
     redirect_to(:controller=>'long_term',:action => 'show', :id =>friend)
     
     
@@ -54,6 +64,40 @@ class RegisterWithFriendController < ApplicationController
   def remove
     # remove a course that registers together
     # first case: basically remove that from the log and the database
+     user = User.find(session[:user]).id
+    friend = params[:friend]
+    course_id = params[:course]
+    
+    
+    x = FriendsUsers.find(:first,
+                          :conditions => {:user_id => user,
+      :friend_id => friend})
+    y = FriendsUsers.find(:first,
+                          :conditions => {:user_id => friend,
+      :friend_id => user})
+    
+
+    if ((x!= nil) and (y != nil))
+      
+      user_side = RegisterWithFriend.find(:first,
+                                           :conditions => {:friends_users_id => x.id,
+                                                           :cis_courses_id => course_id}).destroy      
+      buddy_side = RegisterWithFriend.find(:first,
+                                          :conditions => 
+                                          {:friends_users_id => y.id, 
+                                          :cis_courses_id => course_id}).destroy   
+      
+      #check uniqueness                                          
+      if (user_side and buddy_side)           
+        flash[:notice] = "Operation Successful!"                             
+      else
+        flash[:error] = "Operation Failed!"      
+      end
+      
+    else
+      flash[:error] = "Cannot find you two as friend in database"                                                                                                                                                                                                      
+    end                               
+   redirect_to(:action => 'list')        
     # make the "register together" link active again 
   end
   
