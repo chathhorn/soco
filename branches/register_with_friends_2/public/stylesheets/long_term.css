@@ -1,0 +1,242 @@
+.main > div.cont
+{
+	width: 95%;
+	overflow: scroll;
+	position: relative;
+	-moz-border-radius: 20px;
+}
+
+#throbber
+{
+	width: 100%;
+	text-align: center;
+}
+
+#course_bin
+{
+	padding: .5em;
+	border: 2px solid black;
+}
+
+#course_bin .course .links
+{
+    display:none;
+}
+
+#add_course
+{
+	border-bottom: 1px dashed black;
+	clear: both;
+	padding-bottom: 2px;
+	margin-bottom: 3px;
+}
+
+#course_bin .course
+{
+	float: left;
+}
+
+.course
+{
+    margin: auto;
+    width: 150px;
+    padding: 0;
+	margin: 2px;
+    border: 1px solid black;
+}
+
+.course .course_code
+{
+    padding: 2px;
+    background-color: #ddd;
+    font-size: .8em;
+    font-weight: bold;
+    border-bottom: 1px dashed black;
+}
+
+.course .course_desc
+{   
+    font-size: .7em;
+    font-style: italic;
+    margin: 5px;
+    text-align: center;
+}
+
+.course .course_prerequisites
+{   
+    font-size: .7em;
+    margin: 5px;
+    text-align: center;
+	color: red;
+}
+
+
+
+.course .links
+{
+    font-size: .6em;
+    text-align: center;
+}
+
+.drop_hover
+{
+    background-color: #ffa !important;
+}
+
+#semesters {
+	width: 100%;
+	overflow-x: scroll;
+}
+
+.semester
+{
+    width: 156px;
+    background-color: white;
+    border: 1px solid black;
+    padding: 5px;
+    min-height: 300px;
+	margin-right: .5em;
+}
+
+.semester .semester_header
+{
+    font-size: 1.5em;
+    width: 100%;
+}
+
+.semester .course
+{
+    margin-bottom: .5em;
+}
+
+/* semester schedule stuff */
+
+.sections_list {
+	/*position: absolute;
+	top: 0;
+	left: 175px;
+	background-color: lightgrey;
+	z-index: 750;
+	*/
+}
+
+/*
+#body_container {
+	height: 100%;
+	width: 100%;
+	overflow: auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+*/
+#schedule_container {
+	height: 40em;
+	overflow: hide;
+	position: absolute;
+	z-index: 2500;
+	background-color: lightgray;
+	border: 2px solid black;
+	width: 79em;
+	background-color: #ddd;
+	top: 50em;
+	left: 20em;
+}
+
+#schedule_container_inner {
+	position: absolute;
+	top: 2em;
+	bottom: 0;
+	overflow: auto;
+    background-color: white;
+}
+
+/* schedule link in semester container head */
+.semester_link {
+	font-size: 12pt;
+}
+
+/* semester schedule table */
+#schedule_container table {
+	padding: 0;
+	margin: 0;
+	border-collapse: collapse;
+}
+
+#schedule_container table tr td {
+	margin-top: 1em;
+}
+
+#schedule_container table td, table th {
+    vertical-align: top;
+    padding: 0;
+    margin: 0;
+    width: 11em;
+}
+
+#schedule_container table th {
+	text-align: center;
+	border-bottom: 1px dashed black;
+}
+
+#schedule_container table tr:first-child {
+    background-color: #ddd;
+    z-index: 10;
+}
+
+#schedule_container table #times_row {
+	height: 80em;
+
+}
+
+#schedule_container table .section {
+    width: 10em;
+    background-color: #ffb;
+    padding: 2px;
+    margin-left: 2px;
+}
+
+#schedule_container table .times, table .times div {
+    background-color: #ddd;
+    font-weight: bold;
+    text-align: right;
+    width: 9em;
+    padding:1px;
+}
+
+#schedule_container table .times {
+    border-right: 1px dashed black;
+}
+
+.time {
+    height: 7.85em;
+}
+
+#course_bin .sections_list {
+	display: none;
+}
+#course_bin .sections_link {
+	display: none;
+}
+
+.sections_list {
+	font-size: .6em;
+	padding: 2px;
+}
+.section_selected {
+	color: green;
+}
+.section_unselected {
+	color: black;
+}
+
+#schedule_close_button {
+	text-align: right;
+	position: absolute;
+	right: 1em;
+}
+
+.needs_prereq
+{
+    background-color: #f66 !important;
+}

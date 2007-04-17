@@ -1,0 +1,52 @@
+<div id="throbber">
+  <span id="loading_stopped"><%= image_tag "loading_stopped.gif" %></span>
+  <span id="getting_results" style="display:none;"><%= image_tag "loading.gif" %></span>
+</div>
+<div id="course_bin">
+  <div id="add_course">
+    <% form_tag :action => 'add_class', :name => 'class_autocomplete' do %>
+        <strong>Add Course to Course Bin:</strong>
+        <%= text_field_with_auto_complete :course, :number,
+            { :style => "width: 10em" },
+            { :after_update_element => 'function(element,value){ element.value = value.innerHTML.match(/^[A-Z]*\s*\d*/); document.class_autocomplete.submit(); }' }
+            %>
+        <%= submit_tag 'Add' %>
+    <% end %>
+  </div>
+  <div id="course_bin_courses">
+    <%= render :partial => 'course', :collection => @course_bin_courses, :locals => {:semester_obj => nil, :effect => false} %>
+  </div>
+  <p class="clear"></p>
+</div>
+<%= drop_receiving_element("course_bin", :accept => 'course', :position => 'bottom', :update => "course_bin_courses", :url => { :action => 'update_semester'}, :loading => "element.style.display = 'none'; Element.show('getting_results'); Element.hide('loading_stopped')", :complete => "Element.hide('getting_results'); Element.show('loading_stopped')", :hoverclass => "drop_hover", :with => "'id=' + encodeURIComponent(element.id) + '&new_semester=-1'") %>
+
+<div id="semesters">
+  <table>
+    <tr>
+      <%= render :partial => 'semester', :collection => @semesters %>
+    </tr>
+  </table>
+</div>
+
+<div style='display:none' id='schedule_container'>
+      <%= link_to_function 'close', visual_effect(:toggle_blind, 'schedule_container'), :id => 'schedule_close_button' %>
+	<div id='schedule_container_inner'>
+      <table id="schedule">
+      <tr>
+            <th id='schedule_semester_label'></th>
+            <th>Monday</th>
+            <th>Tuesday</th>
+            <th>Wednesday</th>
+            <th>Thursday</th>
+            <th>Friday</th>
+            <th>Saturday</th>
+      </tr>
+
+      <tr id='times_row'>
+            <%= render :partial => 'times_row', :locals => {:semester => @semester || -1} %>
+      </tr>
+      </table>
+	</div>
+</div>
+
+<%= draggable_element "schedule_container", :starteffect => false, :endeffect => false, :revert => false %>

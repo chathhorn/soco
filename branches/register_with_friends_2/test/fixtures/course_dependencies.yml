@@ -1,0 +1,15 @@
+cs225:
+  id: 1
+  node_type: "COURSE"
+
+math412:
+  id: 2
+  node_type: "COURSE"
+
+cs473:
+  id: 3
+  node_type: "COURSE"
+  
+phych100:
+  id: 4
+  node_type: "COURSE"

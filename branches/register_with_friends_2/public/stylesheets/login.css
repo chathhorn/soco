@@ -1,0 +1,17 @@
+body {
+        margin-left: 0px;
+        margin-top: 0px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+}
+
+input[type=text],input[type=password] {
+	font-family:Tahoma, Verdana, Arial;
+	font-size:11px;
+	color:#333333;
+	background-color:#EDF5FB;
+	border-style:solid;
+	border-width:1px;
+	border-color:#6F8B99;
+	height:20;
+}
