@@ -1,12 +1,12 @@
-class CreateConnections < ActiveRecord::Migration
+class CreateRelationship < ActiveRecord::Migration
   def self.up
-    create_table :connections do |t|
+    create_table :relationships do |t|
       t.column "user_id", :integer, :null => false
       t.column "friend_id",  :integer, :null => false
     end
   end
 
   def self.down
-    drop_table :connections
+    drop_table :relationships
   end
 end

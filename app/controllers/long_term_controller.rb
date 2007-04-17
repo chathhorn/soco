@@ -86,6 +86,61 @@ class LongTermController < ApplicationController
     render :partial => 'auto_complete_course'
   end
 
+  def take_course_with_friend
+    #course id
+    course_id = params[:course_id].to_i
+    
+    #semester_id
+    semester_id = params[:semester_id].to_i
+    
+    #friend id
+    friend_id = params[:friend_id].to_i
+    
+    #if friend id isn't set, then we're in our own view
+    if friend_id == session[:user]
+      #prompt for name
+      
+    else
+      #we're in friends view
+      #add course to your schedule in same semester
+      orig_semester = Semester.find semester_id
+      
+      semester = @current_user.semesters.find :all, :conditions =>  ["year = ? AND semester = ?", orig_semester.year, orig_semester.semester]
+      
+      if not @current_user.has_course? course_id
+        if not semester.empty?
+          semester[0].cis_courses << (CisCourse.find course_id)
+        else
+          #course bin if semester doesn't exists
+          @current_user.course_bin.cis_courses << (CisCourse.find course_id)
+        end
+      end
+
+      #create shared course object
+      relationship = Relationship.find_by_user_and_friend(@current_user.id, friend_id)
+      
+      if not relationship.nil?
+        relationship.shared_courses.create(:cis_course_id => course_id)
+      end
+      
+      #redirect
+      redirect_to :action => "show", :id => friend_id
+    end
+  end
+
+  def take_my_course_with_friend
+    #course id
+    #friend id
+    
+    #check to see if friend already has course
+    
+    #place in friend's course bin otherwise
+    
+    #created shared course object
+
+    #redirect
+  end
+
   # added for semester schedule
   def show_semester_schedule
       @semester = Semester.find(params[:id]);
