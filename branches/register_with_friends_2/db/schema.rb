@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 18) do
+ActiveRecord::Schema.define(:version => 20) do
 
   create_table "cis_courses", :force => true do |t|
     t.column "cis_subject_id",       :integer,                               :null => false
@@ -57,6 +57,11 @@ ActiveRecord::Schema.define(:version => 18) do
     t.column "name", :string, :limit => 45, :default => "", :null => false
   end
 
+  create_table "connections", :force => true do |t|
+    t.column "user_id",   :integer, :null => false
+    t.column "friend_id", :integer, :null => false
+  end
+
   create_table "course_bins", :force => true do |t|
     t.column "user_id", :integer, :null => false
   end
@@ -88,6 +93,11 @@ ActiveRecord::Schema.define(:version => 18) do
     t.column "user_id",  :integer,                            :null => false
     t.column "year",     :integer, :limit => 4,               :null => false
     t.column "semester", :enum,    :limit => [:SP, :SU, :FA], :null => false
+  end
+
+  create_table "shared_courses", :force => true do |t|
+    t.column "cis_course_id", :integer, :null => false
+    t.column "connection_id", :integer, :null => false
   end
 
   create_table "users", :force => true do |t|

@@ -1,9 +1,14 @@
 class SharedCourse < ActiveRecord::Base
-  belongs_to :connection
+  belongs_to :relationship
   belongs_to :cis_course
   
-  def semester
-    #look at connection (has 2 though)
-    #get semester for friend
+  def get_friend(user)
+    #look at relationship
+    
+    if relationship.user.id == user.id
+      return relationship.friend
+    else
+      return relationship.user
+    end
   end
 end

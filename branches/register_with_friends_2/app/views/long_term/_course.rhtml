@@ -17,6 +17,14 @@ end
     </div>
     <div class="course_desc"><%= course.title %></div>
     <div class="course_prerequisites"><%= course.course_dependency.to_s %></div>
+    <div class="course_sharing">
+        <ul>
+        <% course.iterate_users_semesters(@user) do |friend,semester| %>
+           <li><%= friend.to_s %> - <%= semester.to_s %></li>
+        <% end %>
+        </ul>
+        <%= link_to 'Take course with friend', :action => 'take_course_with_friend', :course_id => course.id, :friend_id => @user.id, :semester_id => semester %>
+    </div>
     <div class="links">
         <a href="http://courses.uiuc.edu/cis/catalog/urbana/<%= lookup_year(Time.now) %>/<%= lookup_semester_word(Time.now) %>/<%= course.cis_subject.code %>/<%= course.number %>.html" target="_blank">Course info</a>
         
