@@ -57,11 +57,6 @@ ActiveRecord::Schema.define(:version => 20) do
     t.column "name", :string, :limit => 45, :default => "", :null => false
   end
 
-  create_table "connections", :force => true do |t|
-    t.column "user_id",   :integer, :null => false
-    t.column "friend_id", :integer, :null => false
-  end
-
   create_table "course_bins", :force => true do |t|
     t.column "user_id", :integer, :null => false
   end
@@ -79,14 +74,14 @@ ActiveRecord::Schema.define(:version => 20) do
     t.column "semester_id", :integer, :null => false
   end
 
-  create_table "friends_users", :id => false, :force => true do |t|
-    t.column "friend_id", :integer, :null => false
-    t.column "user_id",   :integer, :null => false
-  end
-
   create_table "majors", :force => true do |t|
     t.column "name",       :string,  :default => "", :null => false
     t.column "college_id", :integer,                 :null => false
+  end
+
+  create_table "relationships", :force => true do |t|
+    t.column "friend_id", :integer, :null => false
+    t.column "user_id",   :integer, :null => false
   end
 
   create_table "semesters", :force => true do |t|
@@ -96,8 +91,8 @@ ActiveRecord::Schema.define(:version => 20) do
   end
 
   create_table "shared_courses", :force => true do |t|
-    t.column "cis_course_id", :integer, :null => false
-    t.column "connection_id", :integer, :null => false
+    t.column "cis_course_id",   :integer, :null => false
+    t.column "relationship_id", :integer, :null => false
   end
 
   create_table "users", :force => true do |t|
