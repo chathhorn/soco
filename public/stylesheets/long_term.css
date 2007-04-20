@@ -70,10 +70,32 @@
 	color: red;
 }
 
+.course .course_sharing
+{
+    margin: 0 auto;
+    font-size: .9em;
+    padding: 0 .5em;
+}
 
+.course .title
+{
+    margin: 0 .5em;
+    font-size: .9em;
+    font-variant: small-caps;
+    border-bottom: 1px solid black;
+}
+
+.course .course_sharing ul li
+{
+    list-style-type: none;
+    padding: 0;
+    background: none;
+}
 
 .course .links
 {
+    margin-top: .2em;
+    border-top: 1px dashed black;
     font-size: .6em;
     text-align: center;
 }
@@ -86,6 +108,11 @@
 #semesters {
 	width: 100%;
 	overflow-x: scroll;
+}
+
+#semesters td
+{
+	vertical-align: top;
 }
 
 .semester
@@ -108,6 +135,15 @@
 {
     margin-bottom: .5em;
 }
+
+
+
+
+
+
+
+
+
 
 /* semester schedule stuff */
 

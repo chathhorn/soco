@@ -86,6 +86,88 @@ class LongTermController < ApplicationController
     render :partial => 'auto_complete_course'
   end
 
+  def take_course_with_friend
+    #course id
+    course_id = params[:course_id].to_i
+    
+    #semester_id
+    semester_id = params[:semester_id].to_i
+    
+    #friend id
+    friend_id = params[:friend_id].to_i
+    
+    #if friend id isn't set, then we're in our own view
+    if friend_id == session[:user]
+      #prompt for name in view
+      @course = CisCourse.find course_id
+      @semester = Semester.find semester_id
+      
+      @friends = @current_user.friends
+    else
+      #we're in friends view
+      #add course to your schedule in same semester
+      
+      if semester_id == -1
+        #course bin
+        semester = nil
+      else
+        orig_semester = Semester.find semester_id
+        
+        semester = @current_user.semesters.find :first, :conditions => {:year => orig_semester.year, :semester => orig_semester.semester}
+      end
+      
+      if not @current_user.has_course? course_id
+        if not semester.nil?
+          semester.cis_courses << (CisCourse.find course_id)
+        else
+          #course bin if semester doesn't exists
+          @current_user.course_bin.cis_courses << (CisCourse.find course_id)
+        end
+      end
+
+      #create shared course object
+      create_and_link_shared_course(friend_id, course_id)
+      
+      #redirect
+      redirect_to :back
+    end
+  end
+  
+  def take_my_course_with_friend
+    #course id
+    course_id = params[:course_id].to_i
+
+    #get selected friends
+    selected_friends = params[:friends]
+    
+    selected_friends.each do |friend_id|
+      friend_id = friend_id.to_i
+      
+      friend = User.find friend_id
+      
+      #check to see if friend already has course
+      if not friend.has_course? course_id
+        #place in friend's course bin otherwise
+        friend.course_bin.cis_courses << (CisCourse.find course_id)
+      end
+
+      #created shared course object
+      create_and_link_shared_course friend_id, course_id
+
+    end
+
+    #redirect
+    redirect_to :action => 'index'
+  end
+  
+  def delete_shared_course
+    shared_course_id = params[:id]
+    
+    SharedCourse.delete(shared_course_id)
+  
+    redirect_to :back
+  end
+
   # added for semester schedule
   def show_semester_schedule
       @semester = Semester.find(params[:id]);
@@ -130,6 +212,22 @@ class LongTermController < ApplicationController
   end
 
   private
+  def create_and_link_shared_course friend_id, course_id
+    relationship = Relationship.find_by_user_and_friend(@current_user.id, friend_id)
+    relationship2 = Relationship.find_by_user_and_friend(friend_id, @current_user.id)
+    
+    if not relationship.nil? and not relationship2.nil?
+      if relationship.shared_courses.exists? :cis_course_id => course_id
+        flash[:error] = "You are already taking this course with your friend"
+      else
+        relationship.shared_courses.create :cis_course_id => course_id
+      end
+      if not relationship2.shared_courses.exists? :cis_course_id => course_id
+        relationship2.shared_courses.create :cis_course_id => course_id
+      end
+    end
+  end
+  
   # TODO doesn't work right yet
   def sections_from_course course, semester
       begin

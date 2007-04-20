@@ -7,7 +7,9 @@ class User < ActiveRecord::Base
   has_many :semesters, :dependent => :destroy, :order => 'year ASC, semester ASC'
   belongs_to :college
   belongs_to :major
-  has_and_belongs_to_many :friends, :class_name => 'User', :association_foreign_key => 'friend_id', :join_table => 'friends_users', :order => 'last_name ASC, first_name ASC'
+  #has_and_belongs_to_many :friends, :class_name => 'User', :association_foreign_key => 'friend_id', :join_table => 'friends_users', :order => 'last_name ASC, first_name ASC'
+  has_many :relationships
+  has_many :friends, :through => :relationships, :order => 'last_name ASC, first_name ASC'
   
   validates_uniqueness_of :username, :email
   validates_presence_of :username, :start_sem, :start_year, :college, :major, :email
@@ -25,6 +27,32 @@ class User < ActiveRecord::Base
     )
   end
 
+  def to_s
+    return first_name + " " + last_name
+  end
+  
+  def courses
+    course_list = []
+    
+    semesters.collect do |semester|
+      course_list << semester.cis_courses
+    end
+    
+    course_list << course_bin.cis_courses
+    
+    return course_list
+  end
+  
+  def has_course?(course_id)
+    semesters.collect do |semester|
+      if semester.cis_courses.exists?(course_id)
+        return true
+      end 
+    end
+  
+    return course_bin.cis_courses.exists?(course_id)
+  end
+  
   private
   def encrypt_password
     unless password.empty?
