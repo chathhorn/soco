@@ -19,8 +19,8 @@ end
     <div class="course_prerequisites"><%= course.course_dependency.to_s %></div>
     <div class="course_sharing">
         <ul>
-        <% course.iterate_users_semesters(@user) do |friend,semester| %>
-           <li><%= friend.to_s %> - <%= semester.to_s %></li>
+        <% course.iterate_users_semesters(@user) do |friend,friend_semester| %>
+           <li><%= friend.to_s %> - <%= friend_semester.to_s %></li>
         <% end %>
         </ul>
         <%= link_to 'Take course with friend', :action => 'take_course_with_friend', :course_id => course.id, :friend_id => @user.id, :semester_id => semester %>

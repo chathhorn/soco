@@ -103,13 +103,19 @@ class LongTermController < ApplicationController
     else
       #we're in friends view
       #add course to your schedule in same semester
-      orig_semester = Semester.find semester_id
       
-      semester = @current_user.semesters.find :all, :conditions =>  ["year = ? AND semester = ?", orig_semester.year, orig_semester.semester]
+      if semester_id == -1
+        #course bin
+        semester = nil
+      else
+        orig_semester = Semester.find semester_id
+        
+        semester = @current_user.semesters.find :first, :conditions => {:year => orig_semester.year, :semester => orig_semester.semester}
+      end
       
       if not @current_user.has_course? course_id
-        if not semester.empty?
-          semester[0].cis_courses << (CisCourse.find course_id)
+        if not semester.nil?
+          semester.cis_courses << (CisCourse.find course_id)
         else
           #course bin if semester doesn't exists
           @current_user.course_bin.cis_courses << (CisCourse.find course_id)
@@ -118,9 +124,15 @@ class LongTermController < ApplicationController
 
       #create shared course object
       relationship = Relationship.find_by_user_and_friend(@current_user.id, friend_id)
+      relationship2 = Relationship.find_by_user_and_friend(friend_id, @current_user.id)
       
-      if not relationship.nil?
-        relationship.shared_courses.create(:cis_course_id => course_id)
+      if not relationship.nil? and not relationship2.nil?
+        if relationship.shared_courses.exists?(:cis_course_id => course_id)
+          flash[:error] = "You are already taking this course with your friend"
+        else
+          relationship.shared_courses.create(:cis_course_id => course_id)
+          relationship2.shared_courses.create(:cis_course_id => course_id)
+        end
       end
       
       #redirect
