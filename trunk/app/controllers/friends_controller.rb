@@ -48,11 +48,18 @@ class FriendsController < ApplicationController
   end
  
   def remove
-    user = User.find session[:user]
-    friend = User.find params[:id]
+    user_id = session[:user]
+    friend_id = params[:id].to_i
     
-    user.friends.delete friend
-    friend.friends.delete user
+    #user = User.find session[:user]
+    #friend = User.find params[:id]
+
+    Relationship.delete_all ["(user_id = ? AND friend_id = ?) OR (user_id = ? AND friend_id = ?)", user_id, friend_id, friend_id, user_id]
+    
+    #WARN
+    #broken in rails
+    #user.friends.delete friend
+    #friend.friends.delete user
     
     redirect_to :controller => 'profile', :action => 'show'
   end

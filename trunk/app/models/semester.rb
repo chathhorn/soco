@@ -5,6 +5,9 @@ class Semester < ActiveRecord::Base
 
   after_create :create_dependancies
   
+  def to_s
+    return semester.to_s + " " + year.to_s
+  end
   
   private
   def create_dependancies

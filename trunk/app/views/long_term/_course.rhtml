@@ -16,7 +16,24 @@ end
         <%= course.cis_subject.code %> <%= course.number %> <%= link_to_function 'sections>', visual_effect(:toggle_blind, "sects_#{semester}_#{course.id}"), :class => 'sections_link' %>
     </div>
     <div class="course_desc"><%= course.title %></div>
-    <div class="course_prerequisites"><%= course.course_dependency.to_s %></div>
+    <div class="title">Prerequisites:</div>
+    <div class="course_prerequisites">
+        <%= course.course_dependency.to_s %>
+    </div>
+    <div class="title">Friends Sharing:</div>
+    <div class="course_sharing">
+        <ul>
+        <% course.iterate_users_semesters(@user) do |shared_id,friend,friend_semester| %>
+           <li><%= if session[:user] == @user.id
+                    link_to 'X', {:action => 'delete_shared_course', :id => shared_id},
+                        {:confirm => "Are you sure that you do not want to take this course with this friend?",
+                         :title => "Do not take this course with this friend"}
+                   end %>
+                   <%= friend.to_s %> - <%= friend_semester.to_s %></li>
+        <% end %>
+        </ul>
+        <%= link_to 'Take with friend', :action => 'take_course_with_friend', :course_id => course.id, :friend_id => @user.id, :semester_id => semester %>
+    </div>
     <div class="links">
         <a href="http://courses.uiuc.edu/cis/catalog/urbana/<%= lookup_year(Time.now) %>/<%= lookup_semester_word(Time.now) %>/<%= course.cis_subject.code %>/<%= course.number %>.html" target="_blank">Course info</a>
         
