@@ -1,12 +1,13 @@
-class CreateRelationship < ActiveRecord::Migration
+class CreateRelationships < ActiveRecord::Migration
   def self.up
-    create_table :relationships do |t|
-      t.column "user_id", :integer, :null => false
-      t.column "friend_id",  :integer, :null => false
-    end
+    rename_table :friends_users, :relationships
+
+    add_column :relationships, 'id', :primary_key
   end
 
   def self.down
-    drop_table :relationships
+    remove_column :relationships, 'id'
+
+    rename_table :relationships, :friends_users
   end
 end
