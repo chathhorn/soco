@@ -82,6 +82,7 @@ class LongTermController < ApplicationController
   end  
   
   def auto_complete_for_course_number
+    flash.keep
     @courses = CisSubject.search_for_course(params[:course][:number])
     render :partial => 'auto_complete_course'
   end
