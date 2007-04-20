@@ -16,7 +16,7 @@ class CisCourse < ActiveRecord::Base
       
       semester = Semester.find_by_sql ["SELECT semesters.* FROM semesters LEFT OUTER JOIN cis_courses_semesters ON cis_courses_semesters.semester_id = semesters.id WHERE semesters.user_id = ? AND cis_courses_semesters.cis_course_id = ? LIMIT 1", friend.id, id]
     
-      yield friend, semester
+      yield shared.id, friend, semester
     end
   end
   
