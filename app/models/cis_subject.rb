@@ -1,6 +1,7 @@
 class CisSubject < ActiveRecord::Base
   has_many :cis_courses
   
+  #static method which finds a course written textually
   def self.search_for_course(name)
     name.upcase!
     
@@ -27,6 +28,7 @@ class CisSubject < ActiveRecord::Base
     return subjects    
   end
   
+  #returns SUBJECT
   def to_s
     return code
   end

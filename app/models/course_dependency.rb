@@ -2,6 +2,7 @@ class CourseDependency < ActiveRecord::Base
   acts_as_graph :edge_table => 'course_dependency_edges'
   has_many :cis_courses
   
+  #returns a textual representation of this course's dependencies
   def to_s
     courses = []
     children.each { |child| courses.push child.to_s_helper }
@@ -17,14 +18,8 @@ class CourseDependency < ActiveRecord::Base
     return "(" << courses.join(" and ") << ")"
   end
   
-  def to_s_helper
-    if node_type == :COURSE
-      return cis_courses[0].to_s
-    end
-    
-    return to_s
-  end
-  
+  #returns whether this dependency has been satisfied for the specified
+  #+course_id+, +semester_id+, and +user+
   def is_satisfied?(course_id, semester_id, user)
     children.each do |child|
       if not child.is_satisfied_helper?(course_id, semester_id, user)
@@ -39,7 +34,7 @@ class CourseDependency < ActiveRecord::Base
   def is_satisfied_helper?(course_id, semester_id, user)
     case node_type
       when :COURSE
-        return look_for_course_in_earlier_semester(course_id, semester_id, user) 
+        return course_is_in_earlier_semester?(course_id, semester_id, user) 
       when :OR
         children.each do |child|
           if child.is_satisfied_helper?(course_id, semester_id, user)
@@ -64,8 +59,16 @@ class CourseDependency < ActiveRecord::Base
     end
   end
   
-  private
-  def look_for_course_in_earlier_semester(course_id, max_semester_id, user)
+  def to_s_helper
+    if node_type == :COURSE
+      return cis_courses[0].to_s
+    end
+    
+    return to_s
+  end
+  
+  #returns whether +course_id+ can be found in an earlier semester than +max_semester_id+ for +user+
+  def course_is_in_earlier_semester?(course_id, max_semester_id, user)
     user.semesters.each do |semester|
       if semester.id == max_semester_id
         break

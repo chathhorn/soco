@@ -7,7 +7,6 @@ class User < ActiveRecord::Base
   has_many :semesters, :dependent => :destroy, :order => 'year ASC, semester ASC'
   belongs_to :college
   belongs_to :major
-  #has_and_belongs_to_many :friends, :class_name => 'User', :association_foreign_key => 'friend_id', :join_table => 'friends_users', :order => 'last_name ASC, first_name ASC'
   has_many :relationships
   has_many :friends, :through => :relationships, :order => 'last_name ASC, first_name ASC'
   
@@ -21,16 +20,19 @@ class User < ActiveRecord::Base
   before_save :encrypt_password
   after_create :create_dependancies
   
+  #checks for successful authentication with a +username+ and +password+
   def self.authenticate(username, password)
     find(:first, 
-      :conditions => ["username = ? and password_hash = ?", username, Digest::SHA1.hexdigest(password)]
+      :conditions => {:username => username, :password_hash => Digest::SHA1.hexdigest(password)}
     )
   end
 
+  #Given Surname
   def to_s
     return first_name + " " + last_name
   end
   
+  #returns a combined list of all courses which this user is taking 
   def courses
     course_list = []
     
@@ -43,6 +45,7 @@ class User < ActiveRecord::Base
     return course_list
   end
   
+  #determines whether the user is taking the course in a semester or in course bin
   def has_course?(course_id)
     semesters.collect do |semester|
       if semester.cis_courses.exists?(course_id)
@@ -52,41 +55,8 @@ class User < ActiveRecord::Base
   
     return course_bin.cis_courses.exists?(course_id)
   end
-  
-  private
-  def encrypt_password
-    unless password.empty?
-      self.password_hash = Digest::SHA1.hexdigest(password)
-    end
-  end
 
-  def needs_password_update?
-    password_hash.empty? or not password.empty?
-  end
-  
-  def create_dependancies
-    create_course_bin()
-
-    #create 8 default semesters
-    create_semesters(start_sem, start_year.to_i, 8) {|semester| semesters.concat semester} 
-  end
-
-  def create_semesters(start_semester, start_year, num_of_semesters)
-    i_year = start_year
-    i_semester = start_semester
-  
-    for i in 1..num_of_semesters
-      sem = Semester.new(:year => i_year, :semester => i_semester)  
-      if i_semester == 'SP'
-        i_semester = 'FA'
-      else
-        i_semester = 'SP'
-        i_year += 1
-      end
-      yield sem
-    end
-  end
-
+  #finds users by first_name, last_name, username, or email
   def self.search(query)
     if query == ""
       return []
@@ -113,6 +83,44 @@ class User < ActiveRecord::Base
       :limit => 100
     
     return users   
-  end  
+  end
 
+  private
+  #sets the password hash
+  def encrypt_password
+    unless password.empty?
+      self.password_hash = Digest::SHA1.hexdigest(password)
+    end
+  end
+
+  #determines whether the password hash should be updated in database
+  def needs_password_update?
+    password_hash.empty? or not password.empty?
+  end
+  
+  #creates course bin and 8 semesters upon creation of this object
+  def create_dependancies
+    create_course_bin()
+
+    #create 8 default semesters
+    create_semesters(start_sem, start_year.to_i, 8) {|semester| semesters.concat semester} 
+  end
+
+  #creates +num_of_semesters+ consecutive semesters from +start_semester+ and +start_year+
+  #yields a new semester object
+  def create_semesters(start_semester, start_year, num_of_semesters)
+    i_year = start_year
+    i_semester = start_semester
+  
+    for i in 1..num_of_semesters
+      sem = Semester.new(:year => i_year, :semester => i_semester)  
+      if i_semester == 'SP'
+        i_semester = 'FA'
+      else
+        i_semester = 'SP'
+        i_year += 1
+      end
+      yield sem
+    end
+  end
 end

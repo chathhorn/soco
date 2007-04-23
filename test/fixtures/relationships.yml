@@ -1,18 +1,22 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html 
 
-friends_users_001:
+relationships_001:
+  id: 1
   user_id: 2
   friend_id: 3
 
-friends_users_002:
+relationships_002:
+  id: 2
   user_id: 3
   friend_id: 2
 
-friends_users_003:
+relationships_003:
+  id: 3
   user_id: 3
   friend_id: 1
 
-friends_users_004:
+relationships_004:
+  id: 4
   user_id: 1
   friend_id: 3
   

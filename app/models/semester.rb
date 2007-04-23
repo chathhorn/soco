@@ -5,11 +5,13 @@ class Semester < ActiveRecord::Base
 
   after_create :create_dependancies
   
+  #SEMESTER YEAR
   def to_s
     return semester.to_s + " " + year.to_s
   end
   
   private
+  #create course plan upon creation of this object
   def create_dependancies
     create_course_plan()
   end

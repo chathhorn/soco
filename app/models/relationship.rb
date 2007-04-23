@@ -4,13 +4,8 @@ class Relationship < ActiveRecord::Base
   
   has_many :shared_courses, :dependent => :destroy
   
-  def Relationship.find_by_user_and_friend(user_id, friend_id)
-    relationships = find :all, :conditions => ["user_id = ? AND friend_id = ?", user_id, friend_id]
-    
-    if not relationships.empty?
-      return relationships[0]
-    end
-    
-    return nil
+  #gets a relationship by a +user_id+ and a +friend_id+
+  def self.find_by_user_and_friend(user_id, friend_id)
+    find :first, :conditions => {:user_id => user_id, :friend_id => friend_id}
   end
 end

@@ -1,3 +1,4 @@
+<% @title = "Profile for " << @user.to_s -%>
 <%= image_tag "headers/my_profile.gif", :alt => 'My Profile' %>
 <br/><br/>
 
@@ -5,7 +6,7 @@
   <%= image_tag "headers/profile2.jpg", :alt => 'Profile Picture', :align => 'right' %>
   <table class="profile_info">
     <tr> 
-      <td>Name:</td><td><%= @user.first_name %> <%= @user.last_name %></td>
+      <td>Name:</td><td><%= @user.to_s %></td>
     </tr><tr>
       <td>Email:</td>
       <td><%= @user.email %></td>

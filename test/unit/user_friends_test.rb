@@ -2,18 +2,13 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class UserFriendsTest < Test::Unit::TestCase
 
- fixtures :users
-
-  # Replace this with your real tests.
-  def test_truth
-    assert true
-  end
+ fixtures :users, :relationships, :course_bins, :semesters
 
 #this test shows that you can add a new user
   def test_add_new_user
       user = User.new(:username=>'forest', :password=>"gump123", :start_year=>'2009', :start_sem=>'FA', :birthday=>'1990-10-29', :college => College.find(:first))
       user.save
-      puts user.id
+      assert person.errors.empty?
       assert_equal('forest', user.username)
       first_name = user.first_name
       last_name  = user.last_name
