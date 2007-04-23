@@ -1,6 +1,5 @@
 class SemesterController < ApplicationController
   def show
-    @title = 'View Semester Schedule'
     @semester = Semester.find(params[:id])
     
     @start_time = DateTime.new(0,1,1,8)
@@ -9,9 +8,4 @@ class SemesterController < ApplicationController
 #        time.strftime("%H:%M")
 #      end
   end
-
-  def edit
-    @title = 'Edit Semester Schedule'
-  end
-
 end

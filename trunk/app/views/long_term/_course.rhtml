@@ -9,7 +9,7 @@ else
 end
 -%>
 <div class="course" id="<%= "coursediv_#{semester}_#{course.id}" %>" style="<% if effect %>display:none;<% end%>">
-    <div class="course_code <% if !course.dependencies_satisfied(semester, session[:user]) %>needs_prereq<%end%>" >
+    <div class="course_code <% if !course.dependencies_satisfied?(semester, session[:user]) %>needs_prereq<%end%>" >
     <% if session[:user] == @user.id -%>
         <%= link_to('X', :action => "remove", :course_id => course.id, :semester_id => semester) -%>
     <% end -%>

@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 20) do
+ActiveRecord::Schema.define(:version => 21) do
 
   create_table "cis_courses", :force => true do |t|
     t.column "cis_subject_id",       :integer,                               :null => false
@@ -97,7 +97,7 @@ ActiveRecord::Schema.define(:version => 20) do
 
   create_table "users", :force => true do |t|
     t.column "username",      :string,                             :default => "", :null => false
-    t.column "password_hash", :binary,                             :default => "", :null => false
+    t.column "password_hash", :string,                             :default => ""
     t.column "first_name",    :string,                             :default => "", :null => false
     t.column "last_name",     :string,                             :default => "", :null => false
     t.column "email",         :string,                             :default => "", :null => false

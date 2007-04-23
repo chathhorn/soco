@@ -1,3 +1,4 @@
+<% @title = "Take Course With Friends" -%>
 <h3>Please select your friends to take <em><%= @course.to_s %></em> with you during <em><%= @semester.to_s %></em></h3>
 <% form_tag :action => 'take_my_course_with_friend', :course_id => @course.id do %>
     <ul>

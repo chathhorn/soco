@@ -1,14 +1,12 @@
 class FriendsController < ApplicationController
+  #list logged in user's friends
   def index
-    @title = ''
-    @user = User.find(session[:user])
-    @course_bin_courses = @user.course_bin.cis_courses
-    @semesters = @user.semesters.find :all
+    redirect_to(:action => "list")
   end
 
-
+  #search for user by string
   def search
-    @user = User.find(session[:user])
+    @user = User.find session[:user]
     if (params[:q])
       @friends = User.search(params[:q])
     else
@@ -17,20 +15,25 @@ class FriendsController < ApplicationController
     render :action => 'list'
   end
   
+  #list logged in user's friends
   def list
-    @user = User.find(session[:user])
+    @user = User.find session[:user]
     @friends = @user.friends
   end
   
+  #list all users
   def browse
-    @user = User.find(session[:user])
+    @user = User.find session[:user]
     @friends = User.find :all
     render :action => 'list'
   end
 
+  #add a friend to the logged in user by id
   def add
     user = User.find session[:user]
     friend = User.find params[:id]
+    
+    redirect_to :back
     
     if user != friend
       if !user.friends.exists?(params[:id])
@@ -39,14 +42,13 @@ class FriendsController < ApplicationController
       else
         flash[:error] = 'Sorry, you cannot add the same friend more than once.'
       end
-      redirect_to :controller => 'profile', :action => 'show'
     else
       flash[:error] = 'Sorry, you cannot be your own friend.'
-      redirect_to :back
     end
     
   end
  
+  #remove a friend from the logged in user by id
   def remove
     user_id = session[:user]
     friend_id = params[:id].to_i
