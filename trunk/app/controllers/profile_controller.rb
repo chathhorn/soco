@@ -21,6 +21,7 @@ class ProfileController < ApplicationController
       @user = User.new(params[:user])
       if @user.save
         session[:user] = @user.id
+        session[:username] = @user.username
         flash[:notice] = 'Your account is now created!'
         redirect_to :action => 'show'
         return
