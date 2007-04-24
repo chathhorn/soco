@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   has_many :semesters, :dependent => :destroy, :order => 'year ASC, semester ASC'
   belongs_to :college
   belongs_to :major
-  has_many :relationships
+  has_many :relationships, :dependent => :destroy
   has_many :friends, :through => :relationships, :order => 'last_name ASC, first_name ASC'
   
   validates_uniqueness_of :username, :email
@@ -18,7 +18,8 @@ class User < ActiveRecord::Base
   validates_date :birthday
 
   before_save :encrypt_password
-  after_create :create_dependancies
+  after_create :create_dependencies
+  after_destroy :delete_associated_relationships
   
   #checks for successful authentication with a +username+ and +password+
   def self.authenticate(username, password)
@@ -99,7 +100,7 @@ class User < ActiveRecord::Base
   end
   
   #creates course bin and 8 semesters upon creation of this object
-  def create_dependancies
+  def create_dependencies
     create_course_bin()
 
     #create 8 default semesters
@@ -123,4 +124,10 @@ class User < ActiveRecord::Base
       yield sem
     end
   end
+  
+  def delete_associated_relationships
+    associated = Relationship.find :all, :conditions => {:friend_id => id}
+    
+    associated.each { |rel| rel.destroy }
+  end  
 end
