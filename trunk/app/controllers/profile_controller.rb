@@ -51,6 +51,6 @@ class ProfileController < ApplicationController
   def destroy
     current_user = User.find session[:user]
     current_user.destroy
-    redirect_to :controller => 'login'
+    redirect_to :controller => 'login', :action => 'logout'
   end
 end
