@@ -13,8 +13,8 @@
   <img src="/images/login/socologin.jpg">
 
   <% form_tag :action => 'validate' do %>
-    <input name="user" type="text" onfocus="this.value='';this.style.textAlign='left'"  size="23" style="position: relative; left: 176px; top: -113px; text-align: center" value="- username -" ><br>
-    <input name="pass" type="text" onfocus="this.type='password';this.value='';this.style.textAlign='left'" size="23" style="position: relative; left: 194px; top: -112px; text-align: center" value="- password -">
+    <input name="user" type="text" onfocus="if (this.value=='- username -') {this.value='';this.style.textAlign='left';}" onblur="if (this.value == '') {this.value='- username -'; this.style.textAlign='center';}"  size="23" style="position: relative; left: 176px; top: -113px; text-align: center" value="- username -" ><br>
+    <input name="pass" type="text" onfocus="if (this.value=='- password -') {this.type='password';this.value='';this.style.textAlign='left';}" onblur="if (this.value == '') {this.type='text'; this.value='- password -'; this.style.textAlign='center';}" size="23" style="position: relative; left: 194px; top: -112px; text-align: center" value="- password -">
     <%= image_submit_tag "login/go.gif", :width => 31, :height => 13, :style => "position: relative; left: 157px; top: -87px" %>
   <% end %>
 
