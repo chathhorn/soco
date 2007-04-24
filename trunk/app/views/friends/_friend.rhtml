@@ -1,5 +1,5 @@
 <li class="friend">
-  <%= link_to friend.to_s, :controller => 'profile', :action => 'show', :id => friend %>
+  <%= link_to h(friend.to_s), :controller => 'profile', :action => 'show', :id => friend %>
   <% if @user.friends.include? friend -%>
       <%= link_to '[remove]', {:action => 'remove', :id => friend},
           :confirm => "Are you sure you want to remove this friend?" %>

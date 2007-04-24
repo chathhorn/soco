@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-    <title>Soco Project - <%= @title || "[soco]" %></title>
+    <title>Soco Project - <%=h @title || "[soco]" %></title>
     <link rel="shortcut icon" href="/favicon.ico" />
     <%= stylesheet_link_tag 'style' %>
     <%= stylesheet_link_tag 'application' %>
@@ -36,13 +36,13 @@
 				<img alt="" src="images/spacer.gif" width="1" height="20">-->
 
 		        <% if flash[:error] -%>
-		            <div id="error"><b>Error: </b><%= flash[:error] %></div><br />
+		            <div id="error"><b>Error: </b><%=h flash[:error] %></div><br />
 		            <script language="javascript" type="text/javascript">
 		                <%= visual_effect :highlight, 'error', :duration => 2, :startcolor => '\'#ff0000\'' %>
 		            </script>
 		        <% end -%>
 		        <% if flash[:notice] -%>
-		            <div id="notice"><%= flash[:notice] %></div><br />
+		            <div id="notice"><%=h flash[:notice] %></div><br />
 		        <% end -%>
 		
 		        <%= yield %>
@@ -56,7 +56,7 @@
 				</div>
 				<div class="dc col2" >
 					<div style="margin: 10px 38px 0px 0px;">You are logged in as
-					<strong><%= session[:username] %></strong></div>
+					<strong><%=h session[:username] %></strong></div>
 				</div>
 			</div>
 		</div>
