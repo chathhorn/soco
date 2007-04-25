@@ -13,7 +13,7 @@ end
     <% if session[:user] == @user.id -%>
         <%= link_to('X', :action => "remove", :course_id => course.id, :semester_id => semester) -%>
     <% end -%>
-        <%=h course.cis_subject.code %> <%=h course.number %> <%= link_to_function 'sections>', visual_effect(:toggle_blind, "sects_#{semester}_#{course.id}"), :class => 'sections_link' %>
+        <%=h course.cis_subject.code %> <%=h course.number %>
     </div>
     <div class="course_desc"><%=h course.title %></div>
     <div class="title">Prerequisites:</div>
@@ -41,11 +41,6 @@ end
             | <a href="http://courses.uiuc.edu/cis/schedule/urbana/<%= lookup_year(Time.now) %>/<%= lookup_semester_word(Time.now) %>/<%= course.cis_subject.code %>/<%= course.number %>.html" target="_blank" >Section schedule</a>
         <% end %>
         | <a href="http://www.coursefire.com/view_stats.php?courseID=<%= course.cis_subject.code + course.number.to_s %>" target="_blank" > Coursefire Page</a>
-   </div>
-   <div style='display:none' class='sections_list' id='<%="sects_#{semester}_#{course.id}"%>'>
-      <% if current_cis_semester -%>
-         <%= render :partial => 'section_choice', :collection => current_cis_semester.cis_sections, :locals => {:semester => semester} %>
-      <% end -%>      
    </div>
 </div>
 
