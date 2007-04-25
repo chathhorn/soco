@@ -2,12 +2,9 @@
 
 use strict;
 
-use constant YEAR => "2007";
-use constant SEMESTER => "Spring";
+use constant SCHEDULE_BASE_URL_PREFIX => "http://courses.uiuc.edu/cis/schedule/urbana/";
+use constant CATALOG_BASE_URL_PREFIX => "http://courses.uiuc.edu/cis/catalog/urbana/";
 my %SEMESTER_HASH = ('Spring' => 'SP', 'Fall' => 'FA', 'Summer' => 'SU');
-my $SEMESTER_LETTERS = $SEMESTER_HASH{+SEMESTER};
-use constant SCHEDULE_BASE_URL => "http://courses.uiuc.edu/cis/schedule/urbana/" . YEAR . "/" . SEMESTER . "/";
-use constant CATALOG_BASE_URL => "http://courses.uiuc.edu/cis/catalog/urbana/" . YEAR . "/" . SEMESTER . "/";
 
 use constant SUBJECT_INSERT_QUERY => "INSERT INTO cis_subjects(`code`) VALUES (?)";
 use constant SUBJECT_ID_SELECT_QUERY => "SELECT id from cis_subjects WHERE code = ?";
@@ -38,6 +35,7 @@ use constant STATEMENTS => qw( SUBJECT_INSERT_QUERY SUBJECT_ID_SELECT_QUERY COUR
 
 use XML::DOM;
 use DBI;
+use Getopt::Long;
 
 require 'database.pl';
 
@@ -46,8 +44,20 @@ my $DataHandle;
 my $parser;
 my %sth;
 
+my $year='';
+my $semester='';
+my $parse_prerequisites = '';
+my $start_subject='';
+my $prerequisites_only = '';
+
+my $SEMESTER_LETTERS;
+my $SCHEDULE_BASE_URL;
+my $CATALOG_BASE_URL;
+
 sub main()
 {
+	set_arguments();
+
 	$DataHandle = ConnectToDatabase();
 
 	#globals
@@ -55,20 +65,51 @@ sub main()
 
 	PrepareStatementHandles();
 
-	my $doc = $parser->parsefile(CATALOG_BASE_URL . "/index.xml");
+	if (not $prerequisites_only) {
+		my $doc = $parser->parsefile($CATALOG_BASE_URL . "/index.xml");
 
-	foreach my $subject ($doc->getElementsByTagName("subject"))
-	{
-		ParseSubject($subject);
+		foreach my $subject ($doc->getElementsByTagName("subject"))
+		{
+			ParseSubject($subject);
+		}
+
+		$doc->dispose;
 	}
 
-	$doc->dispose;
-
-	ParseAllPrerequisites();
+	if ($parse_prerequisites) {
+		ParseAllPrerequisites();
+	}
 
 	CleanupStatementHandles();
 
 	$DataHandle->disconnect;
+}
+
+
+sub set_arguments()
+{
+	#get command line arguments
+    GetOptions(
+		'year=i' => \$year,
+		'semester=s' => \$semester,
+		'prerequisites!' => \$parse_prerequisites,
+		'start-subject=s' => \$start_subject,
+		'prerequisites-only' => \$prerequisites_only
+		);
+
+	if ($semester eq '' or $year eq '') {
+		die "--semester and --year are required arguments\n";
+	}
+
+	if (not exists $SEMESTER_HASH{$semester}) {
+		die "invalid semester, choices are: {" . join(", ", keys(%SEMESTER_HASH)) . "}\n";
+	}
+
+	$SEMESTER_LETTERS = $SEMESTER_HASH{$semester};
+	$SCHEDULE_BASE_URL = SCHEDULE_BASE_URL_PREFIX . $year . "/" . $semester . "/";
+	$CATALOG_BASE_URL = CATALOG_BASE_URL_PREFIX . $year . "/" . $semester . "/";
+
+	uc $start_subject;
 }
 
 
@@ -122,8 +163,8 @@ sub ParseSubject($)
 	my $subjectCode = GetDomNodeText($subject, 'subjectCode');
 
 	#if argument is passed in, start from this subject
-	if ($#ARGV == 0) {
-		if ($ARGV[0] gt $subjectCode) {
+	if ($start_subject) {
+		if ($start_subject gt $subjectCode) {
 			return;
 		}
 	}
@@ -148,7 +189,7 @@ sub ParseSubject($)
 	print "Parsing Subject: $subjectCode\n";
 	print"****************************************************\n";
 
-	my $doc = $parser->parsefile(CATALOG_BASE_URL."/$subjectCode/index.xml");
+	my $doc = $parser->parsefile($CATALOG_BASE_URL."/$subjectCode/index.xml");
 
 	foreach my $course ($doc->getElementsByTagName('course'))
 	{
@@ -187,8 +228,6 @@ sub ParseCourse($$$)
 	#create course dependency node if neccesary
 	GetCourseDependencyNode($cis_course_id, $description);
 
-	#my $doc = $parser->parsefile(CATALOG_BASE_URL."/$subjectCode/$courseNumber.xml");
-
 	my @sections = $course->getElementsByTagName("section");
 
 	if ($#sections >= 0)
@@ -197,14 +236,14 @@ sub ParseCourse($$$)
 		#extract to method possibly
 		my $cis_semester_id;
 		do {
-				$sth{'SEMESTER_ID_SELECT_QUERY'}->execute($cis_course_id, YEAR, $SEMESTER_LETTERS);
+				$sth{'SEMESTER_ID_SELECT_QUERY'}->execute($cis_course_id, $year, $SEMESTER_LETTERS);
 
 				$cis_semester_id = $sth{'SEMESTER_ID_SELECT_QUERY'}->fetchrow();
 				$sth{'SEMESTER_ID_SELECT_QUERY'}->finish;
 
 				if (!defined $cis_semester_id) {
 						#need to insert
-						$sth{'SEMESTER_INSERT_QUERY'}->execute($cis_course_id, YEAR, $SEMESTER_LETTERS);
+						$sth{'SEMESTER_INSERT_QUERY'}->execute($cis_course_id, $year, $SEMESTER_LETTERS);
 						$sth{'SEMESTER_INSERT_QUERY'}->finish;
 				}
 		} until (defined $cis_semester_id);
@@ -215,7 +254,6 @@ sub ParseCourse($$$)
 		}
 	}
 
-	#$doc->dispose;
 }
 
 
