@@ -1,70 +1,41 @@
 <% @title = "View Semester Schedule" -%>
-<table id="schedule">
-    <tr>
-        <td class="times">
-            <div class="time">
-                8:00am
-            </div>
-            <div class="time">
-                9:00am
-            </div>
-            <div class="time">
-                10:00am
-            </div>
-            <div class="time">
-                11:00am
-            </div>
-            <div class="time">
-                12:00am
-            </div>
-            <div class="time">
-                1:00pm
-            </div>
-            <div class="time">
-                2:00pm
-            </div>
-            <div class="time">
-                3:00pm
-            </div>
-            <div class="time">
-                4:00pm
-            </div>
-            <div class="time">
-                5:00pm
-            </div>
-            <div class="time">
-                6:00pm
-            </div>
-            <div class="time">
-                7:00pm
-            </div>
-            <div class="time">
-                8:00pm
-            </div>
-            <div class="time">
-                9:00pm
-            </div>
-            <div class="time">
-                10:00pm
-            </div>
-        </td>
-        <td >
-            <%= classes 'M' %>
-        </td>
-        <td class="T">
-            <%= classes 'T' %>
-        </td>
-        <td class="W">
-            <%= classes 'W' %>
-        </td>
-        <td class="R">
-            <%= classes 'R' %>
-        </td>
-        <td class="F">
-            <%= classes 'F' %>
-        </td>
-        <td class="S">
-            <%= classes 'S' %>
-        </td>
-    </tr>
-</table>
+
+<div id='semester_title'>
+      <%= "#{@semester.semester} #{@semester.year}" %>
+</div>
+
+
+<div id="throbber">
+  <span id="loading_stopped"><%= image_tag "loading_stopped.gif" %></span>
+  <span id="getting_results" style="display:none;"><%= image_tag "loading.gif" %></span>
+</div>
+
+
+<div id='sched_and_courses'>
+
+<ul id='courses'>
+      <%= render :partial => 'course', :collection => @semester.cis_courses, :locals => {:semester_obj => @semester, :effect => false} %>
+</ul>
+
+<div id='schedule_container'>
+
+	<div id='schedule_container_inner'>
+      <table id="schedule">
+      <tr>
+            <th id='schedule_semester_label'></th>
+            <th>Monday</th>
+            <th>Tuesday</th>
+            <th>Wednesday</th>
+            <th>Thursday</th>
+            <th>Friday</th>
+            <th>Saturday</th>
+      </tr>
+
+      <tr id='times_row'>
+            <%= render :partial => 'times_row', :locals => {:semester => @semester || -1} %>
+      </tr>
+      </table>
+	</div>
+</div>
+</div>
+

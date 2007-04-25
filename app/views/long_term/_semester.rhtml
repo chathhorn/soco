@@ -1,7 +1,7 @@
 <td>
 <div class="semester" id="<%= "semesterdiv_#{semester.id}" %>">
     <div class="semester_header">
-       <%=h semester.to_s %> <%= link_to_remote "sched>", {:url => {:action => 'show_semester_schedule', :id => semester.id}}, {:class => 'semester_link'} %>
+       <%=h semester.to_s %> <%= link_to "sched>", {:controller => :semester, :action => 'show', :id => semester.id}, {:class => 'semester_link'} %>
     </div>
     <hr />
     <%= render :partial => 'course', :collection => semester.cis_courses, :locals => {:semester_obj => semester, :effect => false} %>
