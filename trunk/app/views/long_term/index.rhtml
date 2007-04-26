@@ -29,6 +29,16 @@
   <table>
     <tr>
       <%= render :partial => 'semester', :collection => @semesters %>
+      <td>
+        <div class="semester">
+            <div class="semester_header">
+               <em>Need More?</em>
+            </div>
+            <hr />
+            <%= link_to "Add Semester", :action => 'push_semester' %><br/>
+            <%= link_to "Delete Last Semester", {:action => 'pop_semester'}, :confirm => "This will delete your last semester, its courses, and its schedule.  Are you sure?" %>
+        </div>
+      </td>
     </tr>
   </table>
 </div>

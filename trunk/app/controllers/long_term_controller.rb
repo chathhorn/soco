@@ -175,6 +175,35 @@ class LongTermController < ApplicationController
     redirect_to :back
   end
 
+  #adds a semester to the user's schedule at the end
+  def push_semester
+    redirect_to :action => 'index'
+    
+    current_user = User.find session[:user]
+    
+    if not current_user.semesters.empty?
+      last_semester = current_user.semesters[-1]
+      start_sem, start_year = last_semester.get_next_semester_and_year
+    else
+      start_sem = current_user.start_sem
+      start_year = current_user.start_year
+    end
+    
+    Semester.create_semesters(start_sem, start_year, 1) {|semester| current_user.semesters << semester}
+  end
+  
+  def pop_semester
+    redirect_to :action => 'index'
+    
+    current_user = User.find session[:user]
+    
+    if not current_user.semesters.empty?
+      last_semester = current_user.semesters[-1]
+      current_user.semesters.delete last_semester
+    end
+  end
+
+
   private
   #create a shared course (+course_id+) between the logged in user and +friend_id+
   def create_and_link_shared_course friend_id, course_id
