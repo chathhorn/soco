@@ -20,7 +20,8 @@ class FriendMailerTest < Test::Unit::TestCase
     @expected.subject = 'FriendMailer#see_my_schedule'
     @expected.body    = read_fixture('see_my_schedule')
     @expected.date    = Time.now
-
+    
+    #(my_name, my_email, friend_name, friend_email, classes_shared)
     assert_equal @expected.encoded, FriendMailer.create_see_my_schedule(@expected.date).encoded
   end
 

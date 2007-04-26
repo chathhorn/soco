@@ -13,6 +13,7 @@ class FriendsControllerTest < Test::Unit::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     @request.session[:user] = 1
+    @request.env["HTTP_REFERER"] = "/friends/list"
   end
   
   
@@ -61,7 +62,7 @@ def test_add
 
   post :add, :id=>4
   assert_response :redirect
-  assert_redirected_to :controller => 'profile',:action=>'show'
+  assert_redirected_to :controller => 'friends',:action=>'list'
   assert_equal count+1, user.friends.count
  
 end
@@ -73,13 +74,13 @@ def test_remove
   
   post :add, :id=>4
   assert_response :redirect
-  assert_redirected_to :controller => 'profile',:action=>'show'
+  assert_redirected_to :controller => 'friends',:action=>'list'
   assert_equal count+1, user.friends.count
   
   
   post :remove, :id=>4
   assert_response :redirect
-  assert_redirected_to :controller => 'profile',:action=>'show'
+  assert_redirected_to :controller => 'friends',:action=>'list'
   assert_equal count, user.friends.count
 end  
   
@@ -100,13 +101,13 @@ def test_friends_system
 #adds a friend with id=2 which is defined in the fixture given above
   post :add, :id=>4
   assert_response :redirect
-  assert_redirected_to :controller => 'profile',:action=>'show'
+  assert_redirected_to :controller => 'friends',:action=>'list'
   assert_equal count+1, user.friends.count
 
  #check for removing friend  
   post :remove, :id=>4
   assert_response :redirect
-  assert_redirected_to :controller => 'profile',:action=>'show'
+  assert_redirected_to :controller => 'friends',:action=>'list'
   assert_equal count, user.friends.count
 end
 
@@ -130,7 +131,7 @@ def test_list_more_than_ten_friends
   
 #ensure 10 friends were added
   assert_response :redirect
-  assert_redirected_to :controller => 'profile',:action=>'show'
+  assert_redirected_to :controller => 'friends',:action=>'list'
   assert_equal count + 10, user.friends.count
 
 #check more than 10 friends appear on list of friends page
