@@ -104,27 +104,9 @@ class User < ActiveRecord::Base
     create_course_bin()
 
     #create 8 default semesters
-    create_semesters(start_sem, start_year.to_i, 8) {|semester| semesters.concat semester} 
+    Semester.create_semesters(start_sem, start_year.to_i, 8) {|semester| semesters.concat semester} 
   end
 
-  #creates +num_of_semesters+ consecutive semesters from +start_semester+ and +start_year+
-  #yields a new semester object
-  def create_semesters(start_semester, start_year, num_of_semesters)
-    i_year = start_year
-    i_semester = start_semester
-  
-    for i in 1..num_of_semesters
-      sem = Semester.new(:year => i_year, :semester => i_semester)  
-      if i_semester == 'SP'
-        i_semester = 'FA'
-      else
-        i_semester = 'SP'
-        i_year += 1
-      end
-      yield sem
-    end
-  end
-  
   def delete_associated_relationships
     associated = Relationship.find :all, :conditions => {:friend_id => id}
     
