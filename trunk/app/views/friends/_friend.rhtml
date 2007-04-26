@@ -3,6 +3,7 @@
   <% if @user.friends.include? friend -%>
       <%= link_to '[remove]', {:action => 'remove', :id => friend},
           :confirm => "Are you sure you want to remove this friend?" %>
+      <%= link_to '[Long Term View]', {:controller => 'long_term', :action =>'show', :id => friend}%>
   <% else -%>
       <%= link_to '[add]', {:action => 'add', :id => friend} %>
   <% end -%>
