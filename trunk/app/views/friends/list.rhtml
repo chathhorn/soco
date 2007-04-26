@@ -2,10 +2,10 @@
 <%= image_tag "headers/myfriends.gif", :alt => 'My Friends' %>
 <br/><br/>
 
-<% form_tag :action => 'search', :method => 'get' do %>
+<% form_tag({:action => 'search'}, {:method => 'get'}) do %>
   <label for="q">Search All Users:<br/></label>
   <input type="text" name="q" />
-  <%= submit_tag '[pic]' %>
+  <input type="submit" value='[pic]'>  
 <% end %>
 <br/>
 <% if @friends.size == 0 -%>
