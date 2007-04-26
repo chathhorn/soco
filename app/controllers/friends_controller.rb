@@ -51,8 +51,10 @@ class FriendsController < ApplicationController
   #remove a friend from the logged in user by id
   def remove
     user_id = session[:user]
-    friend_id = params[:id].to_i
-    
+    friend_id = params[:id]
+
+    redirect_to :back
+
     #user = User.find session[:user]
     #friend = User.find params[:id]
 
@@ -62,7 +64,5 @@ class FriendsController < ApplicationController
     #broken in rails
     #user.friends.delete friend
     #friend.friends.delete user
-    
-    redirect_to :controller => 'profile', :action => 'show'
   end
 end
