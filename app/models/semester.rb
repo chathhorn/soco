@@ -25,7 +25,7 @@ class Semester < ActiveRecord::Base
   
   #returns the next consecutive semester and year
   def self.get_next_semester_and_year(i_semester, i_year)
-    if i_semester == 'SP'
+    if i_semester.to_s == 'SP'
       i_semester = 'FA'
     else
       i_semester = 'SP'
