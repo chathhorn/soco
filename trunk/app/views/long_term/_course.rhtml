@@ -40,7 +40,7 @@ end
         <% if course.cis_semesters.find_by_year_and_semester(lookup_year(Time.now),lookup_semester(Time.now)) != nil -%>
             | <a href="http://courses.uiuc.edu/cis/schedule/urbana/<%= lookup_year(Time.now) %>/<%= lookup_semester_word(Time.now) %>/<%= course.cis_subject.code %>/<%= course.number %>.html" target="_blank" >Section schedule</a>
         <% end %>
-        | <a href="http://www.coursefire.com/view_stats.php?courseID=<%= course.cis_subject.code + course.number.to_s %>" target="_blank" > Coursefire Page</a>
+        <br /> <a href="http://www.coursefire.com/view_stats.php?courseID=<%= course.cis_subject.code + course.number.to_s %>" target="_blank" > Coursefire Page</a>
    </div>
 </div>
 
