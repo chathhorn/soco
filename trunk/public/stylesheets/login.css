@@ -15,3 +15,11 @@ input[type=text],input[type=password] {
 	border-color:#6F8B99;
 	height:20;
 }
+
+#compatability
+{
+	font-family: "Arial Narrow" sans-serif;
+	font-size: .6em;
+	margin-top: -81px;
+	margin-right: 180px;
+}
