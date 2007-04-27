@@ -5,7 +5,7 @@
 <% form_tag({:action => 'search'}, {:method => 'get'}) do %>
   <label for="q">Search All Users:<br/></label>
   <input type="text" name="q" />
-  <input type="submit" value='[pic]'>  
+  <input type="submit" value='Search'>  
 <% end %>
 <br/>
 <% if @friends.size == 0 -%>
