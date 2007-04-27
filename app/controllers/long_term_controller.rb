@@ -153,21 +153,25 @@ class LongTermController < ApplicationController
     
     #redirect
     redirect_to :action => 'index'
-    
-    selected_friends.each do |friend_id|
-      friend_id = friend_id.to_i
-      
-      friend = User.find friend_id
-      
-      #check to see if friend already has course
-      if not friend.has_course? course_id
-        #place in friend's course bin otherwise
-        friend.course_bin.cis_courses << (CisCourse.find course_id)
-      end
-
-      #created shared course object
-      create_and_link_shared_course friend_id, course_id
-    end
+    if selected_friends == nil
+      flash[:error] = "You must select a friend to take this course with."
+      return
+ 	end
+  	selected_friends.each do |friend_id|
+  	  
+  	  friend_id = friend_id.to_i
+  	  
+  	  friend = User.find friend_id
+  	  
+  	  #check to see if friend already has course
+  	  if not friend.has_course? course_id
+  	    #place in friend's course bin otherwise
+  	    friend.course_bin.cis_courses << (CisCourse.find course_id)
+  	  end
+  	
+  	  #created shared course object
+  	  create_and_link_shared_course friend_id, course_id
+  	end
   end
   
   #removes a shared course link
