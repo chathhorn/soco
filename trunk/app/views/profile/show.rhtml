@@ -1,5 +1,12 @@
 <% @title = "Profile for " << @user.to_s -%>
-<%= image_tag "headers/my_profile.gif", :alt => 'My Profile' %>
+<span id="profile_title">
+<% if params[:id] == session[:user] || params[:id] == nil -%>
+  My 
+<% else -%>
+  <%= @user.to_s %>'s 
+<% end -%>
+Profile
+</span>
 <br/><br/>
 
 <div class="dt box">
@@ -27,7 +34,9 @@
 </div>
 
 <br/><br/>
-<%= image_tag "headers/friends.gif" %>
+<span id="profile_title">
+Friends
+</span>
 <br/>
 <ul id="friend_list">
   <%= render :partial => 'friend', :collection => @friends %>
@@ -35,10 +44,10 @@
 <br/>
 <div class="h_l"></div>
 <br/>
-
+<% if params[:id] == session[:user] || params[:id] == nil -%>
 <%= link_to image_tag("headers/edit_profile.gif", :alt => 'Edit Profile', :border => 0, :align => 'left'), :action => 'edit' %>
 <%= link_to image_tag("headers/delete_account.gif", :alt => 'Delete Account', :border => 0, :align => 'right'), {:action => 'destroy'}, :confirm => "Are you sure?\nThis cannot be undone!" %>
-
+<% end -%>
 <br/>
 <br/>
 <br/>
