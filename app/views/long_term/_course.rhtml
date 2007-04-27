@@ -30,8 +30,8 @@ end
                          :title => "Do not take this course with this friend"}
                    end %>
 
-                   <%= link_to friend.to_s, {:controller => 'long_term', :action=> 'show', :id => friend.id} %>
-                   <% if friend_semester.to_s != "" %> - <%=h friend_semester.to_s %><% end %></li>
+                   <%= link_to h(friend.to_s), {:controller => 'long_term', :action=> 'show', :id => friend.id} %>
+                   <% if not friend_semester.nil? %> - <%=h friend_semester.to_s %><% end %></li>
         <% end %>
         </ul>
         <%= link_to 'Take with friend', :action => 'take_course_with_friend', :course_id => course.id, :friend_id => @user.id, :semester_id => semester %>
