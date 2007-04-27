@@ -110,4 +110,15 @@ ActiveRecord::Schema.define(:version => 21) do
 
   add_index "users", ["username"], :name => "username", :unique => true
 
+
+  create_table "messages", :force => true do |t|
+    t.column "username",       :string,  :default => "", :null => false
+    t.column "course",         :string,  :default => "", :null => false
+    t.column "timestamp",         :string,  :default => "", :null => false
+    t.column "time",         :string,  :default => "", :null => false
+    t.column "subject",         :string, :limit => 200, :default => "", :null => false
+    t.column "message",         :string, :limit => 2000,  :default => "", :null => false
+  end
+
+
 end
