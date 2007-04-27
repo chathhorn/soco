@@ -17,6 +17,6 @@
     <input name="pass" type="text" onfocus="if (this.value=='- password -') {this.type='password';this.value='';this.style.textAlign='left';}" onblur="if (this.value == '') {this.type='text'; this.value='- password -'; this.style.textAlign='center';}" size="23" style="position: relative; left: 194px; top: -112px; text-align: center" value="- password -">
     <%= image_submit_tag "login/go.gif", :width => 31, :height => 13, :style => "position: relative; left: 157px; top: -87px" %>
   <% end %>
-
   <%= link_to image_tag("/images/login/register.gif", :border => 0, :style => "position: relative; left: 225px; top: -67px"), :controller => 'profile', :action => 'register'  %>
+  <div id="compatibility">Viewed best in Firefox, other browsers not supported.</div>
 </div>
