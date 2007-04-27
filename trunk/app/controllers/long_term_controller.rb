@@ -107,8 +107,11 @@ class LongTermController < ApplicationController
     if friend_id == session[:user]
       #prompt for name in view
       @course = CisCourse.find course_id
-      @semester = Semester.find semester_id
-      
+      if (semester_id != -1)
+        @semester = Semester.find semester_id
+      else
+        @semester = nil
+      end
       @friends = current_user.friends
     else
       #we're in friends view
