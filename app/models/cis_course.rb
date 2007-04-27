@@ -16,9 +16,12 @@ class CisCourse < ActiveRecord::Base
     shared_course_list.each do |shared|
       friend = shared.relationship.friend
       
-      semester = Semester.find_by_sql ["SELECT semesters.* FROM semesters LEFT OUTER JOIN cis_courses_semesters ON cis_courses_semesters.semester_id = semesters.id WHERE semesters.user_id = ? AND cis_courses_semesters.cis_course_id = ? LIMIT 1", friend.id, id]
-    
-      yield shared.id, friend, semester
+      #fix for relationship which didn't get deleted properly
+      if not friend.nil?
+        semester = Semester.find_by_sql ["SELECT semesters.* FROM semesters LEFT OUTER JOIN cis_courses_semesters ON cis_courses_semesters.semester_id = semesters.id WHERE semesters.user_id = ? AND cis_courses_semesters.cis_course_id = ? LIMIT 1", friend.id, id]
+      
+        yield shared.id, friend, semester
+      end
     end
   end
   
