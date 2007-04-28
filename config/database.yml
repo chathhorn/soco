@@ -15,11 +15,10 @@ development:
   adapter: mysql
   database: soco_development
   username: soco
+  host: cowelldesign.com
 #  password: iP4dpA
 #  host: csil-projects.cs.uiuc.edu
   password: monkey
-  host: localhost
-
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
 # Do not set this db to the same as development or production.
