@@ -1,4 +1,6 @@
-<% @title = "Post Message" -%>
+<% @title = "Reviews for " + @course.to_s -%>
+
+<h1><%= @course.to_s %></h1>
 
 <%= error_messages_for 'course_review' %>
 
@@ -14,7 +16,7 @@
 <h3 id="respond"><img src=/reviews/images/arrow_2.gif>&nbsp;&nbsp;Leave a Review</h3>
 
 <a name="reply"></a>
-<% form_tag :action => 'post', :id => @course_id do %>
+<% form_tag :action => 'post', :id => @course.id do %>
     <p><%= text_field 'course_review', 'title'  %><br/>
     <label for="course_review_title">Subject</label></p>
 
