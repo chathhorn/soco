@@ -2,6 +2,8 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
   attr_accessor :password
+  cattr_reader :per_page
+  @@per_page = 20
 
   has_one :course_bin, :dependent => :destroy
   has_many :semesters, :dependent => :destroy, :order => 'year ASC, semester ASC'

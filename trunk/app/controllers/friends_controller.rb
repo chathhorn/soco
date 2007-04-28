@@ -24,8 +24,10 @@ class FriendsController < ApplicationController
   #list all users
   def browse
     @title = "Browse Users"
+    @paginate = true
     @user = User.find session[:user]
-    @friends = User.find :all, :order => 'last_name ASC, first_name ASC'
+    @user_count = User.count_by_sql "SELECT COUNT(*) FROM users"
+    @friends, @friends_page = User.paginate :all, :order => 'last_name ASC, first_name ASC', :page => params[:page]
     render :action => 'list'
   end
 

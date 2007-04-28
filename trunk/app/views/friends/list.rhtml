@@ -1,7 +1,4 @@
-<% 
-if (@title.nil?)
-@title = "Friends"
-end -%>
+<% @title = @title || "Friends" -%>
 <%= image_tag "headers/myfriends.gif", :alt => 'My Friends' %>
 <br/><br/>
 
@@ -20,3 +17,5 @@ end -%>
     </ul>
   </div>
 <% end -%>
+
+<%= @paginate and will_paginate(@user_count, User.per_page, @friends_page) %>
