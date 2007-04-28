@@ -235,7 +235,14 @@ class LongTermControllerTest < Test::Unit::TestCase
    assert_equal true, user.has_course?(6)
  end
  
- 
+ # this is the case when user is calling this controller from its own long term view 
+ def test_take_course_with_friend_2
+   
+   post :take_course_with_friend, :friend_id => 1, :semester_id=>3, :course_id=>6
+   assert_response :success
+   
+ end
+  
  def test_delete_shared_course
    
    #first add a link
@@ -259,7 +266,7 @@ class LongTermControllerTest < Test::Unit::TestCase
    
  end
  
-  #assume that friend already has the course in his 4 year plan
+ #assume that friend already has the course in his 4 year plan
  def test_my_course_with_friend
  
    #this course is added in to user's course bin
@@ -308,8 +315,54 @@ class LongTermControllerTest < Test::Unit::TestCase
  
 end
  
+#test with no friend selected
+def test_my_course_with_friend_with_no_friend_selected
  
- 
- 
+   #ask him to take course with me
+   post :take_my_course_with_friend, :friends=>nil, :course_id=>5
+   assert_response :redirect
+   assert_redirected_to :action => 'index'
+   assert_equal "You must select a friend to take this course with.", flash[:error]              
+    
+end
+
+#test with multiple friends selected
+def test_my_course_with_friend_with_multiple_friend_selected
+  
+  #ask him to take course with me
+  post :take_my_course_with_friend, :friends=>[3,4], :course_id=>5
+  assert_response :redirect
+  assert_redirected_to :action => 'index'
+  
+  #make sure the link is created 
+  user_friend1_relationship = Relationship.find_by_user_and_friend(1, 4)
+  friend1_user_relationship = Relationship.find_by_user_and_friend(4, 1)   
+  user_friend2_relationship = Relationship.find_by_user_and_friend(1, 3)
+  friend2_user_relationship = Relationship.find_by_user_and_friend(3, 1)   
+  
+  assert user_friend1_relationship.shared_courses.exists?(:cis_course_id => 5)
+  assert friend1_user_relationship.shared_courses.exists?(:cis_course_id => 5)
+  assert user_friend2_relationship.shared_courses.exists?(:cis_course_id => 5)
+  assert friend2_user_relationship.shared_courses.exists?(:cis_course_id => 5)
+  
+  #check if the friends have it
+  friend1 = User.find(4)
+  assert_equal true, friend1.has_course?(5)
+  friend2 = User.find(3)
+  assert_equal true, friend2.has_course?(5)
+end
+
+#test adding duplicate link
+def add_duplicate_shared_course
+  #ask him to take course with me
+  post :take_my_course_with_friend, :friends=>[4], :course_id=>5
+  assert_response :redirect
+  assert_redirected_to :action => 'index'
+  
+  post :take_my_course_with_friend, :friends=>[4], :course_id=>5
+  assert_response :redirect
+  assert_redirected_to :action => 'index'
+  assert_equal "You are already taking this course with your friend", flash[:error]
+ end
  
 end
