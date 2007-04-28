@@ -97,19 +97,21 @@ sub set_arguments()
 		'prerequisites-only' => \$prerequisites_only
 		);
 
-	if ($semester eq '' or $year eq '') {
-		die "--semester and --year are required arguments\n";
+	if (not $prerequisites_only) {
+		if ($semester eq '' or $year eq '') {
+			die "--semester and --year are required arguments\n";
+		}
+
+		if (not exists $SEMESTER_HASH{$semester}) {
+			die "invalid semester, choices are: {" . join(", ", keys(%SEMESTER_HASH)) . "}\n";
+		}
+
+		$SEMESTER_LETTERS = $SEMESTER_HASH{$semester};
+		$SCHEDULE_BASE_URL = SCHEDULE_BASE_URL_PREFIX . $year . "/" . $semester . "/";
+		$CATALOG_BASE_URL = CATALOG_BASE_URL_PREFIX . $year . "/" . $semester . "/";
+
+		uc $start_subject;
 	}
-
-	if (not exists $SEMESTER_HASH{$semester}) {
-		die "invalid semester, choices are: {" . join(", ", keys(%SEMESTER_HASH)) . "}\n";
-	}
-
-	$SEMESTER_LETTERS = $SEMESTER_HASH{$semester};
-	$SCHEDULE_BASE_URL = SCHEDULE_BASE_URL_PREFIX . $year . "/" . $semester . "/";
-	$CATALOG_BASE_URL = CATALOG_BASE_URL_PREFIX . $year . "/" . $semester . "/";
-
-	uc $start_subject;
 }
 
 
@@ -412,7 +414,7 @@ sub ParseCoursePrerequisites($$)
 	RemovePrerequisites($course_dependency_id);
 
 	#chop description down to "Prerequisite: (...)"
-	if ($description =~ s/^.*Prerequisite: (.*)\..*$/$1/)
+	if ($description =~ s/^.*\bPrerequisite: ([^\.]*).*$/$1/)
 	{
 		#remove " (formerly ...)" from description
 		$description =~ s/ \(formerly [^\)]*\)//g;
