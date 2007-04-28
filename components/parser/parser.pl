@@ -515,7 +515,7 @@ sub ParsePrerequisite($$)
 		#we have a single node
 
 		#look for "concurrent registration in" and link
-		if ($text =~ s/concurrent registration (?:in|with) (.*)/$1/) {
+		if ($text =~ s/(?:concurrent )?registration (?:in|with) (.*)/$1/) {
 			$parent_id = CreateChildPrerequisiteNode("CONCURRENT", $parent_id);
 		}
 
