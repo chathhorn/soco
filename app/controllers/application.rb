@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   session :session_key => '_soco_session_id'
 
   before_filter :authenticate
+  before_filter :get_flash_controller_id
 
   #everything after is private
   private
@@ -13,6 +14,22 @@ class ApplicationController < ActionController::Base
   def authenticate
     if session[:user] == nil
       redirect_to :controller => "login"
+    end
+  end
+
+  def get_flash_controller_id
+    @flash_controller_id = \
+    case params[:controller]
+    when 'profile': 2
+    when 'friends'
+      case params[:action]
+      when 'list': 3
+      when 'browse': 4
+      end
+    when 'long_term': 5
+    when 'semester': 5
+    when 'addons': 6
+    else 0
     end
   end
 end
