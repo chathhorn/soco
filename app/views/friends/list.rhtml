@@ -1,4 +1,7 @@
-<% @title = "Friends" -%>
+<% 
+if (@title.nil?)
+@title = "Friends"
+end -%>
 <%= image_tag "headers/myfriends.gif", :alt => 'My Friends' %>
 <br/><br/>
 
