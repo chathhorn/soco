@@ -13,3 +13,11 @@ cs473:
 phych100:
   id: 4
   node_type: "COURSE"
+  
+cs428:
+  id: 5
+  node_type: "COURSE"
+  
+cs411:
+  id: 6
+  node_type: "COURSE"

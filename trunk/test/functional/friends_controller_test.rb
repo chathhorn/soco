@@ -60,7 +60,7 @@ def test_add
   user = User.find(session[:user]) 
   count = user.friends.count
 
-  post :add, :id=>4
+  post :add, :id=>6
   assert_response :redirect
   assert_redirected_to :controller => 'friends',:action=>'list'
   assert_equal count+1, user.friends.count
@@ -72,13 +72,13 @@ def test_remove
   user = User.find(session[:user]) 
   count = user.friends.count
   
-  post :add, :id=>4
+  post :add, :id=>13
   assert_response :redirect
   assert_redirected_to :controller => 'friends',:action=>'list'
   assert_equal count+1, user.friends.count
   
   
-  post :remove, :id=>4
+  post :remove, :id=>13
   assert_response :redirect
   assert_redirected_to :controller => 'friends',:action=>'list'
   assert_equal count, user.friends.count
@@ -87,7 +87,7 @@ end
 #system testing
 def test_friends_system
 #check for search
-  get :search, :q=>"Tanmay"
+  get :search, :q=>"ben"
   assert_response :success
 
 #check for browse
@@ -99,13 +99,13 @@ def test_friends_system
   count = user.friends.count
 
 #adds a friend with id=2 which is defined in the fixture given above
-  post :add, :id=>4
+  post :add, :id=>13
   assert_response :redirect
   assert_redirected_to :controller => 'friends',:action=>'list'
   assert_equal count+1, user.friends.count
 
  #check for removing friend  
-  post :remove, :id=>4
+  post :remove, :id=>13
   assert_response :redirect
   assert_redirected_to :controller => 'friends',:action=>'list'
   assert_equal count, user.friends.count
@@ -119,7 +119,7 @@ def test_list_more_than_ten_friends
 
 #add 10 more friends 
   post :add, :id=>2
-  post :add, :id=>4
+  post :add, :id=>13
   post :add, :id=>5
   post :add, :id=>6
   post :add, :id=>7

@@ -1,11 +1,23 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-first:
+james_first_sem:
   id: 1
   user_id: 1
   year: 2007
   semester: SP
-another:
+james_second_sem:
   id: 2
   user_id: 1
   year: 2007
   semester: FA
+tanmay_first_sem:
+  id: 3
+  user_id: 4
+  year: 2007
+  semester: SP
+tanmay_second_sem:
+  id: 4
+  user_id: 4
+  year: 2007
+  semester: FA  
+  
+  
