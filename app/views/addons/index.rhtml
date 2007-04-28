@@ -1,5 +1,5 @@
 <% @title = "Addons" -%>
-<<<<<<< .mine
+
 
 						<img alt="" src="images/taddons.gif" ><br>
 						<img alt="" src="images/taddons" width="1" height="22"><br>
@@ -11,7 +11,11 @@ Soco is the new revolutionary <B>social course planner</B>, launched on April 27
 <br>
 <img alt="" src="images/spacer.gif" width="1" height="10"><br>
 <BR><br>
-<%= link_to image_tag("addons/facebook.png"), { :controller => 'facebook', :action => 'start_session' }, :title => 'Import Friends from Facebook' %>
+<div class="addon_button">
+    <%= link_to image_tag("addons/facebook.png"), { :controller => 'facebook', :action => 'start_session' }, :title => 'Import Friends from Facebook' %>
+</div>
+
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -20,11 +24,7 @@ Soco is the new revolutionary <B>social course planner</B>, launched on April 27
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-<a href="javascript:alert('soon..')"><img src=images/tell.a.friend.gif></a>=======
-<div class="addon_button">
-    <%= link_to image_tag("addons/facebook.png"), { :controller => 'facebook', :action => 'start_session' }, :title => 'Import Friends from Facebook' %>
-</div>
+
 <div class="addon_button">
     <%= link_to_function image_tag("tell.a.friend.gif"), "alert('soon..')" %>
 </div>
->>>>>>> .r353
