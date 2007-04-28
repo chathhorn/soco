@@ -29,6 +29,7 @@ class ApplicationController < ActionController::Base
     when 'long_term': 5
     when 'semester': 5
     when 'addons': 6
+    when 'help' : 7
     else 0
     end
   end
