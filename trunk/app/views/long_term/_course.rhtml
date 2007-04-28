@@ -37,17 +37,15 @@ end
         </ul>
     </div>
     <div class="links">
+        <%= link_to image_tag("course/friend.png"), {:action => 'take_course_with_friend', :course_id => course.id, :friend_id => @user.id, :semester_id => semester}, :title => "Take with a friend" %>
 
-        <%= link_to '    <img style="margin-top:9px; margin-bottom=8px;" src=/images/course/friend.png width=26>', {:action => 'take_course_with_friend', :course_id => course.id, :friend_id => @user.id, :semester_id => semester}, :title => "Take with a friend" %>
+        <%= link_to image_tag("course/courseinfo.png"), "http://courses.uiuc.edu/cis/catalog/urbana/%i/%s/%s/%i.html" % [$CURRENT_CIS_YEAR, $CURRENT_CIS_SEMESTER_WORD, course.cis_subject.code, course.number], :popup => true, :title => "Course Catalog" %>
 
-        <a title="Course Catalog" href="http://courses.uiuc.edu/cis/catalog/urbana/<%= lookup_year(Time.now) %>/<%= lookup_semester_word(Time.now) %>/<%= course.cis_subject.code %>/<%= course.number %>.html" target="_blank">        <img src=/images/course/courseinfo.png width=26></a>                
+        <%= link_to_unless current_cis_semester.nil?, image_tag("course/schedule.png"), ((current_cis_semester.nil? and "#") or "http://courses.uiuc.edu/cis/schedule/urbana/%i/%s/%s/%i.html" % [current_cis_semester.year, current_cis_semester.semester_word, course.cis_subject.code, course.number.to_s]), :popup => true, :title => "Course Schedule" %>
 
-        
-        <% if course.cis_semesters.find_by_year_and_semester(lookup_year(Time.now),lookup_semester(Time.now)) != nil -%>
-            <a title="Course Schedule" href="http://courses.uiuc.edu/cis/schedule/urbana/<%= lookup_year(Time.now) %>/<%= lookup_semester_word(Time.now) %>/<%= course.cis_subject.code %>/<%= course.number %>.html" target="_blank" ><img src=/images/course/schedule.png width=26></a>
-        <% end %>
-        <a title="CourseFire" href="http://www.coursefire.com/view_stats.php?courseID=<%= course.cis_subject.code + course.number.to_s %>" target="_blank" > <img src=/images/course/coursefire.png width=26></a>
-        <%= link_to "<img src=/images/course/reviews.png width=26>", {:controller => 'course_reviews', :action => 'list', :id => course.id}, :title => "Course Reviews", :popup => ['course_review_window', 'height=500,width=411,scrollbars=yes'] %>
+        <%= link_to image_tag("course/coursefire.png"), "http://www.coursefire.com/view_stats.php?courseID=%s%i" % [course.cis_subject.code, course.number], :popup => true, :title => "CourseFire" %>
+
+        <%= link_to image_tag("course/reviews.png"), {:controller => 'course_reviews', :action => 'list', :id => course.id}, :title => "Course Reviews", :popup => ['course_review_window', 'height=500,width=411,scrollbars=yes'] %>
    </div>
 </div>
 
