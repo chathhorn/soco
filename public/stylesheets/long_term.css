@@ -18,11 +18,6 @@
 	border: 2px solid black;
 }
 
-#course_bin .course .links
-{
-    display:none;
-}
-
 #add_course
 {
 	border-bottom: 1px dashed black;
@@ -106,6 +101,18 @@
 
     background-image: url('../images/course/prueba3.gif');
     text-align: center;
+	height: 30px;
+	padding-top: 5px;
+}
+
+.course .links img
+{
+	opacity: 0.3
+}
+
+.course .links a img
+{
+	opacity: 1.0
 }
 
 .drop_hover

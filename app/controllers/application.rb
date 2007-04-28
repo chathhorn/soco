@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
   before_filter :authenticate
   before_filter :get_flash_controller_id
 
+  $CURRENT_CIS_SEMESTER = :SP
+  $CURRENT_CIS_SEMESTER_WORD = "Spring"
+  $CURRENT_CIS_YEAR = 2007
+
   #everything after is private
   private
   
