@@ -5,7 +5,7 @@ cs225:
   cis_subject_id: 1
   number: 225
   title: Data Structures
-
+  
 math412:
   id: 2
   course_dependency_id: 2
@@ -18,7 +18,7 @@ cs473:
   course_dependency_id: 3
   cis_subject_id: 1
   number: 473
-  title: Algorithms
+  title: Crazy Algorithms
   
 phych100:
   id: 4
@@ -26,3 +26,17 @@ phych100:
   cis_subject_id: 3
   number: 100
   title: Intro to PSYCH
+
+cs428:
+  id: 5
+  course_dependency_id: 5
+  cis_subject_id: 1
+  number: 428
+  title: Software Engineering II
+  
+cs411:
+  id: 6
+  course_dependency_id: 6
+  cis_subject_id: 1
+  number: 411
+  title: Database Systems

@@ -6,7 +6,7 @@ class LongTermController; def rescue_action(e) raise e end; end
 
 class LongTermControllerTest < Test::Unit::TestCase
 
-  fixtures :users, :semesters, :cis_courses, :course_bins, :cis_subjects, :course_dependencies
+  fixtures :users, :semesters, :cis_courses, :course_bins, :cis_subjects, :course_dependencies , :relationships, :cis_courses_semesters
 
   
   def setup
@@ -105,56 +105,6 @@ class LongTermControllerTest < Test::Unit::TestCase
 
  end
  
-# 
-# /* Added by Nikhil and Tanmay... this test does not work ... 
-# we got confused how to test it 
-# */
-# 
-# def test_update_semester
-#
-#  get:index
-#  
-#  user = User.find(session[:user]) 
-#  count = user.course_bin.cis_courses.count   
-#   
-#  post :add_class,  :course=>{:number=>"CS225"}
-#  
-#  get :update_semester, :id=>-1, :new_semester=>2007  
-#  assert_respose :success
-#  
-#               
-#  assert_equal count+1, user.course_bin.cis_courses.count   
-#  
-#end
-#
-#  
- 
-# def test_remove_course
-#    get :index
-#   
-#   user = User.find(session[:user]) 
-#   count = user.course_bin.cis_courses.count   
-#   
-#   post :add_class,  :course=>{:number=>"CS225"}
-#            
-#   assert_equal count+1, user.course_bin.cis_courses.
-#
-#    class_id = params[:course][:number]
-#    assert_equal 10000, class_id
-#    
-#    results = CisSubject.search_for_course(class_id)
-#    course = CisCourse.find results[0].id
-#   post :remove, course.id
-#   
-#   assert_response :success
-#   
-#   
-#   
-# 
-# end
-
- 
- 
  def test_course_name_gt_6_chars
     post :add_class, :course=>{:number=>"ABCDEFG225"}
     assert_response :redirect
@@ -235,6 +185,78 @@ class LongTermControllerTest < Test::Unit::TestCase
     assert_redirected_to :action => 'index'
     assert_equal "Invalid Course", flash[:error]
  end
+ 
+ #assume that the course existe in user's four year plan
+ def test_take_course_with_friend     
+   #this course is added in to user's course bin
+   user = User.find(@request.session[:user]) 
+   count = user.course_bin.cis_courses.count         
+   post :add_class,  :course=>{:number=>"CS411"}        
+   assert_response :redirect
+   assert_redirected_to :action => 'index'  
+   assert flash.empty?              
+   assert_equal count+1, user.course_bin.cis_courses.count
    
-     
+   #now we will try to share the same course from friend's 4 year plan
+   # NOTE: we need to set this because we are using redirect :back in this controller
+   # we need to set
+   @request.env['HTTP_REFERER'] = 'http://whatever'    
+   post :take_course_with_friend, :friend_id=>4, :semester_id=>3, :course_id=>6
+   assert_response :redirect
+   assert_redirected_to 'http://whatever'
+   
+   #make sure the link is created 
+   user_friend_relationship = Relationship.find_by_user_and_friend(1, 4)
+   friend_user_relationship = Relationship.find_by_user_and_friend(4, 1)   
+   assert user_friend_relationship.shared_courses.exists?(:cis_course_id => 6)
+   assert friend_user_relationship.shared_courses.exists?(:cis_course_id => 6)              
+ end
+ 
+ #assume that the course does not existe in user's four year plan
+ def test_take_course_with_friend_1
+   
+   #make sure the course does not exists in my schedule
+   user = User.find(@request.session[:user])
+   assert_equal false, user.has_course?(6)
+   
+   #take course with him
+   @request.env['HTTP_REFERER'] = 'http://whatever'    
+   post :take_course_with_friend, :friend_id=>4, :semester_id=>3, :course_id=>6
+   assert_response :redirect
+   assert_redirected_to 'http://whatever'
+   
+   #make sure the link is created 
+   user_friend_relationship = Relationship.find_by_user_and_friend(1, 4)
+   friend_user_relationship = Relationship.find_by_user_and_friend(4, 1)   
+   assert user_friend_relationship.shared_courses.exists?(:cis_course_id => 6)
+   assert friend_user_relationship.shared_courses.exists?(:cis_course_id => 6)        
+   
+   #check if that course exists in user's four year plan
+   assert_equal true, user.has_course?(6)
+ end
+ 
+ 
+ def test_delete_shared_course
+   
+   #first add a link
+   @request.env['HTTP_REFERER'] = 'http://whatever'    
+   post :take_course_with_friend, :friend_id=>4, :semester_id=>3, :course_id=>6
+   assert_response :redirect
+   assert_redirected_to 'http://whatever'
+   
+   #get the shared id
+   user_friend_relationship = Relationship.find_by_user_and_friend(1, 4)
+   shared_id = user_friend_relationship.shared_courses.find(:first, :conditions=>{:cis_course_id => 6}).id
+   
+   #now delete the link 
+   @request.env['HTTP_REFERER'] = 'http://whatever'    
+   post :delete_shared_course, :id=>shared_id
+   assert_response :redirect
+   assert_redirected_to 'http://whatever'
+   
+   #check if it exists?
+   assert_equal false,user_friend_relationship.shared_courses.exists?(:cis_course_id => 6)
+   
+ end
+ 
 end
