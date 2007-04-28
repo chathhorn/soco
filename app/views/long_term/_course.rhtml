@@ -10,7 +10,7 @@ end
 <div class="course" id="<%= "coursediv_#{semester}_#{course.id}" %>" style="<% if effect %>display:none;<% end%>">
     <div class="course_code <% if !course.dependencies_satisfied?(semester, session[:user]) %>needs_prereq<%end%>" >
     <% if session[:user] == @user.id -%>
-        <%= link_to('<img align=right src=/images/course/delete2.png>', :action => "remove", :course_id => course.id, :semester_id => semester) -%><br>
+        <%= link_to('<img align=right title="Delete Course" src=/images/course/delete2.png>', :action => "remove", :course_id => course.id, :semester_id => semester) -%><br>
     <%    else -%>
         <%= "<img align=right src=/images/course/pin_red.png><br>" %>
     <% end -%>
