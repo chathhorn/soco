@@ -76,7 +76,7 @@ sub main()
 		$doc->dispose;
 	}
 
-	if ($parse_prerequisites) {
+	if ($prerequisites_only or $parse_prerequisites) {
 		ParseAllPrerequisites();
 	}
 
