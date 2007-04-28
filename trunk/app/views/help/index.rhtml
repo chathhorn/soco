@@ -1,0 +1,73 @@
+<% @title = "Online Help" -%>
+
+<html>
+<head>
+<% form_tag({:action => 'onlinehelp'}, {:method => 'get'}) do %>
+<% end %>
+</head>
+
+<body lang="EN-US">
+    <div class="TOC">
+        <p class="MsoNormal"><span class='c46'> </span></p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+
+        <p class="MsoNormal"><!--<%= image_tag "help/image001.gif", :align => 'center' %></p>-->
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+
+        <p class="MsoNormal"><u><span class='c46'>Online Help - Table of Contents:</span></u></p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+        <p class="MsoNormal_c48">
+        <span class='c46'>I.<span class='c47'></span></span>
+        <%= link_to 'My Profile', :controller => 'help', :action => 'profile'%>  </p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+        <p class="MsoNormal_c48">
+        <span class='c46'>II.<span class='c47'>                 </span></span>
+        <%= link_to 'Edit My Profile', :controller => 'help', :action => 'editprofile'%> </p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+        <p class="MsoNormal_c48">
+        <span class='c46'>III.<span class='c47'>               </span></span>
+        <%= link_to 'List Friends', :controller => 'help', :action => 'listfriends'%> </p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+        <p class="MsoNormal_c48">
+        <span class='c46'>IV.<span class='c47'>             </span></span>
+        <%= link_to 'Search Users', :controller => 'help', :action => 'search'%></p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+        <p class="MsoNormal_c48">
+        <span class='c46'>V.<span class='c47'>             </span></span>
+        <%= link_to 'LongTerm', :controller => 'help', :action => 'longterm'%> </p>
+
+        <p class="MsoNormal_c49">
+        <span class='c46'>a.<span class='c47'>    </span></span>
+        <span class='c46'>My Long Term View /Friend's Long Term
+        View</span></p>
+
+        <p class="MsoNormal_c49">
+        <span class='c46'>b.<span class='c47'>    </span></span>
+        <span class='c46'>My Weekly Schedule /Friend's Weekly
+        Schedule</span></p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+        <p class="MsoNormal_c48">
+        <span class='c46'>VI.<span class='c47'>    </span></span>
+        <%= link_to 'AddOns', :controller => 'help', :action => 'addons'%>  </p>
+
+        <p class="MsoNormal_c49">
+        <span class='c46'>a.<span class='c47'>    </span></span>
+        <span class='c46'>Facebook Sync</span></p>
+
+        <p class="MsoNormal">
+        <span class='c46'> </span></p><span class='c51'><br clear="all"
+            class='c50' /></span> 
+        </div>
+        
+    </div>
+    </center>
+</body>
+</html>

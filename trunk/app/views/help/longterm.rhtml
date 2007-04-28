@@ -1,0 +1,249 @@
+<% @title = "Online Help" -%>
+
+<html>
+<head>
+<% form_tag({:action => 'longterm'}, {:method => 'get'}) do %>
+<% end %>
+</head>
+
+<div class="longterm">
+<p class="MsoNormal"><u><span class='c46'><%= link_to 'Online Help', :controller => 'help', :action => 'index'%> > Long-Term
+        View:</span></u></p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+
+        <p class="MsoNormal"><span class='c46'>'MY Long-Term View'
+        page contains:</span></p>
+
+        <p class="MsoNormal">
+        <span class='c46'>           </span></p>
+
+        <p class="MsoNormal_c55">
+        <span class='c54'>-<span class='c47'>  </span></span>
+        <span class='c46'>Layout of defaulted eight semesters
+        (Fall, Spring)</span></p>
+
+        <p class="MsoNormal_c55">
+        <span class='c54'>-<span class='c47'>  </span></span>
+        <span class='c46'>Course Bin - with Add /Search Course
+        functionality</span></p>
+
+        <p class="MsoNormal_c55">
+        <span class='c54'>-<span class='c47'>  </span></span>
+        <span class='c46'>Links to Weekly Schedules for each
+        Semester  - 'Sched'</span></p>
+
+        <p class="MsoNormal_c55">
+        <span class='c54'>-<span class='c47'>  </span></span>
+        <span class='c46'>Courses (if added) - details shown below
+        (Pre-requisites, Register with a friend, etc.)</span></p>
+
+        <p class="MsoNormal">
+        <u><span class='c46'><span class='c53'> </span></span></u></p>
+
+        <p class="MsoNormal"><span class='c59'><%= image_tag "help/image006.gif", :align => 'center' %></span></p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+
+        <p class="MsoNormal"><span class='c46'>Facts:</span></p>
+
+        <p class="MsoNormal_c55">
+        <span class='c46'>1.<span class='c47'>     </span></span>
+        <span class='c46'>Course Bin:</span></p>
+
+        <p class="MsoNormal_c56">
+        <span class='c46'>a.<span class='c47'>    </span></span>
+        <span class='c46'>Can search for course to add.</span></p>
+
+        <p class="MsoNormal_c56">
+        <span class='c46'>b.<span class='c47'>    </span></span>
+        <span class='c46'>Added Course will appear in Course Bin,
+        just drag and drop the class block to the desired
+        semester.</span></p>
+
+        <p class="MsoNormal_c58">
+        <u><span class='c59'><%= image_tag "help/image007.gif", :align => 'center' %></span></u><u>
+        <span class='c46'> </span></u><u><span class='c59'><%= image_tag "help/image008.jpg", :align => 'center' %></span></u></p><span class='c51'>
+        <br clear="all"
+            class='c50' /></span> 
+
+        <p class="MsoNormal_c55">
+        <span class='c46'>2.<span class='c47'>     </span></span>
+        <span class='c46'>Links to 'MY Weekly Schedule' for each
+        Semester:</span></p>
+
+        <p class="MsoNormal_c52">
+        <span class='c46'> </span><span class='c59'><%= image_tag "help/image009.jpg", :align => 'center' %></span></p>
+
+        <p class="MsoNormal_c57"><span class='c46'> </span></p>
+
+        <p class="MsoNormal_c55">
+        <span class='c54'>-<span class='c47'>  </span></span>
+        <span class='c46'>Upon Clicking on "Sched&gt;", Soco
+        redirects you to the following page:</span></p>
+
+        <p class="MsoNormal_c60"><span class='c59'><%= image_tag "help/image010.gif", :align => 'center' %></span></p>
+
+        <p class="MsoNormal_c57"><span class='c46'>-    This page
+        will display the classes you have inserted into this
+        semester</span></p>
+
+        <p class="MsoNormal_c61"><span class='c46'>on the
+        'Long-Term View' page, along with a link called
+        'Sections'.</span></p>
+
+        <p class="MsoNormal_c55">
+        <span class='c54'>-<span class='c47'>  </span></span>
+        <span class='c46'>If this course is available that
+        semester, this link will scroll the box down to include all
+        the available sections.</span></p>
+
+        <p class="MsoNormal_c55">
+        <span class='c54'>-<span class='c47'>  </span></span>
+        <span class='c46'>Upon selection of a section, the time
+        slots will be inserted in the schedule at the
+        right.</span></p>
+
+        <p class="MsoNormal_c57"><span class='c46'> </span></p>
+
+        <p class="MsoNormal_c55">
+        <span class='c46'>3.<span class='c47'>     </span></span>
+        <span class='c46'>Pre-requisite Checks - Listed on Course
+        Box in Red:</span></p>
+
+        <p class="MsoNormal_c56">
+        <span class='c46'>a.<span class='c47'>    </span></span>
+        <span class='c46'>Red Course Box: Course Pre-requisites NOT
+        SATISFIED</span></p>
+
+        <p class="MsoNormal_c56">
+        <span class='c46'>b.<span class='c47'>    </span></span>
+        <span class='c46'>Grey Course Box: Course Pre-requisites
+        SATISFIED</span></p>
+
+        <p class="MsoNormal_c62">
+        <u><span class='c59'>
+        <%= image_tag "help/image011.jpg", :align => 'center' %> 
+        <%= image_tag "help/image012.jpg", :align => 'center' %></span></u></p><span class='c51'>
+        <br clear="all"
+            class='c50' /></span> 
+
+        <p class="MsoNormal_c55">
+        <span class='c46'>4.<span class='c47'>     </span></span>
+        <span class='c46'>Take a Course with a Friend:</span></p>
+
+        <p class="MsoNormal_c56">
+        <span class='c46'>a.<span class='c47'>    </span></span>
+        <span class='c46'>Click on "Take With Friend" link on
+        desired course.</span></p>
+
+        <p class="MsoNormal_c56">
+        <span class='c46'>b.<span class='c47'>    </span></span>
+        <span class='c46'>New window displays with your current
+        friends.</span></p>
+
+        <p class="MsoNormal_c56">
+        <span class='c46'>c.<span class='c47'>    </span></span>
+        <span class='c46'>Check which friend's you want to invite
+        to take this course with you, click submit
+        button.</span></p>
+
+        <p class="MsoNormal_c56">
+        <span class='c46'>d.<span class='c47'>    </span></span>
+        <span class='c46'>Friend added is now displayed on Course
+        Box- with respective semester.</span></p>
+
+        <p class="MsoNormal_c58"><span class='c46'> </span></p>
+
+        <p class="MsoNormal_c58"><span class='c46'>Note: IF you are
+        viewing your friend's profile, You can click on "Take With
+        Friend" link on friend's profile, and the course will be
+        added to your own Long-Term View.</span></p>
+
+        <p class="MsoNormal">
+        <u><span class='c46'><span class='c53'> </span></span></u></p>
+
+        <p class="MsoNormal_c63"><span class='c59'>
+        <%= image_tag "help/image013.jpg", :align => 'center' %></span></p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+
+        <p class="MsoNormal_c57"><span class='c59'>
+        <%= image_tag "help/image014.gif", :align => 'center' %></span></p>
+
+        <p class="MsoNormal_c57">
+        <u><span class='c46'><span class='c53'> </span></span></u></p>
+
+        <p class="MsoNormal_c57">
+        <u><span class='c46'><span class='c53'> </span></span></u></p><u>
+        <span class='c51'><br clear="all"
+            class='c50' /></span></u> 
+
+        <p class="MsoNormal_c55">
+        <span class='c46'>5.<span class='c47'>     </span></span>
+        <span class='c46'>Review Courses / See Course
+        Info:</span></p>
+
+        <p class="MsoNormal_c64"><span class='c46'>- Located on
+        each Course Box</span></p>
+
+        <p class="MsoNormal_c56">
+        <span class='c46'>a.<span class='c47'>    </span></span>
+        <span class='c46'>Soco Review System</span></p>
+
+        <p class="MsoNormal_c65">
+        <span class='c46'><span class='c47'>                                                                          </span>
+        i.<span class='c47'>     </span></span>
+        <span class='c46'>Click on View Reviews</span></p>
+
+        <p class="MsoNormal_c65">
+        <span class='c46'><span class='c47'>                                                                        </span>
+        ii.<span class='c47'>     </span></span>
+        <span class='c46'>Upon click, a pop up appears with
+        previous reviews of selected course, along with an entry
+        system to enter your own review of the course.</span></p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+
+        <p class="MsoNormal_c52"><span class='c46'>
+        <%= image_tag "help/image015.gif", :align => 'center' %></span><span class='c46'>
+        <%= image_tag "help/image016.jpg", :align => 'center' %></span></p>
+
+        <p class="MsoNormal_c52"><span class='c46'> </span></p>
+
+        <p class="MsoNormal_c56">
+        <span class='c46'>b.<span class='c47'>    </span></span>
+        <span class='c46'>Course Fire Integration:</span></p>
+
+        <p class="MsoNormal_c66"><span class='c46'>- Click and see
+        reviews from users outside of Soco for the selected
+        course</span></p>
+
+        <p class="MsoNormal_c66"><span class='c46'> </span></p>
+
+        <p class="MsoNormal_c56">
+        <span class='c46'>c.<span class='c47'>    </span></span>
+        <span class='c46'>University Course Catalog:</span></p>
+
+        <p class="MsoNormal_c66"><span class='c46'>- Click and see
+        the University's detailed description of the selected
+        course</span></p>
+
+        <p class="MsoNormal_c66">
+        <u><span class='c46'><span class='c53'> </span></span></u></p>
+
+        <p class="MsoNormal_c56">
+        <span class='c46'>d.<span class='c47'>    </span></span>
+        <span class='c46'>University Class Schedule:</span></p>
+
+        <p class="MsoNormal_c66"><span class='c46'>- Click and see
+        the University's detailed available sections for the
+        selected course</span></p>
+
+        <p class="MsoNormal">
+        <u><span class='c46'><span class='c53'> </span></span></u></p><u>
+        <span class='c51'><br clear="all"
+            class='c50' /></span></u> 
+        <br/>
+        <%= link_to 'Back to Online Help', :controller => 'help', :action => 'index'%>
+        </div>

@@ -1,0 +1,58 @@
+<% @title = "Online Help" -%>
+
+<html>
+<head>
+<% form_tag({:action => 'profile'}, {:method => 'get'}) do %>
+<% end %>
+</head>
+
+<div class="profile">
+        <p class="MsoNormal"><u><span class='c46'>
+        <%= link_to 'Online Help', :controller => 'help', :action => 'index'%> > My
+        Profile:</span></u></p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+
+        <p class="MsoNormal"><span class='c46'>- 'My Profile' page
+        contains:</span></p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+
+        <p class="MsoNormal"><span class='c46'>            - Your
+        Account Information</span></p>
+
+        <p class="MsoNormal"><span class='c46'>            - Your
+        Current Friends</span></p>
+
+        <p class="MsoNormal">
+        <span class='c46'>                        - Link to View
+        Friend's Profile</span></p>
+
+        <p class="MsoNormal_c52"><span class='c46'>- Link to Delete
+        Friend</span></p>
+
+        <p class="MsoNormal">
+        <span class='c46'>                        - Link to View
+        Friend's Long-Term Schedule</span></p>
+
+        <p class="MsoNormal"><span class='c46'>            - Edit
+        Your Profile Link</span></p>
+
+        <p class="MsoNormal"><span class='c46'>            - Delete
+        Your Account Link</span></p>
+
+        <p class="MsoNormal"><span class='c46'>            - Main
+        Menu</span></p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+
+        <p class="MsoNormal"><span class='c46'><%= image_tag "help/image002.gif", :align => 'center' %></span><span class='c46'>
+        <br clear="all"
+            class='c50' />
+            
+        <br/>
+        <br/>
+        <%= link_to 'Back to Online Help', :controller => 'help', :action => 'index'%>    
+        </div>
