@@ -1,20 +1,12 @@
 <%
 if semester_obj != nil
   semester = semester_obj.id
-  #FIXME - should be first line
   current_cis_semester = course.cis_semesters.find(:first, :conditions => ['year = ? AND semester = ?', semester_obj.year, semester_obj.semester])
-  #current_cis_semester = course.cis_semesters[0]
 else
   semester = -1
 end
 -%>
 
-<script>
-function reviews(id){
-var popurl="/profile/messages/showmessages?courseID="+id
-winpops=window.open(popurl,"","width=408,height=476,scrollbars=yes,")
-}
-</script>
 <div class="course" id="<%= "coursediv_#{semester}_#{course.id}" %>" style="<% if effect %>display:none;<% end%>">
     <div class="course_code <% if !course.dependencies_satisfied?(semester, session[:user]) %>needs_prereq<%end%>" >
     <% if session[:user] == @user.id -%>
@@ -50,7 +42,7 @@ winpops=window.open(popurl,"","width=408,height=476,scrollbars=yes,")
             | <a href="http://courses.uiuc.edu/cis/schedule/urbana/<%= lookup_year(Time.now) %>/<%= lookup_semester_word(Time.now) %>/<%= course.cis_subject.code %>/<%= course.number %>.html" target="_blank" >Section schedule</a>
         <% end %>
         <br /> <a href="http://www.coursefire.com/view_stats.php?courseID=<%= course.cis_subject.code + course.number.to_s %>" target="_blank" > Coursefire Page</a>
-        | <a href="javascript:reviews('<%= course.cis_subject.code + course.number.to_s %>');" > View Reviews</a>
+        | <%= link_to "View Reviews", {:controller => 'course_reviews', :action => 'list', :id => course.id}, :popup => ['course_review_window', 'height=500,width=411,scrollbars=yes'] %>
    </div>
 </div>
 
