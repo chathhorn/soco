@@ -1,11 +1,16 @@
 <% @title = "Profile for " << @user.to_s -%>
 <span id="profile_title">
+
+<%= image_tag("headers/profile.gif") %>
+
 <% if params[:id] == session[:user] || params[:id] == nil -%>
-  My 
+  
 <% else -%>
-  <%= @user.to_s %>'s 
+ &nbsp;--&nbsp; <i><font size=6 >
+  <%= @user.to_s %>
+</font>  </i>
 <% end -%>
-Profile
+
 </span>
 <br/><br/>
 
@@ -35,7 +40,7 @@ Profile
 
 <br/><br/>
 <span id="profile_title">
-Friends
+<%= image_tag("headers/friends.gif") %>
 </span>
 <br/>
 <ul id="friend_list">
