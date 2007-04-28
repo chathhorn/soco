@@ -1,0 +1,89 @@
+<% @title = "Online Help" -%>
+
+<html>
+<head>
+<% form_tag({:action => 'search'}, {:method => 'get'}) do %>
+<% end %>
+</head>
+
+<div class="search">
+<p class="MsoNormal"><u><span class='c46'><%= link_to 'Online Help', :controller => 'help', :action => 'index'%> > Search
+        Users:</span></u></p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+
+        <p class="MsoNormal"><span class='c46'>'Search Users' page
+        contains:</span></p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+
+        <p class="MsoNormal_c55">
+        <span class='c54'>-<span class='c47'>  </span></span>
+        <span class='c46'>List of all Registered Soco
+        Users</span></p>
+
+        <p class="MsoNormal_c55">
+        <span class='c54'>-<span class='c47'>  </span></span>
+        <span class='c46'>Link to Add a Current User as
+        Friend</span></p>
+
+        <p class="MsoNormal_c55">
+        <span class='c54'>-<span class='c47'>  </span></span>
+        <span class='c46'>Link to Remove a Friend</span></p>
+
+        <p class="MsoNormal_c55">
+        <span class='c54'>-<span class='c47'>  </span></span>
+        <span class='c46'>Link to View Friend's Long-Term
+        Schedule</span></p>
+
+        <p class="MsoNormal_c55">
+        <span class='c54'>-<span class='c47'>  </span></span>
+        <span class='c46'>Main Menu</span></p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+
+        <p class="MsoNormal"><span class='c46'>Facts:</span></p>
+
+        <p class="MsoNormal_c55">
+        <span class='c46'>1.<span class='c47'>     </span></span>
+        <span class='c46'>When a current friend is
+        listed:</span></p>
+
+        <p class="MsoNormal_c56">
+        <span class='c46'>a.<span class='c47'>    </span></span>
+        <span class='c46'>Link to 'Remove Friend' appears next to
+        friend's name.</span></p>
+
+        <p class="MsoNormal_c56">
+        <span class='c46'>b.<span class='c47'>    </span></span>
+        <span class='c46'>Link to view friend's 'Long-Term
+        Schedule' appears next to friend's name.</span></p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+
+        <p class="MsoNormal_c55">
+        <span class='c46'>2.<span class='c47'>     </span></span>
+        <span class='c46'>When a user, non-friend, is
+        listed: </span></p>
+
+        <p class="MsoNormal_c56">
+        <span class='c46'>a.<span class='c47'>    </span></span>
+        <span class='c46'>Link to 'Add Friend' appears next to
+        user's name.</span></p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+
+        <p class="MsoNormal_c55">
+        <span class='c46'>3.<span class='c47'>     </span></span>
+        <span class='c46'>For any displayed user, you can click on
+        their listed name and will be redirected to their user
+        profile.</span></p>
+
+        <p class="MsoNormal_c57"><span class='c46'> </span></p>
+
+        <p class="MsoNormal_c58"><span class='c46'><%= image_tag "help/image005.gif", :align => 'center' %></span></p><span class='c51'>
+        <br clear="all"
+            class='c50' /></span> 
+        <br/>
+        <%= link_to 'Back to Online Help', :controller => 'help', :action => 'index'%>
+        </div>

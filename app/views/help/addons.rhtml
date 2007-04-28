@@ -1,0 +1,71 @@
+<% @title = "Online Help" -%>
+
+<html>
+<head>
+<% form_tag({:action => 'addons'}, {:method => 'get'}) do %>
+<% end %>
+</head>
+
+<div class="addons">
+<p class="MsoNormal"><u><span class='c46'>
+<%= link_to 'Online Help', :controller => 'help', :action => 'index'%> > Add
+        Ons:</span></u></p>
+
+        <p class="MsoNormal">
+        <u><span class='c46'><span class='c53'> </span></span></u></p>
+
+        <p class="MsoNormal"><span class='c46'>'Add Ons' page
+        contains:</span></p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+
+        <p class="MsoNormal_c55">
+        <span class='c54'>-<span class='c47'>  </span></span>
+        <span class='c46'>Link to Facebook Sync</span></p>
+
+        <p class="MsoNormal_c55">
+        <span class='c54'>-<span class='c47'>  </span></span>
+        <span class='c46'>Tell-A-Friend</span></p>
+
+        <p class="MsoNormal_c55">
+        <span class='c54'>-<span class='c47'>  </span></span>
+        <span class='c46'>Main Menu</span></p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+
+        <p class="MsoNormal"><span class='c46'>Facts:</span></p>
+
+        <p class="MsoNormal_c55">
+        <span class='c46'>1.<span class='c47'>     </span></span>
+        <u><span class='c46'>Question</span></u><span class='c46'>:
+        What is does the Facebook link do?</span></p>
+
+        <p class="MsoNormal_c64">
+        <u><span class='c46'>Answer</span></u><span class='c46'>:</span></p>
+
+        <p class="MsoNormal_c64"><span class='c46'>- The Facebook
+        link directs you to Facebook where it will prompt you to
+        login with your Facebook email and password, or register if
+        you do not have an account with Facebook.</span></p>
+
+        <p class="MsoNormal_c64"><span class='c46'> </span></p>
+
+        <p class="MsoNormal_c64"><span class='c46'>- Upon login, it
+        will compare registered Soco users with your Facebook
+        friends, and automatically add all of your Facebook friends
+        that are also registered with Soco to your Soco list of
+        friends.</span></p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+
+        <p class="MsoNormal"><span class='c46'>            2.
+        Tell-A-Friend:</span></p>
+
+        <p class="MsoNormal"><span class='c46'> </span></p>
+
+        <p class="MsoNormal_c52">
+        <u><span class='c46'><%= image_tag "help/image017.gif", :align => 'center' %></span></u></p>
+             
+        <br/>
+        <br/>
+        <%= link_to 'Back to Online Help', :controller => 'help', :action => 'index'%> </div>
