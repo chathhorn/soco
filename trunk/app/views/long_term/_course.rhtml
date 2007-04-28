@@ -10,39 +10,44 @@ end
 <div class="course" id="<%= "coursediv_#{semester}_#{course.id}" %>" style="<% if effect %>display:none;<% end%>">
     <div class="course_code <% if !course.dependencies_satisfied?(semester, session[:user]) %>needs_prereq<%end%>" >
     <% if session[:user] == @user.id -%>
-        <%= link_to('X', :action => "remove", :course_id => course.id, :semester_id => semester) -%>
+        <%= link_to('<img align=right src=/images/course/delete2.png>', :action => "remove", :course_id => course.id, :semester_id => semester) -%><br>
+    <%    else -%>
+        <%= "<img align=right src=/images/course/pin_red.png><br>" %>
     <% end -%>
-        <%=h course.cis_subject.code %> <%=h course.number %>
+<div style="color:#f5620A;" ><b>&nbsp;<img width=14 src=/images/course/documents.png> <%=h course.cis_subject.code %> <%=h course.number %></b></div>
     </div>
-    <div class="course_desc"><%=h course.title %></div>
-    <div class="title">Prerequisites:</div>
+    <div class="course_desc"><b><%=h course.title %></b></div><br>
+    <div class="title" style="color:#DCEFFF;">Prerequisites:</div>
     <div class="course_prerequisites">
-        <%=h course.course_dependency.to_s %>
+<%=h course.course_dependency.to_s.delete("(").delete(")") %> <!-- darko fix -->
     </div>
-    <div class="title">Friends Sharing:</div>
+    <div class="title" style="color:#DCEFFF;">Friends Sharing:</div>
     <div class="course_sharing">
         <ul>
         <% course.iterate_users_semesters(@user) do |shared_id,friend,friend_semester| %>
            <li><%= if session[:user] == @user.id
-                    link_to 'X', {:action => 'delete_shared_course', :id => shared_id},
+                    link_to '<img src=/images/course/delete.png width=9 align=justify>', {:action => 'delete_shared_course', :id => shared_id},
                         {:confirm => "Are you sure that you do not want to take this course with this friend?",
-                         :title => "Do not take this course with this friend"}
+                         :title => "Do not take this course with this friend", :style => "color:white;"}
                    end %>
 
-                   <%= link_to h(friend.to_s), {:controller => 'long_term', :action=> 'show', :id => friend.id} %>
-                   <% if not friend_semester.to_s.empty? %> - <%=h friend_semester.to_s %><% end %></li>
+                   <%= link_to friend.to_s, {:controller => 'long_term', :action=> 'show', :id => friend.id}, :style => "color:white;" %>
+                   <% if not friend_semester.to_s.empty? %> - <%= "<a style=\"color:white;\"><i>(" + friend_semester.to_s %>)</a></i><% end %></li>
         <% end %>
         </ul>
-        <%= link_to 'Take with friend', :action => 'take_course_with_friend', :course_id => course.id, :friend_id => @user.id, :semester_id => semester %>
     </div>
     <div class="links">
-        <a href="http://courses.uiuc.edu/cis/catalog/urbana/<%= lookup_year(Time.now) %>/<%= lookup_semester_word(Time.now) %>/<%= course.cis_subject.code %>/<%= course.number %>.html" target="_blank">Course info</a>
+
+        <%= link_to '    <img style="margin-top:9px; margin-bottom=8px;" src=/images/course/friend.png width=26>', {:action => 'take_course_with_friend', :course_id => course.id, :friend_id => @user.id, :semester_id => semester}, :title => "Take with a friend" %>
+
+        <a title="Course Catalog" href="http://courses.uiuc.edu/cis/catalog/urbana/<%= lookup_year(Time.now) %>/<%= lookup_semester_word(Time.now) %>/<%= course.cis_subject.code %>/<%= course.number %>.html" target="_blank">        <img src=/images/course/courseinfo.png width=26></a>                
+
         
         <% if course.cis_semesters.find_by_year_and_semester(lookup_year(Time.now),lookup_semester(Time.now)) != nil -%>
-            | <a href="http://courses.uiuc.edu/cis/schedule/urbana/<%= lookup_year(Time.now) %>/<%= lookup_semester_word(Time.now) %>/<%= course.cis_subject.code %>/<%= course.number %>.html" target="_blank" >Section schedule</a>
+            <a title="Course Schedule" href="http://courses.uiuc.edu/cis/schedule/urbana/<%= lookup_year(Time.now) %>/<%= lookup_semester_word(Time.now) %>/<%= course.cis_subject.code %>/<%= course.number %>.html" target="_blank" ><img src=/images/course/schedule.png width=26></a>
         <% end %>
-        <br /> <a href="http://www.coursefire.com/view_stats.php?courseID=<%= course.cis_subject.code + course.number.to_s %>" target="_blank" > Coursefire Page</a>
-        | <%= link_to "View Reviews", {:controller => 'course_reviews', :action => 'list', :id => course.id}, :popup => ['course_review_window', 'height=500,width=411,scrollbars=yes'] %>
+        <a title="CourseFire" href="http://www.coursefire.com/view_stats.php?courseID=<%= course.cis_subject.code + course.number.to_s %>" target="_blank" > <img src=/images/course/coursefire.png width=26></a>
+        <%= link_to "<img src=/images/course/reviews.png width=26>", {:controller => 'course_reviews', :action => 'list', :id => course.id}, :title => "Course Reviews", :popup => ['course_review_window', 'height=500,width=411,scrollbars=yes'] %>
    </div>
 </div>
 

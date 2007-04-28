@@ -3,7 +3,7 @@
 	width: 95%;
 	overflow: scroll;
 	position: relative;
-	-moz-border-radius: 20px;
+ 	-moz-border-radius: 10px;
 }
 
 #throbber
@@ -38,37 +38,43 @@
 
 .course
 {
-	background-color: #fff;
+	background-image: url('../images/course/prueba.gif');
+	background-position: top left
     margin: auto;
     width: 150px;
     padding: 0;
 	margin: 2px;
-    border: 1px solid black;
+    border: 0px solid black;
 }
 
 .course .course_code
 {
+	background-image: url('../images/course/prueba2.gif');
     padding: 2px;
     background-color: #ddd;
-    font-size: .8em;
+    font-size: 1.3em;
+    font-family: 'Trebuchet MS'
     font-weight: bold;
-    border-bottom: 1px dashed black;
+
 }
 
 .course .course_desc
 {   
-    font-size: .7em;
-    font-style: italic;
+    font-size: .9em;
+    margin-top: 4px;
+    font-family: 'Verdana'
     margin: 5px;
+    color: #EDF7FF;
     text-align: center;
 }
 
 .course .course_prerequisites
 {   
-    font-size: .7em;
+    font-size: .8em;
     margin: 5px;
+    font-family: 'Verdana'
     text-align: center;
-	color: red;
+	color: white;
 }
 
 .course .course_sharing
@@ -81,6 +87,7 @@
 .course .title
 {
     margin: 0 .5em;
+    color: #DCEFFF
     font-size: .9em;
     font-variant: small-caps;
     border-bottom: 1px solid black;
@@ -89,15 +96,15 @@
 .course .course_sharing ul li
 {
     list-style-type: none;
+     
     padding: 0;
     background: none;
 }
 
 .course .links
 {
-    margin-top: .2em;
-    border-top: 1px dashed black;
-    font-size: .75em;
+
+    background-image: url('../images/course/prueba3.gif');
     text-align: center;
 }
 
