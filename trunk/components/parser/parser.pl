@@ -485,19 +485,19 @@ sub ParsePrerequisite($$)
 	#look for "and" by itself
 	elsif ($text =~ /\band\b/i)
 	{
-		$split_string = qr/\s*\band\b\s*/;
+		$split_string = qr/\s*\band\b\s*/i;
 		$type = "AND";
 	}
 
 	#look for for "one of ..."
-	elsif ($text =~ s/^one of\b\s*//) {
-		$split_string = qr/\s*,\s*/;
+	elsif ($text =~ s/^one of\b\s*//i) {
+		$split_string = qr/\s*,\s*/i;
 		$type = "OR";
 	}
 
 	#try "or" by itself
-	elsif ($text =~ /\bor\b/) {
-		$split_string = qr/\s*\bor\b\s*/;
+	elsif ($text =~ /\bor\b/i) {
+		$split_string = qr/\s*\bor\b\s*/i;
 		$type = "OR";
 	}
 
@@ -515,7 +515,7 @@ sub ParsePrerequisite($$)
 		#we have a single node
 
 		#look for "concurrent registration in" and link
-		if ($text =~ s/(?:concurrent )?registration (?:in|with) (.*)/$1/) {
+		if ($text =~ s/^(?:concurrent )?registration (?:in|with) (.*)/$1/i) {
 			$parent_id = CreateChildPrerequisiteNode("CONCURRENT", $parent_id);
 		}
 
