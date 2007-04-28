@@ -259,4 +259,57 @@ class LongTermControllerTest < Test::Unit::TestCase
    
  end
  
+  #assume that friend already has the course in his 4 year plan
+ def test_my_course_with_friend
+ 
+   #this course is added in to user's course bin
+   user = User.find(@request.session[:user]) 
+   count = user.course_bin.cis_courses.count         
+   post :add_class,  :course=>{:number=>"CS411"}        
+   assert_response :redirect
+   assert_redirected_to :action => 'index'  
+   assert flash.empty?              
+   assert_equal count+1, user.course_bin.cis_courses.count
+       
+   #ask him to take course with me
+   @request.env['HTTP_REFERER'] = 'http://whatever'    
+   post :take_my_course_with_friend, :friends=>[4], :course_id=>6
+   assert_response :redirect
+   assert_redirected_to :action => 'index'
+   assert flash.empty?              
+   
+   #make sure the link is created 
+   user_friend_relationship = Relationship.find_by_user_and_friend(1, 4)
+   friend_user_relationship = Relationship.find_by_user_and_friend(4, 1)   
+   assert user_friend_relationship.shared_courses.exists?(:cis_course_id => 6)
+   assert friend_user_relationship.shared_courses.exists?(:cis_course_id => 6)  
+ 
+ end
+ 
+ #assume that friend does not have that course in his 4 year plan
+ def test_my_course_with_friend_1
+ 
+   #ask him to take course with me
+   @request.env['HTTP_REFERER'] = 'http://whatever'    
+   post :take_my_course_with_friend, :friends=>[4], :course_id=>5
+   assert_response :redirect
+   assert_redirected_to :action => 'index'
+   assert flash.empty?              
+   
+   #make sure the link is created 
+   user_friend_relationship = Relationship.find_by_user_and_friend(1, 4)
+   friend_user_relationship = Relationship.find_by_user_and_friend(4, 1)   
+   assert user_friend_relationship.shared_courses.exists?(:cis_course_id => 5)
+   assert friend_user_relationship.shared_courses.exists?(:cis_course_id => 5)
+   
+   #check if the friend has it
+   friend = User.find(4)
+   assert_equal true, friend.has_course?(5)
+ 
+end
+ 
+ 
+ 
+ 
+ 
 end
