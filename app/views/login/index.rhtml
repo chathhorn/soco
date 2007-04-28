@@ -1,29 +1,23 @@
-<body>
-<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
-<tr>
-<td align="center" valign="middle">
+<% @title = "Login" -%>
 
+<% if flash[:error] -%>
+    <div id="error"><b>Error: </b><%=h flash[:error] %></div><br />
+    <script language="javascript" type="text/javascript">
+        <%= visual_effect :highlight, 'error', :duration => 2, :startcolor => '\'#ff0000\'' %>
+    </script>
+<% end -%>
+<% if flash[:notice] -%>
+    <div id="notice"><%=h flash[:notice] %></div><br />
+<% end -%>
 
-<div align="center">
-  <% if flash[:error] -%>
-      <div id="error"><b>Error: </b><%=h flash[:error] %></div><br />
-      <script language="javascript" type="text/javascript">
-          <%= visual_effect :highlight, 'error', :duration => 2, :startcolor => '\'#ff0000\'' %>
-      </script>
-  <% end -%>
-  <% if flash[:notice] -%>
-      <div id="notice"><%=h flash[:notice] %></div><br />
-  <% end -%>
-
-  <img src="/images/login/socologin.jpg">
-
-  <% form_tag :action => 'validate' do %>
-    <input name="user" type="text" onfocus="if (this.value=='- username -') {this.value='';this.style.textAlign='left';}" onblur="if (this.value == '') {this.value='- username -'; this.style.textAlign='center';}"  size="23" style="position: relative; left: 176px; top: -113px; text-align: center" value="- username -" ><br>
-    <input name="pass" type="text" onfocus="if (this.value=='- password -') {this.type='password';this.value='';this.style.textAlign='left';}" onblur="if (this.value == '') {this.type='text'; this.value='- password -'; this.style.textAlign='center';}" size="23" style="position: relative; left: 194px; top: -112px; text-align: center" value="- password -">
-    <%= image_submit_tag "login/go.gif", :width => 31, :height => 13, :style => "position: relative; left: 157px; top: -87px" %>
-  <% end %>
-  <%= link_to image_tag("/images/login/register.gif", :border => 0, :style => "position: relative; left: 225px; top: -80px"), :controller => 'profile', :action => 'register'  %>
-  <div style="position: relative; top: -10px"id="compatibility"><font face='Arial' size=1>Viewed best in Firefox, other browsers not yet supported.</div>
+<div id="form">
+<% form_tag :action => 'validate' do %>
+  <input name="user" type="text" onfocus="if (this.value=='- username -') {this.value='';this.style.textAlign='left';}" onblur="if (this.value == '') {this.value='- username -'; this.style.textAlign='center';}"  size="23" value="- username -" ><br>
+  <input name="pass" type="text" onfocus="if (this.value=='- password -') {this.type='password';this.value='';this.style.textAlign='left';}" onblur="if (this.value == '') {this.type='text'; this.value='- password -'; this.style.textAlign='center';}" size="23" value="- password -">
+  <%= image_submit_tag "login/go.gif", :width => 31, :height => 13 %>
+<% end %>
 </div>
-
-</td></tr></table></body>
+<div id="footer">
+<div id="compatibility">Viewed best in Firefox, other browsers not yet supported.</div>
+<div id="register"><%= link_to "register", :controller => 'profile', :action => 'register'  %></div>
+</div>
