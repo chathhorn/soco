@@ -1,14 +1,16 @@
 class CourseReviewsController < ApplicationController
 
   def list
-    @course_id = params[:id]
+    course_id = params[:id]
     
-    if @course_id.nil?
+    if course_id.nil?
       render :text => "You must specify a course id"
       return
     end
     
-    @reviews = CisCourse.find(@course_id).course_reviews
+    @course = CisCourse.find(course_id)
+    
+    @reviews = CisCourse.find(course_id).course_reviews
   end
 
   def post
