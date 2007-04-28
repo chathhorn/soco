@@ -5,6 +5,7 @@ class CisCourse < ActiveRecord::Base
   has_and_belongs_to_many :course_bins
   has_and_belongs_to_many :semesters
   has_many :shared_courses
+  has_many :course_reviews
   
   #iterator over all friends sharing this course for this user
   #yields shared course id, friend, and friend's semester

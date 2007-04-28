@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
   belongs_to :major
   has_many :relationships, :dependent => :destroy
   has_many :friends, :through => :relationships, :order => 'last_name ASC, first_name ASC'
+  has_many :course_reviews
+  
   
   validates_uniqueness_of :username, :email
   validates_presence_of :username, :start_sem, :start_year, :college, :major, :email
