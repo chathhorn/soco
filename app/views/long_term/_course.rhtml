@@ -19,7 +19,7 @@ end
     <div class="course_desc"><b><%=h course.title %></b></div><br>
     <div class="title" style="color:#DCEFFF;">Prerequisites:</div>
     <div class="course_prerequisites">
-<%=h course.course_dependency.to_s.delete("(").delete(")") %> <!-- darko fix -->
+      <%=h course.course_dependency.to_s %>
     </div>
     <div class="title" style="color:#DCEFFF;">Friends Sharing:</div>
     <div class="course_sharing">
