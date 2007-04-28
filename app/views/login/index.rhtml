@@ -1,4 +1,9 @@
-<% @title = "Login" -%>
+<body>
+<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td align="center" valign="middle">
+
+
 <div align="center">
   <% if flash[:error] -%>
       <div id="error"><b>Error: </b><%=h flash[:error] %></div><br />
@@ -17,6 +22,8 @@
     <input name="pass" type="text" onfocus="if (this.value=='- password -') {this.type='password';this.value='';this.style.textAlign='left';}" onblur="if (this.value == '') {this.type='text'; this.value='- password -'; this.style.textAlign='center';}" size="23" style="position: relative; left: 194px; top: -112px; text-align: center" value="- password -">
     <%= image_submit_tag "login/go.gif", :width => 31, :height => 13, :style => "position: relative; left: 157px; top: -87px" %>
   <% end %>
-  <%= link_to image_tag("/images/login/register.gif", :border => 0, :style => "position: relative; left: 225px; top: -67px"), :controller => 'profile', :action => 'register'  %>
-  <div id="compatibility">Viewed best in Firefox, other browsers not supported.</div>
+  <%= link_to image_tag("/images/login/register.gif", :border => 0, :style => "position: relative; left: 225px; top: -80px"), :controller => 'profile', :action => 'register'  %>
+  <div style="position: relative; top: -10px"id="compatibility"><font face='Arial' size=1>Viewed best in Firefox, other browsers not yet supported.</div>
 </div>
+
+</td></tr></table></body>
