@@ -23,6 +23,7 @@ class FriendsController < ApplicationController
   
   #list all users
   def browse
+    @title = "Browse Users"
     @user = User.find session[:user]
     @friends = User.find :all, :order => 'last_name ASC, first_name ASC'
     render :action => 'list'
