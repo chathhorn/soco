@@ -8,14 +8,14 @@ class CourseDependency < ActiveRecord::Base
     children.each { |child| courses.push child.to_s_helper }
     
     if node_type == :CONCURRENT
-      return "(concurrently with " << courses.join(" and ") << ")"
+      return "concurrently with " << courses.join(" and ")
     elsif node_type == :OR
-      return "(" << courses.join(" or ") << ")"
+      return courses.join(" or ")
     end
     
     #type is either COURSE or AND
     
-    return "(" << courses.join(" and ") << ")"
+    return courses.join(" and ")
   end
   
   #returns whether this dependency has been satisfied for the specified
@@ -64,7 +64,7 @@ class CourseDependency < ActiveRecord::Base
       return cis_courses[0].to_s
     end
     
-    return to_s
+    return "(" + to_s + ")"
   end
   
   #returns whether +course_id+ can be found in an earlier semester than +max_semester_id+ for +user+
