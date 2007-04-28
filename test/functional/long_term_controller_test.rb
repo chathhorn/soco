@@ -272,7 +272,7 @@ class LongTermControllerTest < Test::Unit::TestCase
    assert_equal count+1, user.course_bin.cis_courses.count
        
    #ask him to take course with me
-   @request.env['HTTP_REFERER'] = 'http://whatever'    
+
    post :take_my_course_with_friend, :friends=>[4], :course_id=>6
    assert_response :redirect
    assert_redirected_to :action => 'index'
@@ -290,7 +290,7 @@ class LongTermControllerTest < Test::Unit::TestCase
  def test_my_course_with_friend_1
  
    #ask him to take course with me
-   @request.env['HTTP_REFERER'] = 'http://whatever'    
+
    post :take_my_course_with_friend, :friends=>[4], :course_id=>5
    assert_response :redirect
    assert_redirected_to :action => 'index'
