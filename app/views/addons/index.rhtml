@@ -1,11 +1,7 @@
 <% @title = "Addons" -%>
-<%= link_to image_tag("addons/facebook.png"), { :controller => 'facebook', :action => 'start_session' }, :title => 'Import Friends from Facebook' %>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-<a href="javascript:alert('soon..')"><img src=images/tell.a.friend.gif></a>
+<div class="addon_button">
+    <%= link_to image_tag("addons/facebook.png"), { :controller => 'facebook', :action => 'start_session' }, :title => 'Import Friends from Facebook' %>
+</div>
+<div class="addon_button">
+    <%= link_to_function image_tag("tell.a.friend.gif"), "alert('soon..')" %>
+</div>

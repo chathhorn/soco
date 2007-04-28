@@ -1,8 +1,5 @@
 body {
-        margin-left: 0px;
-        margin-top: 0px;
-        margin-right: 0px;
-        margin-bottom: 0px;
+	margin: 2em 0;
 }
 
 input[type=text],input[type=password] {
