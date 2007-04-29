@@ -70,9 +70,8 @@ class LongTermController < ApplicationController
       end
     end
 
-    course_bin_courses = @user.course_bin.cis_courses
-
     render :update do |page|
+      course_bin_courses = @user.course_bin.cis_courses
       page.replace_html 'course_bin_courses', :partial => 'course', :collection => course_bin_courses, :locals => {:semester_obj => nil, :effect => false}
     end
 
