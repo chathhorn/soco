@@ -4,8 +4,6 @@
       <%= "#{@semester.semester} #{@semester.year}" %>
 </div>
 
-
-
 <div id="throbber">
   <span id="loading_stopped"><%= image_tag "loading_stopped.gif" %></span>
   <span id="getting_results" style="display:none;"><%= image_tag "loading.gif" %></span>
@@ -17,18 +15,9 @@
 <ul id='courses'>
 <p>
 <%= 
-     link_to_remote '<<',
+     link_to_remote 'Generate Schedule',
      {
-           :url => {:action => 'generate_prev', :id => params[:id]}, 
-           :loading => "Element.show('getting_results'); Element.hide('loading_stopped')", 
-           :complete => "Element.hide('getting_results'); Element.show('loading_stopped')"
-     }
-%>
-<span id='generate_label'>Generate Schedule</span>
-<%= 
-     link_to_remote '>>',
-     {
-           :url => {:action => 'generate_next', :id => params[:id]}, 
+           :url => {:action => 'show_previews', :id => params[:id]},
            :loading => "Element.show('getting_results'); Element.hide('loading_stopped')", 
            :complete => "Element.hide('getting_results'); Element.show('loading_stopped')"
      }
@@ -59,4 +48,30 @@
 	</div>
 </div>
 </div>
+
+<div style='display:none' id='previews_window'>
+      <%= link_to_function 'close', visual_effect(:toggle_blind, 'previews_window'), :id => 'previews_window_close' %>
+<%= 
+     link_to_remote "<div id='previews_prev'><br /><br />p<br />r<br />e<br />v<br />i<br />o<br />u<br />s</div>",
+     {
+           :url => {:action => 'generate_prev', :id => params[:id]}, 
+           :loading => "Element.show('getting_results'); Element.hide('loading_stopped')", 
+           :complete => "Element.hide('getting_results'); Element.show('loading_stopped')"
+     }
+%>
+      <div id='previews_window_inner'>
+            <div id='previews_list'>
+            </div>
+      </div>
+<%= 
+     link_to_remote "<div id='previews_next'><br /><br /><br /><br />n<br />e<br />x<br />t</div>",
+     {
+           :url => {:action => 'generate_next', :id => params[:id]}, 
+           :loading => "Element.show('getting_results'); Element.hide('loading_stopped')", 
+           :complete => "Element.hide('getting_results'); Element.show('loading_stopped')"
+     }
+%>
+</div>
+
+<%= draggable_element 'previews_window', :starteffect => false, :endeffect => false, :revert => false %>
 
