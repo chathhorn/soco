@@ -1,3 +1,4 @@
+<!-- START OF COURSE -->
 <%
 if semester_obj != nil
   semester = semester_obj.id
@@ -10,13 +11,13 @@ end
 <div class="course" id="<%= "coursediv_#{semester}_#{course.id}" %>" style="<% if effect %>display:none;<% end%>">
     <div class="course_code <% if !course.dependencies_satisfied?(semester, session[:user]) %>needs_prereq<%end%>" >
     <% if session[:user] == @user.id -%>
-        <%= link_to_remote('<img align=right title="Delete Course" src=/images/course/delete2.png>', :url => {:action => "remove", :course_id => course.id, :semester_id => semester}, :loading => "Element.show('getting_results'); Element.hide('loading_stopped')", :complete => "Element.hide('getting_results'); Element.show('loading_stopped')") -%><br> 
+        <%= link_to_remote('<img align=right title="Delete Course" src=/images/course/delete2.png>', :url => {:action => "remove", :course_id => course.id, :semester_id => semester}, :loading => "Element.show('getting_results'); Element.hide('loading_stopped')", :complete => "Element.hide('getting_results'); Element.show('loading_stopped')") -%><br /> 
     <%    else -%>
-        <%= "<img align=right src=/images/course/pin_red.png><br>" %>
+        <%= "<img align=right src=/images/course/pin_red.png><br />" %>
     <% end -%>
 <div style="color:#f5620A;" ><b>&nbsp;<img width=14 src=/images/course/documents.png> <%=h course.cis_subject.code %> <%=h course.number %></b></div>
     </div>
-    <div class="course_desc"><b><%=h course.title %></b></div><br>
+    <div class="course_desc"><b><%=h course.title %></b></div><br />
     <div class="title" style="color:#DCEFFF;">Prerequisites:</div>
     <div class="course_prerequisites">
       <%=h course.course_dependency.to_s %>
@@ -58,3 +59,5 @@ end
 
   <%= draggable_element "coursediv_#{semester}_#{course.id}", :revert => true %>
 <% end %>
+
+<!-- END OF COURSE -->
