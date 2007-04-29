@@ -4,14 +4,18 @@
        <%=h semester.to_s %> <%= link_to h("sched>"), {:controller => :semester, :action => 'show', :id => semester.id}, {:class => 'semester_link'} %>
     </div>
     <hr />
+<!-- START OF TARGET -->
+
     <div id='<%= "semester_courses_#{semester.id}" %>'>
     <%= render :partial => 'course', :collection => semester.cis_courses, :locals => {:semester_obj => semester, :effect => false} %>
     </div>
+<!-- END OF TARGET -->
 </div>
+
 <% if session[:user] == @user.id -%>
 	<%= drop_receiving_element("semesterdiv_#{semester.id}", 
 	    :accept => 'course',
-	    :position => 'bottom', :update => "semesterdiv_#{semester.id}", 
+	    :position => 'bottom', :update => "semester_courses_#{semester.id}", 
 	    :url => { :action => 'update_semester'}, 
 	    :loading => "element.style.display = 'none'; Element.show('getting_results');  Element.hide('loading_stopped')", 
 	    :complete => "Element.hide('getting_results'); Element.show('loading_stopped')", 

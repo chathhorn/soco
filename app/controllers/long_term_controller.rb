@@ -38,7 +38,9 @@ class LongTermController < ApplicationController
         course_bin_courses = @user.course_bin.cis_courses
         page.replace_html 'course_bin_courses', :partial => 'course', :collection => course_bin_courses, :locals => {:semester_obj => nil, :effect => false}
       else
+        @semesters = @user.semesters.find :all
         page.replace_html "semester_courses_#{semester_id}", :partial => 'course', :collection => semester.cis_courses, :locals => {:semester_obj => semester, :effect => false}
+        #page.replace_html 'semesters_partial', :partial => 'semester', :collection => @semesters 
       end
     end
 
