@@ -4,12 +4,10 @@
        <%=h semester.to_s %> <%= link_to h("sched>"), {:controller => :semester, :action => 'show', :id => semester.id}, {:class => 'semester_link'} %>
     </div>
     <hr />
-<!-- START OF TARGET -->
 
     <div id='<%= "semester_courses_#{semester.id}" %>'>
     <%= render :partial => 'course', :collection => semester.cis_courses, :locals => {:semester_obj => semester, :effect => false} %>
     </div>
-<!-- END OF TARGET -->
 </div>
 
 <% if session[:user] == @user.id -%>
