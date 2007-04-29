@@ -9,7 +9,7 @@ GetOptions(
 	'create' => \$create
 	);
 
-#$ENV{PATH} = $ENV{PATH} . ';c:\Program Files\mySQL\MySQL Server 5.0\bin';
+$ENV{PATH} = $ENV{PATH} . ';c:\Program Files\mySQL\MySQL Server 5.0\bin';
 
 if ($create) {
 	print "Enter MySQL password for user 'root': ";
