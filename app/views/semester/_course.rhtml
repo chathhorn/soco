@@ -15,6 +15,8 @@ end
         <%= course.cis_subject.code %> <%= course.number %> <%= link_to_function 'sections>', visual_effect(:toggle_blind, "sects_#{semester}_#{course.id}"), :class => 'sections_link' %>
     </div>
 
+    <hr />
+
    <div style='display:none' class='sections_list' id='<%="sects_#{semester}_#{course.id}"%>'>
       <% if current_cis_semester -%>
          <%= render :partial => 'section_choice', :collection => current_cis_semester.cis_sections, :locals => {:semester => semester} %>

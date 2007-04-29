@@ -42,7 +42,7 @@
 #courses {
 	width: 20em;
 	float: left;
-
+	text-align: center;
 }
 
 .course {
@@ -137,22 +137,24 @@
     height: 7.85em;
 }
 
-#course_bin .sections_list {
-	display: none;
-}
-#course_bin .sections_link {
-	display: none;
-}
-
 .sections_list {
-	font-size: .6em;
+	font-size: .9em;
 	padding: 2px;
 }
+
+.section_selected, .section_unselected {
+	text-decoration: none;
+	width: 100%;
+	display: block;
+	padding: 0.5em 0;
+	color: black;
+}
+
 .section_selected {
-	color: green;
+	background-color: #ffb;
+
 }
 .section_unselected {
-	color: black;
 }
 
 #schedule_close_button {
@@ -161,7 +163,15 @@
 	right: 1em;
 }
 
-.needs_prereq
-{
-    background-color: #f66 !important;
+.course_desc {
+	font-weight: bold;
 }
+
+.course {
+	background-color: #ddd;
+}
+
+#generate_label {
+	font-weight: bold;
+}
+
