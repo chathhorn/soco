@@ -1,36 +1,137 @@
-# vim: shiftwidth=2 shiftwidth=2 expandtab
+# vim: tabstop=2 shiftwidth=2 expandtab
+
+# tree for generating all possible schedules
+class BoolTree
+  def solve
+  end
+  def initialize(children = [])
+    @children = children
+    @solution = []
+  end
+  def add_child(child)
+    @children.push child
+  end
+end
+
+# choose one from each child
+class And < BoolTree
+  def solve
+    !@solution.empty? and return @solution
+
+    @children.each do |c|
+
+      if @solution.empty?
+        @solution = c.solve
+        next
+      end
+
+      new_solution = []
+      c.solve.each do |a|
+        @solution.each do |b| 
+          c = a + b and new_solution.push c
+        end
+      end
+      @solution = new_solution
+    end
+    @solution
+  end
+end
+      
+# choose one from one child
+class Or < BoolTree
+  def solve
+    #@solution = (@solution.empty? && @children.collect { |c| c.solve }) || @solution
+    !@solution.empty? and return @solution
+
+    @children.each { |c|
+      @solution += c.solve
+    }
+    @solution
+  end
+end
+
+# leaves contain OptionSets, which is an array of sections
+class Leaf < BoolTree
+  def solve
+    @solution
+  end
+  def initialize(opset)
+    @children = nil
+    @solution = [OptionSet.new([opset])]
+  end
+end
+
+# a solution is an array of option sets, 
+# an option set is an array of options (sections)
+# basically an array that detects schedule collisions
+class OptionSet
+  attr_reader :option_set
+  def initialize(set = [])
+    @option_set = set
+#           @conflict_matix = []
+
+#           set.each do |s|
+#                 s.days.each_byte do |b|
+#                       (s.endTime - s.startTime) / (15 * 60)
+#                       @conflict_matrix[b] 
+#                 end
+#           end
+  end
+  # ugly conflict detection
+  def +(b)
+    b.option_set.each do |y|
+      @option_set.each do |x|
+        x.days.split(//).each do |day|
+          if y.days.include? day
+            if y.startTime < x.endTime && y.startTime >= x.startTime \
+            || x.startTime < y.endTime && x.startTime >= y.startTime
+              return nil
+            end
+          end
+        end
+      end
+    end
+    OptionSet.new(@option_set + b.option_set)
+  end
+end
+
 class SemesterController < ApplicationController
+
+  # show semester schedule
   def show
     @semester = Semester.find(params[:id])
-    
+
     @start_time = DateTime.new(0,1,1,8)
     @end_time = DateTime.new(0,1,1,21,30)
     @time_inc = 15/(24.0*60) #15.0/(24.0*60.0)
-#        time.strftime("%H:%M")
-#      end
+
+    session[:solution] = nil
+    session[:marker] = nil
+    #        time.strftime("%H:%M")
   end
 
-  # added for semester schedule
-  def show_semester_schedule
-    @semester = Semester.find(params[:id]);
+      # added for semester schedule
+    # def show_semester_schedule
+    #       @semester = Semester.find(params[:id]);
 
-    render :update do |page|
-        page.replace_html 'times_row', :partial => 'times_row', :locals => {:semester => @semester}
-        page.replace_html 'schedule_semester_label', "#{@semester.semester} #{@semester.year}"
-        page.visual_effect :blind_down, 'schedule_container'
-    end
+    #       render :update do |page|
+    #             page.replace_html 'times_row', :partial => 'times_row', :locals => {:semester => @semester}
+    #             page.replace_html 'schedule_semester_label', "#{@semester.semester} #{@semester.year}"
+    #             page.visual_effect :blind_down, 'schedule_container'
+    #       end
 
-  end
+    # end
 
+  # add/remove section from semester schedule
   def toggle_section
     user = User.find session[:user]
     section = CisSection.find(params[:section])
     plan = user.semesters.find(params[:id]).course_plan
 
     if plan.cis_sections.exists? params[:section]
-      plan.remove_cis_sections section
+      plan.cis_sections.delete section
     else
-      plan.add_cis_sections section
+      plan.cis_sections.concat section
     end
 
     @semester = Semester.find(params[:id])
@@ -51,4 +152,141 @@ class SemesterController < ApplicationController
     end
   end
 
+  # display the previous generated schedule
+  def generate_next
+    session[:solution] == nil && generate
+    session[:marker] += 1
+    session[:marker] = session[:marker] >= session[:solution].length ? 0 : session[:marker]
+
+    session[:solution] && load_sections
+  end
+
+  # display the next generated schedule
+  def generate_prev
+    session[:solution] == nil && generate
+    session[:marker] -= 1
+    session[:marker] = session[:marker] < 0 ? session[:solution].length - 1 : session[:marker]
+
+    session[:solution] && load_sections
+  end
+
+  private
+
+  # load the selected generated schedule
+  def load_sections
+    user = User.find session[:user]
+    plan = user.semesters.find(params[:id]).course_plan
+    semester = Semester.find(params[:id]);
+    courses = semester.cis_courses
+
+    plan.cis_sections.delete plan.cis_sections
+    plan.cis_sections.concat session[:solution][session[:marker]]
+
+    render :update do |page|
+      page.replace_html 'times_row', :partial => 'times_row', :locals => {:semester => semester}
+      courses.each do |course|
+        page.replace_html "sects_#{semester.id}_#{course.id}", :partial => 'section_choice', :collection => course.sections_for_semester(semester), :locals => {:semester => semester}
+      end
+    end
+  end
+
+  # generate all possible schedules
+  # another possible improvement would be to generate one schedule at a
+  # time and not all at once
+  def generate
+    semester = Semester.find(params[:id]);
+    courses = semester.cis_courses
+
+    # decide whether we should try to generate
+    nsections = 0
+    ncourses = courses.length
+    courses.each do |c| 
+      cis_semester = c.cis_semesters.find(:first, :conditions => ['year = ? AND semester = ?', semester.year, semester.semester])
+      sections = cis_semester && cis_semester.cis_sections && cis_semester.cis_sections.sort {|a, b| a.name <=> b.name}
+      nsections += sections.length
+    end
+    score = nsections
+
+    # disable generation if it looks like we're going to spin too long
+    if score > 120
+      session[:solution] = nil
+      session[:marker] = 0
+      return
+    end
+
+    root = And.new
+
+
+    courses.each do |c|
+      cis_semester = c.cis_semesters.find(:first, :conditions => ['year = ? AND semester = ?', semester.year, semester.semester])
+      sections = cis_semester && cis_semester.cis_sections && cis_semester.cis_sections.sort {|a, b| a.name <=> b.name}
+      if !sections
+        @solution = nil
+        return
+      end
+
+      if sections[0].name.length == 0
+        orob = Or.new
+        sections.each do |s|
+          orob.add_child Leaf.new(s)
+        end
+        root.add_child orob
+
+      elsif sections[0].name.length == 1
+        orob = Or.new
+        andob = And.new
+        mark = sections[0].name[0]
+
+        sections.each do |s|
+          if s.name[0] != mark
+            mark = s.name[0]
+            orob.add_child andob
+            andob = And.new
+          end
+          andob.add_child Leaf.new(s)
+        end
+
+        orob.add_child andob
+        root.add_child orob
+
+      else # length 2 or 3
+        
+        l1or = Or.new
+        l2and = And.new
+        l3or = Or.new
+
+        mark0 = sections[0].name[0]
+        mark1 = sections[0].name[1]
+
+        sections.each do |s|
+
+          if s.name[0] != mark0
+            mark0 = s.name[0]
+            mark1 = s.name[1]
+            l2and.add_child l3or
+            l1or.add_child l2and
+            l3or = Or.new
+            l2and = And.new
+          elsif s.name[1] != mark1
+            mark1 = s.name[1]
+            if s.name.length == 3
+              l2and.add_child l3or
+              l3or = Or.new
+            end
+          end
+          l3or.add_child Leaf.new(s)
+        end
+
+        l2and.add_child l3or
+        l1or.add_child l2and
+        root.add_child l1or
+      end
+
+    end
+
+    session[:solution] = root.solve.collect { |opset| opset.option_set }
+    session[:marker] = 0
+  end
+
 end
+
