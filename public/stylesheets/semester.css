@@ -152,8 +152,10 @@
 }
 
 .section_selected {
-	background-color: #ffb;
+	/*background-color: #ffb;*/
+	color: #1368B0;
 
+	border-right: 3px solid #1368B0;
 }
 .section_unselected {
 }
