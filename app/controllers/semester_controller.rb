@@ -110,18 +110,6 @@ class SemesterController < ApplicationController
     #        time.strftime("%H:%M")
   end
 
-      # added for semester schedule
-    # def show_semester_schedule
-    #       @semester = Semester.find(params[:id]);
-
-    #       render :update do |page|
-    #             page.replace_html 'times_row', :partial => 'times_row', :locals => {:semester => @semester}
-    #             page.replace_html 'schedule_semester_label', "#{@semester.semester} #{@semester.year}"
-    #             page.visual_effect :blind_down, 'schedule_container'
-    #       end
-
-    # end
-
   # add/remove section from semester schedule
   def toggle_section
     user = User.find session[:user]
@@ -170,22 +158,67 @@ class SemesterController < ApplicationController
     session[:solution] && load_sections
   end
 
+  # select a schedule from the previews window
+  def select_solution
+    session[:solution] && load_sections(params[:chosen] && params[:chosen].to_i)
+  end
+
+  # generate schedules and show the previews window
+  def show_previews
+    session[:solution] == nil && generate
+    session[:solution] && load_sections(nil, true)
+  end
+    
   private
 
   # load the selected generated schedule
-  def load_sections
+  def load_sections(solution_to_load = nil, show_previews = false)
+
     user = User.find session[:user]
     plan = user.semesters.find(params[:id]).course_plan
     semester = Semester.find(params[:id]);
     courses = semester.cis_courses
 
-    plan.cis_sections.delete plan.cis_sections
-    plan.cis_sections.concat session[:solution][session[:marker]]
+    if solution_to_load
+      plan.cis_sections.delete plan.cis_sections
+      plan.cis_sections.concat session[:solution][solution_to_load]
+    end
+
+    # previews stuff
+    npreviews = 5
+    @solutions = session[:solution]
+
+    @total_width = 100
+    @total_height = 100
+    padding_horiz = 5
+    padding_vert = 5
+    ndays = 6
+    nhours = 15
+    @start_hour = 8
+
+    @seconds_per_pixel = nhours * 60 * 60 / (@total_height - 2 * padding_vert)
+
+    @width = (@total_width - 2 * padding_horiz)/ ndays
+
+    @day_left = {
+      'M' => 0,
+      'T' => @width,
+      'W' => @width * 2,
+      'R' => @width * 3,
+      'F' => @width * 4,
+      'S' => @width * 5,
+    }
 
     render :update do |page|
-      page.replace_html 'times_row', :partial => 'times_row', :locals => {:semester => semester}
-      courses.each do |course|
-        page.replace_html "sects_#{semester.id}_#{course.id}", :partial => 'section_choice', :collection => course.sections_for_semester(semester), :locals => {:semester => semester}
+      if solution_to_load
+        page.replace_html 'times_row', :partial => 'times_row', :locals => {:semester => semester}
+        courses.each do |course|
+          page.replace_html "sects_#{semester.id}_#{course.id}", :partial => 'section_choice', :collection => course.sections_for_semester(semester), :locals => {:semester => semester}
+        end
+      end
+      page.replace_html 'previews_list', :partial => 'solution', :collection => @solutions[session[:marker], npreviews]
+      if show_previews
+        page.visual_effect :blind_down, 'previews_window'
       end
     end
   end
@@ -211,6 +244,7 @@ class SemesterController < ApplicationController
     if score > 120
       session[:solution] = nil
       session[:marker] = 0
+      # flash error here
       return
     end
 

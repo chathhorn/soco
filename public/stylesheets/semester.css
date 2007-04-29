@@ -57,10 +57,10 @@
 	z-index: 2500;*/
 
 
-	background-color: lightgray;
+	background-color: #dcdcdc;
 	border: 2px solid black;
 	width: 56em;
-	background-color: #ddd;
+	background-color: #dcdcdc;
 	float: right;
 	/*
 	top: 50em;
@@ -105,7 +105,7 @@
 }
 
 #schedule_container table tr:first-child {
-    background-color: #ddd;
+    background-color: #dcdcdc;
     z-index: 10;
 }
 
@@ -122,7 +122,7 @@
 }
 
 #schedule_container table .times, table .times div {
-    background-color: #ddd;
+    background-color: #dcdcdc;
     font-weight: bold;
     text-align: right;
     padding: 1px;
@@ -170,7 +170,7 @@
 }
 
 .course {
-	background-color: #ddd;
+	background-color: #dcdcdc;
 }
 
 #generate_label {
@@ -179,4 +179,68 @@
 
 .section_course_title {
 	font-weight: bold;
+}
+
+.preview {
+	border: 1px solid black;
+	position: relative;
+	background-color: white;
+	margin: 1em;
+}
+
+.preview_outer {
+	float: left;
+	background-color: white;
+	margin: 1em;
+}
+
+.preview_outer:hover {
+	background-color: #1368B0;
+}
+
+.preview_section {
+	background-color: #eb6800;
+	position: absolute;
+}
+
+#previews_window {
+	z-index: 100;
+	text-align: center;
+	width: 66em;
+	height: 16em;
+	background-color: white;
+	overflow: auto;
+	position: absolute;
+	border: 1px solid black;
+}
+
+#previews_window_inner {
+	background-color: #dcdcdc;
+	position: absolute;
+	top: 1.5em;
+	bottom: 1.5em;
+	left: 1.5em;
+	right: 1.5em;
+}
+
+#previews_window_close {
+	margin: 4px;
+}
+
+#previews_prev, #previews_next {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 1.5em;
+	text-decoration: none;
+	color: black;
+}
+#previews_prev:hover, #previews_next:hover {
+	background-color: #1368B0;
+}
+#previews_prev {
+	left: 0;
+}
+#previews_next {
+	right: 0;
 }
