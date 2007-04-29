@@ -20,44 +20,62 @@ class LongTermController < ApplicationController
   
   #remove a course from semester or course bin
   def remove
-    user = User.find session[:user]
+    @user = User.find session[:user]
     course = CisCourse.find(params[:course_id].to_i)
     semester_id = params[:semester_id].to_i
     
     if semester_id == -1
-      user.course_bin.cis_courses.delete(course)
+      @user.course_bin.cis_courses.delete(course)
     else
       semester = Semester.find(semester_id)
       semester.cis_courses.delete(course)
       # sections from semester plan
-      course.sections_for_semester(Semester.find(semester_id)) and user.semesters.find(semester_id).course_plan.remove_cis_sections course.sections_for_semester(Semester.find(semester_id))
+      course.sections_for_semester(Semester.find(semester_id)) and @user.semesters.find(semester_id).course_plan.remove_cis_sections course.sections_for_semester(Semester.find(semester_id))
     end
-    redirect_to :action => "index"
+
+    render :update do |page|
+      if semester_id == -1
+        course_bin_courses = @user.course_bin.cis_courses
+        page.replace_html 'course_bin_courses', :partial => 'course', :collection => course_bin_courses, :locals => {:semester_obj => nil, :effect => false}
+      else
+        page.replace_html "semester_courses_#{semester_id}", :partial => 'course', :collection => semester.cis_courses, :locals => {:semester_obj => semester, :effect => false}
+      end
+    end
+
   end
 
   #add a class to course bin
   def add_class
-    user = User.find session[:user]
+    @user = User.find session[:user]
     class_id = params[:course][:number]  
     class_id.upcase!
      (subject, white, number) = class_id.scan(/^([A-Z]*)(\s*)(\d*)$/)[0]           
     
     if subject.nil? 
-      flash[:error] = "Invalid Course"
+      #flash[:error] = "Invalid Course"
+      return
     else
       if number.blank? && white.empty?
-        flash[:error] = "Invalid Course"
+        #flash[:error] = "Invalid Course"
+        return
       else
         results = CisSubject.search_for_course(class_id)
         if results.size == 1
           course = CisCourse.find results[0].id
-          user.course_bin.cis_courses.concat course
+          @user.course_bin.cis_courses.concat course
         else
-          flash[:error] = "Invalid Course"
+          #flash[:error] = "Invalid Course"
+          return
         end
       end
     end
-    redirect_to(:action => 'index')
+
+    course_bin_courses = @user.course_bin.cis_courses
+
+    render :update do |page|
+      page.replace_html 'course_bin_courses', :partial => 'course', :collection => course_bin_courses, :locals => {:semester_obj => nil, :effect => false}
+    end
+
   end
   
   #move a class from one semester to another
