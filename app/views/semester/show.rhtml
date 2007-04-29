@@ -5,6 +5,7 @@
 </div>
 
 
+
 <div id="throbber">
   <span id="loading_stopped"><%= image_tag "loading_stopped.gif" %></span>
   <span id="getting_results" style="display:none;"><%= image_tag "loading.gif" %></span>
@@ -14,6 +15,26 @@
 <div id='sched_and_courses'>
 
 <ul id='courses'>
+<p>
+<%= 
+     link_to_remote '<<',
+     {
+           :url => {:action => 'generate_prev', :id => params[:id]}, 
+           :loading => "Element.show('getting_results'); Element.hide('loading_stopped')", 
+           :complete => "Element.hide('getting_results'); Element.show('loading_stopped')"
+     }
+%>
+Generate Schedule
+<%= 
+     link_to_remote '>>',
+     {
+           :url => {:action => 'generate_next', :id => params[:id]}, 
+           :loading => "Element.show('getting_results'); Element.hide('loading_stopped')", 
+           :complete => "Element.hide('getting_results'); Element.show('loading_stopped')"
+     }
+%>
+</p>
+
       <%= render :partial => 'course', :collection => @semester.cis_courses, :locals => {:semester_obj => @semester, :effect => false} %>
 </ul>
 
