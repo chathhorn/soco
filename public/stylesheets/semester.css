@@ -35,12 +35,12 @@
 }
 
 #sched_and_courses {
-	width: 100em;
+	width: 80em;
 	bottom: 0;
 }
 
 #courses {
-	width: 20em;
+	width: 23em;
 	float: left;
 	text-align: center;
 }
@@ -59,7 +59,7 @@
 
 	background-color: lightgray;
 	border: 2px solid black;
-	width: 77em;
+	width: 56em;
 	background-color: #ddd;
 	float: right;
 	/*
@@ -96,7 +96,7 @@
     vertical-align: top;
     padding: 0;
     margin: 0;
-    width: 11em;
+    width: 8em;
 }
 
 #schedule_container table th {
@@ -115,7 +115,7 @@
 }
 
 #schedule_container table .section {
-    width: 10em;
+    width: 7em;
     background-color: #ffb;
     padding: 2px;
     margin-left: 2px;
@@ -125,8 +125,7 @@
     background-color: #ddd;
     font-weight: bold;
     text-align: right;
-    width: 9em;
-    padding:1px;
+    padding: 1px;
 }
 
 #schedule_container table .times {
@@ -178,3 +177,6 @@
 	font-weight: bold;
 }
 
+.section_course_title {
+	font-weight: bold;
+}
