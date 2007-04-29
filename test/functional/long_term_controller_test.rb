@@ -363,6 +363,28 @@ def add_duplicate_shared_course
   assert_response :redirect
   assert_redirected_to :action => 'index'
   assert_equal "You are already taking this course with your friend", flash[:error]
- end
- 
+end
+
+def test_push_semester
+
+  before_semester_count = Semester.find(:all, :conditions=>{:user_id=>1}).size 
+  post  :push_semester
+  assert_response :redirect
+  assert_redirected_to :action => 'index'
+  after_semester_count = Semester.find(:all, :conditions=>{:user_id=>1}).size
+  assert_equal before_semester_count+1, after_semester_count
+  
+end
+
+def test_pop_semester
+
+  before_semester_count = Semester.find(:all, :conditions=>{:user_id=>1}).size 
+  post  :pop_semester
+  assert_response :redirect
+  assert_redirected_to :action => 'index'
+  after_semester_count = Semester.find(:all, :conditions=>{:user_id=>1}).size
+  assert_equal before_semester_count-1, after_semester_count
+
+end
+
 end
