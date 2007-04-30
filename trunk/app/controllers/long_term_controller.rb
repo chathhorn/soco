@@ -44,29 +44,26 @@ class LongTermController < ApplicationController
     (subject, white, number) = class_id.scan(/^([A-Z]*)(\s*)(\d*)$/)[0]           
     
     if subject.nil? 
-      #flash[:error] = "Invalid Course"
-      render :nothing => true
+      flash[:error] = "Invalid Course"
+      render :action => 'ajax_flash'
       return
     else
       if number.blank? && white.empty?
-        #flash[:error] = "Invalid Course"
-        render :nothing => true
+        flash[:error] = "Invalid Course"
+        render :action => 'ajax_flash'
         return
       else
         results = CisSubject.search_for_course(class_id)
         if results.size == 1
-          course = CisCourse.find results[0].id
-          @user.course_bin.cis_courses.concat course
+          @course = CisCourse.find results[0].id
+          @user.course_bin.cis_courses.concat @course
         else
-          #flash[:error] = "Invalid Course"
-          render :nothing => true
+          flash[:error] = "Invalid Course"
+          render :action => 'ajax_flash'
           return
         end
       end
     end
-    
-    render :partial => 'course',
-           :locals => {:course => course, :semester_obj => nil, :effect => false}
   end
   
   #move a class from one semester to another
