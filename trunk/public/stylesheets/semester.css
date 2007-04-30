@@ -1,3 +1,8 @@
+.main > div.cont
+{
+	position: relative;
+ 	-moz-border-radius: 10px;
+}
 
 #semester_title {
 	width: 100%;
