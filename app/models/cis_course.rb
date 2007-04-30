@@ -41,7 +41,7 @@ class CisCourse < ActiveRecord::Base
     
     user = User.find(user_id)
    
-    return course_dependency.is_satisfied?(id, semester_id, user)
+    return course_dependency.is_satisfied?(semester_id, user)
   end
   
   #gets a list of sections for this course during the specified +semester+

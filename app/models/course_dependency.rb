@@ -19,10 +19,10 @@ class CourseDependency < ActiveRecord::Base
   end
   
   #returns whether this dependency has been satisfied for the specified
-  #+course_id+, +semester_id+, and +user+
-  def is_satisfied?(course_id, semester_id, user)
+  #+semester_id+, and +user+
+  def is_satisfied?(semester_id, user)
     children.each do |child|
-      if not child.is_satisfied_helper?(course_id, semester_id, user)
+      if not child.is_satisfied_helper?(semester_id, user)
         return false
       end
     end
@@ -31,27 +31,27 @@ class CourseDependency < ActiveRecord::Base
   end
   
   protected
-  def is_satisfied_helper?(course_id, semester_id, user)
+  def is_satisfied_helper?(semester_id, user)
     case node_type
       when :COURSE
         return course_is_in_earlier_semester?(semester_id, user) 
       when :OR
         children.each do |child|
-          if child.is_satisfied_helper?(course_id, semester_id, user)
+          if child.is_satisfied_helper?(semester_id, user)
             return true
           end
         end
         return false
       when :AND
         children.each do |child|
-          if not child.is_satisfied_helper?(course_id, semester_id, user)
+          if not child.is_satisfied_helper?(semester_id, user)
             return false
           end
         end
         return true
       else #:CONCURRENT
         children.each do |child|
-          if not child.is_satisfied_helper?(course_id, semester_id + 1, user)
+          if not child.is_satisfied_helper?(semester_id + 1, user)
             return false
           end
         end
@@ -67,7 +67,7 @@ class CourseDependency < ActiveRecord::Base
     return "(" + to_s + ")"
   end
   
-  #returns whether +course_id+ can be found in an earlier semester than +max_semester_id+ for +user+
+  #returns whether the current node of type COURSE can be found in an earlier semester than +max_semester_id+ for +user+
   def course_is_in_earlier_semester?(max_semester_id, user)
     raise TypeError unless node_type == :COURSE
 
