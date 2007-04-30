@@ -140,29 +140,33 @@ class SemesterController < ApplicationController
     end
   end
 
-  # display the previous generated schedule
+  NPREVIEWS = 6
+
+  # display the next generated schedules
   def generate_next
     session[:solution] == nil && generate
-    if session[:marker] == session[:solution].length - 7
+
+    session[:marker] += NPREVIEWS
+
+    if session[:marker] >= session[:solution].length
       session[:marker] = 0
-    else
-      session[:marker] += 6
-      session[:marker] = session[:marker] > session[:solution].length - 7 ? session[:solution].length - 7 : session[:marker]
-      session[:marker] = session[:marker] < 0 ? 0 : session[:marker]
     end
 
     session[:solution] && load_sections
   end
 
-  # display the next generated schedule
+  # display the previous generated schedules
   def generate_prev
     session[:solution] == nil && generate
-    if session[:marker] == 0
-      session[:marker] = session[:solution].length - 7
-      session[:marker] = session[:marker] < 0 ? 0 : session[:marker]
-    else
-      session[:marker] -= 6
-      session[:marker] = session[:marker] < 0 ? 0 : session[:marker]
+   
+    session[:marker] -= NPREVIEWS
+
+    if session[:marker] < 0
+      if session[:solution].length.remainder(NPREVIEWS) == 0
+        session[:marker] = session[:solution].length - NPREVIEWS
+      else
+        session[:marker] = session[:solution].length - session[:solution].length.remainder(NPREVIEWS)
+      end
     end
 
     session[:solution] && load_sections

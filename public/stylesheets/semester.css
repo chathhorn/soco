@@ -160,6 +160,7 @@
 	position: relative;
 	background-color: white;
 	margin: 1em;
+	margin-bottom: 0;
 }
 
 .preview_outer {
@@ -175,6 +176,11 @@
 .preview_section {
 	background-color: #eb6800;
 	position: absolute;
+}
+
+.preview_number {
+	color:black;
+	font-size: 0.8em;
 }
 
 #previews_window {
