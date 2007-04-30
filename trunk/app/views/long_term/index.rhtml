@@ -13,7 +13,8 @@
             { :style => "width: 10em" },
             { :after_update_element => 'function(element,value){ element.value = value.innerHTML.match(/^[A-Z]*\s*\d*/); document.class_autocomplete.onsubmit(); }' }
             %>
-        <%= submit_tag 'Add' %>
+             <input type="image" src="/images/add.gif" value="Add" name="commit">
+
     <% end %>
   </div>
   <div id="course_bin_courses">
@@ -46,9 +47,9 @@
             <div class="semester_header">
                <em>Need More?</em>
             </div>
-            <hr />
-            <%= link_to "Add Semester", :action => 'push_semester' %><br/>
-            <%= link_to "Delete Last Semester", {:action => 'pop_semester'}, :confirm => "This will delete your last semester, its courses, and its schedule.  Are you sure?" %>
+ <img src=images/hrgraph.gif width=155 height=1 style='position:relative; bottom:5px; top:0px'>
+            <img src=images/star_green.png width=12 style='position:relative; top:2px'> <%= link_to "Add Semester", :action => 'push_semester' %><br/>
+            <img src=images/star_red.png width=12 style='position:relative; top:2px'> <%= link_to "Delete Last Semester", {:action => 'pop_semester'}, :confirm => "This will delete your last semester, its courses, and its schedule.  Are you sure?" %>
         </div>
       </td>
     </tr>

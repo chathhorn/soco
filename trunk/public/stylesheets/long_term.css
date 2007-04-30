@@ -4,6 +4,7 @@
 	overflow: scroll;
 	position: relative;
  	-moz-border-radius: 10px;
+ 	background-color: #eff4e0;
 }
 
 #throbber
@@ -15,7 +16,8 @@
 #course_bin
 {
 	padding: .5em;
-	border: 2px solid black;
+	border: 2px solid #3E454D;
+	background-color: #f6f7f1;
 }
 
 #add_course
@@ -133,8 +135,8 @@
 .semester
 {
     width: 156px;
-    background-color: white;
-    border: 1px solid black;
+    background-color: #f6f7f1;
+    border: 1px solid #3E454D;
     padding: 5px;
     min-height: 300px;
 	margin-right: .5em;
@@ -143,6 +145,7 @@
 .semester .semester_header
 {
     font-size: 1.5em;
+    color: #3E454D;
     width: 100%;
 }
 
@@ -153,13 +156,7 @@
 
 .needs_prereq
 {
-    color: red;
-	font-variant: small-caps;
-	font-weight: bold;
-	text-align: center;
-	width: 100%;
-	background-color: black;
-	border: 1px solid red;
+
 }
 
 .hidden
