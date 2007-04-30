@@ -26,7 +26,7 @@ end
     <div class="course_desc"><b><%=h course.title %></b></div><br />
     <div class="title" style="color:#DCEFFF;">Prerequisites:</div>
     <div class="course_prerequisites">
-      <div id="<%= "prerequisite_#{semester}_#{course.id}" %>" class="needs_prereq <% if course.dependencies_satisfied?(semester, @user) -%>hidden<% end -%>">Prerequisites Not Satisfied</div>
+      <div id="<%= "prerequisite_#{semester}_#{course.id}" %>" class="needs_prereq <% if course.dependencies_satisfied?(semester, @user) -%>hidden<% end -%>"><img src=images/not_satisfied.gif></div>
       <%=h course.course_dependency.to_s %>
     </div>
     <div class="title" style="color:#DCEFFF;">Friends Sharing:</div>
