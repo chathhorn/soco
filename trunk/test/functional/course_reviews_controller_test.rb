@@ -5,6 +5,8 @@ require 'course_reviews_controller'
 class CourseReviewsController; def rescue_action(e) raise e end; end
 
 class CourseReviewsControllerTest < Test::Unit::TestCase
+  fixtures :cis_courses, :users, :course_reviews
+  
   def setup
     @controller = CourseReviewsController.new
     @request    = ActionController::TestRequest.new
@@ -12,16 +14,28 @@ class CourseReviewsControllerTest < Test::Unit::TestCase
     @request.session[:user] = 1
     @request.env["HTTP_REFERER"] = "/coursereviews/list/1"    
   end
-  
+
   
   def test_post
-    get :post, {'id'=>"1"}
-    assert_response :redirect  
+    course_id = 1
+  
+    review_count = CisCourse.find(course_id).course_reviews.size
+    post :post, {:id => course_id, :course_review=>{:title=>"Title", :body=>"Body"}}
+    
+    assert(CisCourse.find(course_id).course_reviews.size > review_count)
+    
+    review = CisCourse.find(course_id).course_reviews[-1]
+    assert review.title == "Title"
+    assert review.body =="Body"
+    assert review.user == User.find(@request.session[:user])
+    assert review.cis_course == CisCourse.find(1) 
+  
+    assert_response :redirect
   end
   
   def test_post_nil
     get :post
-    assert_response :redirect  
+    assert_response :success  
   end
   
   def test_list
@@ -30,11 +44,7 @@ class CourseReviewsControllerTest < Test::Unit::TestCase
   end
   
   def test_list_nil
-    # test nil case
     get :list
     assert_response :success    
   end
-  
-  
-  
 end
