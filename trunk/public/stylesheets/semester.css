@@ -218,3 +218,8 @@
 #previews_next {
 	right: 0;
 }
+
+#generator_error {
+	font-weight: bold;
+	color: red;
+}

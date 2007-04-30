@@ -176,7 +176,7 @@ class SemesterController < ApplicationController
   # generate schedules and show the previews window
   def show_previews
     session[:solution] == nil && generate
-    session[:solution] && load_sections(nil, true)
+    load_sections(nil, true)
   end
     
   private
@@ -219,14 +219,23 @@ class SemesterController < ApplicationController
       'S' => @width * 5,
     }
 
+    if !session[:generator_error] && (!session[:solution] || session[:solution].length) == 0
+      session[:generator_error] = 'No possible schedules.'
+    end
+
     render :update do |page|
       if solution_to_load
         page.replace_html 'times_row', :partial => 'times_row', :locals => {:semester => semester}
         courses.each do |course|
           page.replace_html "sects_#{semester.id}_#{course.id}", :partial => 'section_choice', :collection => course.sections_for_semester(semester), :locals => {:semester => semester}
         end
+      else
+        if session[:generator_error]
+          page.replace_html 'generator_error', session[:generator_error]
+        else
+          page.replace_html 'previews_list', :partial => 'solution', :collection => @solutions[session[:marker], npreviews]
+        end
       end
-      page.replace_html 'previews_list', :partial => 'solution', :collection => @solutions[session[:marker], npreviews]
       if show_previews
         page.visual_effect :toggle_blind, 'previews_window'
       end
@@ -237,6 +246,7 @@ class SemesterController < ApplicationController
   # another possible improvement would be to generate one schedule at a
   # time and not all at once
   def generate
+    session[:generator_error] = nil
     semester = Semester.find(params[:id]);
     courses = semester.cis_courses
 
@@ -246,6 +256,7 @@ class SemesterController < ApplicationController
     courses.each do |c| 
       cis_semester = c.cis_semesters.find(:first, :conditions => ['year = ? AND semester = ?', semester.year, semester.semester])
       sections = cis_semester && cis_semester.cis_sections && cis_semester.cis_sections.sort {|a, b| a.name <=> b.name}
+      if sections == nil || sections.length == 0  then next end
       nsections += sections.length
     end
     score = nsections
@@ -255,6 +266,7 @@ class SemesterController < ApplicationController
       session[:solution] = nil
       session[:marker] = 0
       # flash error here
+      session[:generator_error] = 'Generator disabled (schedule appears to be too complicated for server-side generation).'
       return
     end
 
@@ -264,10 +276,7 @@ class SemesterController < ApplicationController
     courses.each do |c|
       cis_semester = c.cis_semesters.find(:first, :conditions => ['year = ? AND semester = ?', semester.year, semester.semester])
       sections = cis_semester && cis_semester.cis_sections && cis_semester.cis_sections.sort {|a, b| a.name <=> b.name}
-      if !sections
-        @solution = nil
-        return
-      end
+      if !sections || sections.length == 0 then next end
 
       if sections[0].name.length == 0
         orob = Or.new
