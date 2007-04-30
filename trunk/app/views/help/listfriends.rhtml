@@ -8,67 +8,38 @@
 
 <div class= "listfriends">
         
-        <u><%= link_to 'Online Help', :controller => 'help', :action => 'index'%> > List Friends:</u></span></p>
+        <h2><%= link_to 'Online Help', :controller => 'help', :action => 'index'%> > List Friends:</h2>
 
-        <p class="MsoNormal"><span class='c46'> </span></p>
+        <li>'List Friends' page contains:</li>
+        <br/>
+        <ul> 
+        <li> - List of your Current Friends</li>
 
-        <p class="MsoNormal"><span class='c46'>'List Friends' page
-        contains:</span></p>
+        <li> - Link to Remove Current Friend</li>
 
-        <p class="MsoNormal"><span class='c46'> </span></p>
+        <li> - Link to View Friend's Long-Term Schedule</li>
 
-        <p class="MsoNormal_c55">
-        <span class='c54'>-<span class='c47'>  </span></span>
-        <span class='c46'>List of your Current Friends</span></p>
+        <li> - Search Input Field to scan for a friend</li>
 
-        <p class="MsoNormal_c55">
-        <span class='c54'>-<span class='c47'>  </span></span>
-        <span class='c46'>Link to Remove Current Friend</span></p>
+        <li> - Main Menu</li>
+        </ul>
+        <br/>
+        <li>Facts:</li>
+        <ul>
+        <li>1. If you search all users  for a new friend, the user, if found, will appear along with an Add
+        Link.</li>
 
-        <p class="MsoNormal_c55">
-        <span class='c54'>-<span class='c47'>  </span></span>
-        <span class='c46'>Link to View Friend's Long-Term
-        Schedule</span></p>
+        <li> 2. You can only see the 'Long Term View' of current friends.</li>
 
-        <p class="MsoNormal_c55">
-        <span class='c54'>-<span class='c47'>  </span></span>
-        <span class='c46'>Search Input Field to scan for a
-        friend</span></p>
-
-        <p class="MsoNormal_c55">
-        <span class='c54'>-<span class='c47'>  </span></span>
-        <span class='c46'>Main Menu</span></p>
-
-        <p class="MsoNormal"><span class='c46'> </span></p>
-
-        <p class="MsoNormal"><span class='c46'>Facts:</span></p>
-
-        <p class="MsoNormal_c55">
-        <span class='c46'>1.<span class='c47'>     </span></span>
-        <span class='c46'>If you search all users  for a new
-        friend,  the user, if found, will appear along with an Add
-        Link.</span></p>
-
-        <p class="MsoNormal"><span class='c46'> </span></p>
-
-        <p class="MsoNormal_c55">
-        <span class='c46'>2.<span class='c47'>     </span></span>
-        <span class='c46'>You can only see the 'Long Term View' of
-        current friends.</span></p>
-
-        <p class="MsoNormal"><span class='c46'> </span></p>
-
-        <p class="MsoNormal_c55">
-        <span class='c46'>3.<span class='c47'>     </span></span>
-        <span class='c46'>If you are looking for a list of all
-        users, click on the 'Search Users' icon in the Main
-        Menu.</span></p>
-
-        <p class="MsoNormal"><span class='c46'> </span></p>
-
-        <p class="MsoNormal_c52"><span class='c46'><%= image_tag "help/image004.gif", :align => 'center' %></span></p><span class='c51'>
-        <br clear="all"
-            class='c50' /></span> 
+        <li> 3. If you are looking for a list of all users, click on the 'Search Users' icon in the Main
+        Menu.</li>
+        </ul>
+        
+        <br/>
+        
+        <%= image_tag "help/image004.gif", :align => 'center' %></span></p><span class='c51'>
+        
+        <br/>
         <br/>
         <%= link_to 'Back to Online Help', :controller => 'help', :action => 'index'%>
         </div>
