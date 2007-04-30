@@ -7,61 +7,34 @@
 </head>
 
 <div class= "editprofile">
-        <u><%= link_to 'Online Help', :controller => 'help', :action => 'index'%> > Edit My Profile:</u></span></p>
+        <h2><%= link_to 'Online Help', :controller => 'help', :action => 'index'%> > Edit My Profile:</h2>
 
-        <p class="MsoNormal">
-        <u><span class='c46'><span class='c53'> </span></span></u></p>
+        <li>'Edit Profile' page contains:</li>
+        <br/>
+            <ul>
+                <li> - Your Account Information</li>
 
-        <p class="MsoNormal"><span class='c46'>'Edit Profile' page
-        contains:</span></p>
+                <li> - Main Menu</li>
+            </ul>
+        </li>
+        <br/>
+        <li>Facts:</li>
+        <br/>
+            <ul>
+            <li> 1. This page is loaded with your current information.</li>
 
-        <p class="MsoNormal"><span class='c46'> </span></p>
+            <li> 2. Sorry, you cannot change your username once registered.</li>
 
-        <p class="MsoNormal_c55">
-        <span class='c54'>-<span class='c47'>  </span></span>
-        <span class='c46'>Your Account Information</span></p>
+            <li> 3. You do not need to enter your passwords if you do not want to change it. If you leave the password
+            fields blank, your previous password will remain, it will not be written over.</li>
 
-        <p class="MsoNormal_c55">
-        <span class='c54'>-<span class='c47'>  </span></span>
-        <span class='c46'>Main Menu</span></p>
+            <li> 4. Click 'Save' to preserve your changes, or Cancel' to return to your profile.</li>
+            
+            </ul>
+            
+            <br/>
 
-        <p class="MsoNormal"><span class='c46'> </span></p>
-
-        <p class="MsoNormal"><span class='c46'>Facts:</span></p>
-
-        <p class="MsoNormal_c55">
-        <span class='c46'>1.<span class='c47'>     </span></span>
-        <span class='c46'>This page is loaded with your current
-        information.</span></p>
-
-        <p class="MsoNormal"><span class='c46'> </span></p>
-
-        <p class="MsoNormal_c55">
-        <span class='c46'>2.<span class='c47'>     </span></span>
-        <span class='c46'>Sorry, you cannot change your username
-        once registered.</span></p>
-
-        <p class="MsoNormal"><span class='c46'> </span></p>
-
-        <p class="MsoNormal_c55">
-        <span class='c46'>3.<span class='c47'>     </span></span>
-        <span class='c46'>You do not need to enter your passwords
-        if you do not want to change it. If you leave the password
-        fields blank, your previous password will remain, it will
-        not be written over.</span></p>
-
-        <p class="MsoNormal"><span class='c46'> </span></p>
-
-        <p class="MsoNormal_c55">
-        <span class='c46'>4.<span class='c47'>     </span></span>
-        <span class='c46'>Click 'Save' to preserve your changes, or
-        'Cancel' to return to your profile.</span></p>
-
-        <p class="MsoNormal">
-        <u><span class='c46'><span class='c53'> </span></span></u></p>
-
-        <p class="MsoNormal"><%= image_tag "help/image003.gif", :align => 'center' %><span class='c46'><br clear="all"
-            class='c50' />
+         <%= image_tag "help/image003.gif", :align => 'center' %>
             
         <br/>
         <br/>
