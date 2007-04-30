@@ -51,29 +51,20 @@
 }
 
 #schedule_container {
-	/*height: 40em;
-	overflow: hide;
-	position: absolute;
-	z-index: 2500;*/
-
 
 	background-color: #dcdcdc;
 	border: 2px solid black;
 	width: 56em;
 	background-color: #dcdcdc;
 	float: right;
-	/*
-	top: 50em;
-	left: 20em;
-	*/
+
+	margin-bottom: 10em;
 }
 
 #schedule_container_inner {
-	/*position: absolute;
-	overflow: auto;*/
 	top: 2em;
 	bottom: 0;
-    background-color: white;
+	background-color: white;
 }
 
 /* schedule link in semester container head */
