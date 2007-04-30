@@ -185,7 +185,7 @@ class SemesterController < ApplicationController
     end
 
     # previews stuff
-    npreviews = 5
+    npreviews = 6
     @solutions = session[:solution]
 
     @total_width = 100
@@ -218,7 +218,7 @@ class SemesterController < ApplicationController
       end
       page.replace_html 'previews_list', :partial => 'solution', :collection => @solutions[session[:marker], npreviews]
       if show_previews
-        page.visual_effect :blind_down, 'previews_window'
+        page.visual_effect :toggle_blind, 'previews_window'
       end
     end
   end
