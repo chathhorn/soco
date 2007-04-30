@@ -40,3 +40,18 @@ cs411:
   cis_subject_id: 1
   number: 411
   title: Database Systems
+  
+  
+cs125:
+  id: 7
+  course_dependency_id: 7
+  cis_subject_id: 1
+  number: 125
+  title: Intro to CS
+  
+cs173:  
+  id: 8
+  course_dependency_id: 8
+  cis_subject_id: 1
+  number: 173
+  title: Discrete Math
