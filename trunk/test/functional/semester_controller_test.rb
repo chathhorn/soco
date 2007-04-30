@@ -30,9 +30,9 @@ class SemesterControllerTest < Test::Unit::TestCase
     assert_response :success
   end
   
-  def test_toggle_section
-    get :toggle_section, {'id'=> "1", 'section'=>"1"}
-    assert_response :success
+  #def test_toggle_section
+  #  get :toggle_section, {'id'=> "1", 'section'=>"1"}
+  #  assert_response :success
   end
   
   def test_show
