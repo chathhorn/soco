@@ -215,11 +215,12 @@
 	width: 1.5em;
 	text-decoration: none;
 	color: black;
- 	-moz-border-radius-topleft: 10px;
  	-moz-border-radius-topright: 10px;
+ 	-moz-border-radius-topleft: 10px;
 }
 #previews_prev:hover, #previews_next:hover {
 	background-color: #1368B0;
+	color: white;
 }
 #previews_prev {
 	left: 0;
