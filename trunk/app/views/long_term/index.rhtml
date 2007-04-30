@@ -5,13 +5,13 @@
 </div>
 <div id="course_bin">
   <div id="add_course">
-    <% form_remote_tag :url => {:action => 'add_class'}, :name => 'class_autocomplete', 
+    <% form_remote_tag :url => {:action => 'add_class'}, :html => {:name => 'class_autocomplete'}, 
             :loading => "reset(); Element.show('getting_results'); Element.hide('loading_stopped')", 
             :complete => "Element.hide('getting_results'); Element.show('loading_stopped')" do %> 
         <strong>Add Course to Course Bin:</strong>
         <%= text_field_with_auto_complete :course, :number,
             { :style => "width: 10em" },
-            { :after_update_element => 'function(element,value){ element.value = value.innerHTML.match(/^[A-Z]*\s*\d*/); document.class_autocomplete.submit(); }' }
+            { :after_update_element => 'function(element,value){ element.value = value.innerHTML.match(/^[A-Z]*\s*\d*/); document.class_autocomplete.onsubmit(); }' }
             %>
         <%= submit_tag 'Add' %>
     <% end %>
