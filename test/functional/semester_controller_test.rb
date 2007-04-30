@@ -32,19 +32,9 @@ class SemesterControllerTest < Test::Unit::TestCase
     assert @request.session[:marker] == 0
   end
   
-<<<<<<< .mine
   def test_generate_next
     @request.session[:marker] = 0
     get :generate_next, {:id => "1"}
-=======
-  #def test_toggle_section
-  #  get :toggle_section, {'id'=> "1", 'section'=>"1"}
-  #  assert_response :success
-  #end
-  
-  def test_show
-    get :show, {'id'=> "1"}
->>>>>>> .r453
     assert_response :success
     assert !@request.session[:solution].nil?
     @request.session[:marker] = @request.session[:solution].length - 7
