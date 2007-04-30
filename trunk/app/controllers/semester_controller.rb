@@ -143,7 +143,7 @@ class SemesterController < ApplicationController
   # display the previous generated schedule
   def generate_next
     session[:solution] == nil && generate
-    session[:marker] += 1
+    session[:marker] += 6
     session[:marker] = session[:marker] >= session[:solution].length ? 0 : session[:marker]
 
     session[:solution] && load_sections
@@ -152,7 +152,7 @@ class SemesterController < ApplicationController
   # display the next generated schedule
   def generate_prev
     session[:solution] == nil && generate
-    session[:marker] -= 1
+    session[:marker] -= 6
     session[:marker] = session[:marker] < 0 ? session[:solution].length - 1 : session[:marker]
 
     session[:solution] && load_sections
