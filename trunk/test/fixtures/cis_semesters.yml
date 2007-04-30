@@ -9,3 +9,9 @@ another:
   cis_course_id: 1
   year: 2007
   semester: FA
+
+third:
+  id: 3
+  cis_course_id: 1
+  year: 2007
+  semester: SU  
