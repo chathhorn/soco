@@ -15,7 +15,6 @@ class CourseReviewsController < ApplicationController
 
   def post
     course_id = params[:id]
-    redirect_to :back
     
     if course_id.nil?
       render :text => "You must specify a course id"
@@ -25,7 +24,8 @@ class CourseReviewsController < ApplicationController
     review = CourseReview.new(params[:course_review])
     review.cis_course = CisCourse.find course_id
     review.user = User.find session[:user]
-    
     review.save
+
+    redirect_to :back
   end
 end
