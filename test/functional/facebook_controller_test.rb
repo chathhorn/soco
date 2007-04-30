@@ -9,10 +9,19 @@ class FacebookControllerTest < Test::Unit::TestCase
     @controller = FacebookController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+    @request.session[:user] = 1
   end
-
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  
+  def test_index
+    post :index
+    assert_response :redirect
+    assert_redirected_to :action => "start_session"
   end
+  
+  def test_start_session
+    post  :start_session
+    assert_response :redirect
+    assert_redirected_to session[:facebook_session].get_login_url    
+  end
+  
 end
