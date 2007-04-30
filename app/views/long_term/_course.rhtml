@@ -8,7 +8,7 @@ end
 -%>
 
 <div class="course" id="<%= "coursediv_#{semester}_#{course.id}" %>" style="<% if effect %>display:none;<% end%>">
-    <div class="course_code <% if !course.dependencies_satisfied?(semester, session[:user]) %>needs_prereq<%end%>" >
+    <div class="course_code" >
     <% if session[:user] == @user.id -%>
         <%= link_to_remote('<img align=right title="Delete Course" src=/images/course/delete2.png>', :url => {:action => "remove", :course_id => course.id, :semester_id => semester}, :loading => "Element.show('getting_results'); Element.hide('loading_stopped')", :complete => "Element.hide('getting_results'); Element.show('loading_stopped')") -%><br /> 
     <%    else -%>
@@ -19,6 +19,9 @@ end
     <div class="course_desc"><b><%=h course.title %></b></div><br />
     <div class="title" style="color:#DCEFFF;">Prerequisites:</div>
     <div class="course_prerequisites">
+      <% if !course.dependencies_satisfied?(semester, session[:user]) -%>
+        <div class="needs_prereq">Prerequisites Not Satisfied</div>
+      <% end -%>
       <%=h course.course_dependency.to_s %>
     </div>
     <div class="title" style="color:#DCEFFF;">Friends Sharing:</div>

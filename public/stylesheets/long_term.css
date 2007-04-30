@@ -153,5 +153,11 @@
 
 .needs_prereq
 {
-    background-color: #f66 !important;
+    color: red;
+	font-variant: small-caps;
+	font-weight: bold;
+	text-align: center;
+	width: 100%;
+	background-color: black;
+	border: 1px solid red;
 }
