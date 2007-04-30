@@ -12,6 +12,7 @@
 </div>
 
 
+<% if Semester.find(params[:id]).user.id == session[:user] -%>
 <p>
 <%= 
      link_to_remote 'Schedule Generator',
@@ -27,7 +28,9 @@
            {:controller => 'register', :action => 'register', :id => params[:id]},
            :popup => true
 %>
+
 </p>
+<%end -%>
 
       <%= render :partial => 'course', :collection => @semester.cis_courses, :locals => {:semester_obj => @semester, :effect => false} %>
 </div>
