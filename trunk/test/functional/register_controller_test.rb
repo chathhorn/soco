@@ -9,10 +9,14 @@ class RegisterControllerTest < Test::Unit::TestCase
     @controller = RegisterController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+    @request.session[:user] = 1
   end
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  def test_list_crns
+    get :list_crns, {'id'=>"1"}
+    assert_not_nil assigns(:crns)
+    assert_response :success
   end
+  
+
 end
