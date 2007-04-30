@@ -1,30 +1,32 @@
 <%=
-s = "<div class='preview_outer'><div class='preview' style='width: #{@total_width}px; height: #{@total_height}px;'>"
+if solution
+      s = "<div class='preview_outer'><div class='preview' style='width: #{@total_width}px; height: #{@total_height}px;'>"
 
-solution.each do |section|
+      solution.each do |section|
 
-      section.days.split(//).each do |day|
+            section.days.split(//).each do |day|
 
-            left = @day_left[day]
+                  left = @day_left[day]
 
-            height = ((section.endTime - section.startTime) / @seconds_per_pixel).to_i
+                  height = ((section.endTime - section.startTime) / @seconds_per_pixel).to_i
 
-            top = (((section.startTime.strftime('%H').to_i - @start_hour) * 60 * 60 \
-                  + section.startTime.strftime('%M').to_i * 60) / @seconds_per_pixel)
+                  top = (((section.startTime.strftime('%H').to_i - @start_hour) * 60 * 60 \
+                        + section.startTime.strftime('%M').to_i * 60) / @seconds_per_pixel)
 
-            s += "<div class='preview_section' style='width:#{@width}px; height:#{height}px; top:#{top}px; left:#{left}px'></div>"
+                  s += "<div class='preview_section' style='width:#{@width}px; height:#{height}px; top:#{top}px; left:#{left}px'></div>"
 
-      end
+            end
 
-end 
+      end 
 
-s += '</div></div>'
+      s += '</div></div>'
 
-link_to_remote s, 
-      {
-           :url => {:action => 'select_solution', :id => params[:id], :chosen => @solutions.index(solution).to_s},
-           :loading => "Element.show('getting_results'); Element.hide('loading_stopped')", 
-           :complete => "Element.hide('getting_results'); Element.show('loading_stopped')"
-      }
+      link_to_remote s, 
+            {
+            :url => {:action => 'select_solution', :id => params[:id], :chosen => @solutions.index(solution).to_s},
+            :loading => "Element.show('getting_results'); Element.hide('loading_stopped')", 
+            :complete => "Element.hide('getting_results'); Element.show('loading_stopped')"
+            }
+end
 
 %>
