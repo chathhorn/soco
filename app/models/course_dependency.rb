@@ -34,7 +34,7 @@ class CourseDependency < ActiveRecord::Base
   def is_satisfied_helper?(course_id, semester_id, user)
     case node_type
       when :COURSE
-        return course_is_in_earlier_semester?(course_id, semester_id, user) 
+        return course_is_in_earlier_semester?(semester_id, user) 
       when :OR
         children.each do |child|
           if child.is_satisfied_helper?(course_id, semester_id, user)
@@ -68,7 +68,9 @@ class CourseDependency < ActiveRecord::Base
   end
   
   #returns whether +course_id+ can be found in an earlier semester than +max_semester_id+ for +user+
-  def course_is_in_earlier_semester?(course_id, max_semester_id, user)
+  def course_is_in_earlier_semester?(max_semester_id, user)
+    raise TypeError unless node_type == :COURSE
+
     user.semesters.each do |semester|
       if semester.id == max_semester_id
         break
