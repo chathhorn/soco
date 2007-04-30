@@ -16,8 +16,11 @@
 	    :position => 'bottom', :update => "semester_courses_#{semester.id}", 
 	    :url => { :action => 'update_semester'}, 
 	    :loading => "element.style.display = 'none'; Element.show('getting_results');  Element.hide('loading_stopped')", 
-	    :complete => "Element.hide('getting_results'); Element.show('loading_stopped')", 
-	    :hoverclass => "drop_hover", 
+      :complete => remote_function(:url => { :action => "update_prerequisites" },
+                                   :loading => "element.style.display = 'none'; Element.show('getting_results'); Element.hide('loading_stopped')",
+                                   :complete => "Element.hide('getting_results'); Element.show('loading_stopped')") +
+                   "; Element.hide('getting_results'); Element.show('loading_stopped')",
+      :hoverclass => "drop_hover", 
 	    :with => "'id=' + encodeURIComponent(element.id) + '&new_semester=' + encodeURIComponent(#{semester.id})") %>
 <% end -%>
 </td>
