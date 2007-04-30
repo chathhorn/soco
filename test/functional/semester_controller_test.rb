@@ -33,7 +33,7 @@ class SemesterControllerTest < Test::Unit::TestCase
   #def test_toggle_section
   #  get :toggle_section, {'id'=> "1", 'section'=>"1"}
   #  assert_response :success
-  end
+  #end
   
   def test_show
     get :show, {'id'=> "1"}
