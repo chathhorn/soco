@@ -148,6 +148,7 @@ class SemesterController < ApplicationController
     else
       session[:marker] += 6
       session[:marker] = session[:marker] > session[:solution].length - 7 ? session[:solution].length - 7 : session[:marker]
+      session[:marker] = session[:marker] < 0 ? 0 : session[:marker]
     end
 
     session[:solution] && load_sections
@@ -158,6 +159,7 @@ class SemesterController < ApplicationController
     session[:solution] == nil && generate
     if session[:marker] == 0
       session[:marker] = session[:solution].length - 7
+      session[:marker] = session[:marker] < 0 ? 0 : session[:marker]
     else
       session[:marker] -= 6
       session[:marker] = session[:marker] < 0 ? 0 : session[:marker]
