@@ -59,7 +59,8 @@
 
 <div style='display:none' id='previews_window'>
 
-<span id='generator_error'></span>
+<%= link_to_remote '<span id="generator_error">CLOSE</span>', 
+  {:url => {:action => 'show_previews', :id => params[:id]}} -%>
 
 
 <%= 

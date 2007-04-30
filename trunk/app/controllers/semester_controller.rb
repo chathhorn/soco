@@ -230,7 +230,7 @@ class SemesterController < ApplicationController
     }
 
     if !session[:generator_error] && (!session[:solution] || session[:solution].length == 0)
-      session[:generator_error] = 'No possible schedules.'
+      session[:generator_error] = 'No possible schedules (Click here to close).'
     end
 
     render :update do |page|
@@ -278,7 +278,7 @@ class SemesterController < ApplicationController
       session[:solution] = nil
       session[:marker] = 0
       # flash error here
-      session[:generator_error] = 'Generator disabled (schedule appears to be too complicated for server-side generation).'
+      session[:generator_error] = 'Generator disabled (schedule appears to be too complicated for server-side generation, click here to close).'
       return
     end
 

@@ -236,7 +236,6 @@
 	right: 0;
 }
 
-#generator_error {
+#generator_error, #generator_error a {
 	font-weight: bold;
-	color: red;
 }
