@@ -219,7 +219,7 @@ class SemesterController < ApplicationController
       'S' => @width * 5,
     }
 
-    if !session[:generator_error] && (!session[:solution] || session[:solution].length) == 0
+    if !session[:generator_error] && (!session[:solution] || session[:solution].length == 0)
       session[:generator_error] = 'No possible schedules.'
     end
 
@@ -227,7 +227,9 @@ class SemesterController < ApplicationController
       if solution_to_load
         page.replace_html 'times_row', :partial => 'times_row', :locals => {:semester => semester}
         courses.each do |course|
-          page.replace_html "sects_#{semester.id}_#{course.id}", :partial => 'section_choice', :collection => course.sections_for_semester(semester), :locals => {:semester => semester}
+          if course.sections_for_semester(semester) && course.sections_for_semester(semester).length != 0
+            page.replace_html "sects_#{semester.id}_#{course.id}", :partial => 'section_choice', :collection => course.sections_for_semester(semester), :locals => {:semester => semester}
+          end
         end
       else
         if session[:generator_error]
