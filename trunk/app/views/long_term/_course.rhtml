@@ -48,11 +48,11 @@ end
     <div class="links">
         <%= link_to image_tag("course/friend.png"), {:action => 'take_course_with_friend', :course_id => course.id, :friend_id => @user.id, :semester_id => semester}, :title => "Take with a friend" %>
 
-        <%= link_to image_tag("course/courseinfo.png"), "http://courses.uiuc.edu/cis/catalog/urbana/%i/%s/%s/%i.html" % [$CURRENT_CIS_YEAR, $CURRENT_CIS_SEMESTER_WORD, course.cis_subject.code, course.number], :popup => true, :title => "Course Catalog" %>
+        <%= link_to image_tag("course/courseinfo.png"), "http://courses.uiuc.edu/cis/catalog/urbana/%i/%s/%s/%03i.html" % [$CURRENT_CIS_YEAR, $CURRENT_CIS_SEMESTER_WORD, course.cis_subject.code, course.number], :popup => true, :title => "Course Catalog" %>
 
-        <%= link_to_unless current_cis_semester.nil?, image_tag("course/schedule.png"), ((current_cis_semester.nil? and "#") or "http://courses.uiuc.edu/cis/schedule/urbana/%i/%s/%s/%i.html" % [current_cis_semester.year, current_cis_semester.semester_word, course.cis_subject.code, course.number.to_s]), :popup => true, :title => "Course Schedule" %>
+        <%= link_to_unless current_cis_semester.nil?, image_tag("course/schedule.png"), ((current_cis_semester.nil? and "#") or "http://courses.uiuc.edu/cis/schedule/urbana/%i/%s/%s/%03i.html" % [current_cis_semester.year, current_cis_semester.semester_word, course.cis_subject.code, course.number.to_s]), :popup => true, :title => "Course Schedule" %>
 
-        <%= link_to image_tag("course/coursefire.png"), "http://www.coursefire.com/view_stats.php?courseID=%s%i" % [course.cis_subject.code, course.number], :popup => true, :title => "CourseFire" %>
+        <%= link_to image_tag("course/coursefire.png"), "http://www.coursefire.com/view_stats.php?courseID=%s%03i" % [course.cis_subject.code, course.number], :popup => true, :title => "CourseFire" %>
 
         <%= link_to image_tag("course/reviews.png"), {:controller => 'course_reviews', :action => 'list', :id => course.id}, :title => "Course Reviews", :popup => ['course_review_window', 'height=500,width=411,scrollbars=yes'] %>
    </div>
