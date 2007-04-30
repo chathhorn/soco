@@ -1,6 +1,11 @@
 james_cs428_sp07:
   cis_course_id: 5
   semester_id: 1
+  
+james_cs225_sp07:
+  cis_course_id: 1
+  semester_id: 1  
+
 
 tanmay_cs411_sp07:
   cis_course_id: 6
