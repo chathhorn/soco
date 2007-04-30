@@ -5,7 +5,9 @@
 </div>
 <div id="course_bin">
   <div id="add_course">
-    <% form_remote_tag :url => {:action => 'add_class'}, :html => {:name => 'class_autocomplete'}, 
+    <% form_remote_tag :url => {:action => 'add_class'}, :html => {:name => 'class_autocomplete'},
+            :position => 'bottom',
+            :update => "course_bin_courses", 
             :loading => "reset(); Element.show('getting_results'); Element.hide('loading_stopped')", 
             :complete => "Element.hide('getting_results'); Element.show('loading_stopped')" do %> 
         <strong>Add Course to Course Bin:</strong>
