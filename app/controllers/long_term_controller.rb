@@ -75,7 +75,6 @@ class LongTermController < ApplicationController
       course_bin_courses = @user.course_bin.cis_courses
       page.replace_html 'course_bin_courses', :partial => 'course', :collection => course_bin_courses, :locals => {:semester_obj => nil, :effect => false}
     end
-
   end
   
   #move a class from one semester to another
@@ -230,6 +229,9 @@ class LongTermController < ApplicationController
     end
   end
 
+  def update_prerequisites
+    @user = User.find session[:user]
+  end
 
   private
   #create a shared course (+course_id+) between the logged in user and +friend_id+
