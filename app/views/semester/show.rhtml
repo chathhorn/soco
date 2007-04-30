@@ -1,21 +1,24 @@
 <% @title = "View Semester Schedule" -%>
 
+<div id='semester_page_top'>
 <div id='semester_title'>
       <%= "#{@semester.semester} #{@semester.year}" %>
 </div>
-
 <div id="throbber">
   <span id="loading_stopped"><%= image_tag "loading_stopped.gif" %></span>
   <span id="getting_results" style="display:none;"><%= image_tag "loading.gif" %></span>
 </div>
 
 
+</div>
+
 <div id='sched_and_courses'>
 
 <ul id='courses'>
+
 <p>
 <%= 
-     link_to_remote 'Generate Schedule',
+     link_to_remote 'Schedule Generator',
      {
            :url => {:action => 'show_previews', :id => params[:id]},
            :loading => "Element.show('getting_results'); Element.hide('loading_stopped')", 
@@ -50,7 +53,6 @@
 </div>
 
 <div style='display:none' id='previews_window'>
-      <%= link_to_function 'close', visual_effect(:toggle_blind, 'previews_window'), :id => 'previews_window_close' %>
 <%= 
      link_to_remote "<div id='previews_prev'><br /><br />p<br />r<br />e<br />v<br />i<br />o<br />u<br />s</div>",
      {
@@ -73,5 +75,5 @@
 %>
 </div>
 
-<%= draggable_element 'previews_window', :starteffect => false, :endeffect => false, :revert => false %>
+
 
