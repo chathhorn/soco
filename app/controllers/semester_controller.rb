@@ -112,6 +112,12 @@ class SemesterController < ApplicationController
 
   # add/remove section from semester schedule
   def toggle_section
+
+    # friend is viewing schedule
+    if Semester.find(params[:id]).user.id != session[:user]
+      return
+    end
+
     user = User.find session[:user]
     section = CisSection.find(params[:section])
     plan = user.semesters.find(params[:id]).course_plan

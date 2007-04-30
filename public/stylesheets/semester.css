@@ -167,10 +167,12 @@
 	float: left;
 	background-color: white;
 	margin: 1em;
+	color: black;
 }
 
 .preview_outer:hover {
 	background-color: #1368B0;
+	color: white;
 }
 
 .preview_section {
@@ -179,7 +181,6 @@
 }
 
 .preview_number {
-	color:black;
 	font-size: 0.8em;
 }
 
