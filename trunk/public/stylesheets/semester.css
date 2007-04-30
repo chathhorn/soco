@@ -187,6 +187,8 @@
 	border: 1px solid black;
 	bottom: 0;
 	border-bottom: 0;
+ 	-moz-border-radius-topleft: 10px;
+ 	-moz-border-radius-topright: 10px;
 }
 
 #semester_page_top {
@@ -213,6 +215,8 @@
 	width: 1.5em;
 	text-decoration: none;
 	color: black;
+ 	-moz-border-radius-topleft: 10px;
+ 	-moz-border-radius-topright: 10px;
 }
 #previews_prev:hover, #previews_next:hover {
 	background-color: #1368B0;
