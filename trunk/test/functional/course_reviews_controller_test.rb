@@ -12,7 +12,12 @@ class CourseReviewsControllerTest < Test::Unit::TestCase
   end
 
   # Replace this with your real tests.
-  def test_truth
-    assert true
-  end
+
+
+def test_post
+  get :post
+  assert_response :redirect
+end
+
+
 end
