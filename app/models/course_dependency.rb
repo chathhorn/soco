@@ -41,7 +41,7 @@ class CourseDependency < ActiveRecord::Base
             return true
           end
         end
-        return false
+        return children.empty?
       when :AND
         children.each do |child|
           if not child.is_satisfied_helper?(semester_id, user)
