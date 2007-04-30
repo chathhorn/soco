@@ -126,9 +126,9 @@
 
 .section_selected {
 	/*background-color: #ffb;*/
-	color: #1368B0;
+	color: #eb6800;
 
-	border-right: 3px solid #1368B0;
+	border-right: 3px solid #eb6800;
 }
 .section_unselected {
 }
