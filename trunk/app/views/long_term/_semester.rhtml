@@ -2,26 +2,28 @@
 <div class="semester" id="<%= "semesterdiv_#{semester.id}" %>">
     <div class="semester_header">
 
+
+
        <%= 
        if (semester.to_s.include? "FA" )
-       "<img src=images/fa.gif>"
+       "<img src=/images/fa.gif>"
        end
            %>
            <%=
        if (semester.to_s.include? "SP" )
-       "<img src=images/sp.gif>"
+       "<img src=/images/sp.gif>"
        end
        
            %>
        <%=h semester.to_s %> 
        <%= 
         if (semester.to_s.include? "FA" )
-         link_to ("<img src=images/schedfa.gif style='position:relative; top:2px; left:4px;'>"), {:controller => :semester, :action => 'show', :id => semester.id}, {:class => 'semester_link'}
+         link_to ("<img src=/images/schedfa.gif style='position:relative; top:2px; left:4px;'>"), {:controller => :semester, :action => 'show', :id => semester.id}, {:class => 'semester_link'}
        
        end
        %>      <%= 
         if (semester.to_s.include? "SP" )
-         link_to ("<img src=images/schedsp.gif style='position:relative; top:2px; left:4px;'>"), {:controller => :semester, :action => 'show', :id => semester.id}, {:class => 'semester_link'} 
+         link_to ("<img src=/images/schedsp.gif style='position:relative; top:2px; left:4px;'>"), {:controller => :semester, :action => 'show', :id => semester.id}, {:class => 'semester_link'} 
        end
        %>
 
