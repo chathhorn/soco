@@ -5,6 +5,8 @@ require 'register_controller'
 class RegisterController; def rescue_action(e) raise e end; end
 
 class RegisterControllerTest < Test::Unit::TestCase
+  fixtures :cis_courses, :users, :semesters, :cis_semesters
+  
   def setup
     @controller = RegisterController.new
     @request    = ActionController::TestRequest.new
