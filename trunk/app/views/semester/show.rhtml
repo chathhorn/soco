@@ -1,6 +1,8 @@
-<% @title = "View Semester Schedule" -%>
+<% @title = "Semester Schedule" -%>
 
-<div id='semester_page_top'>
+<div id='sched_and_courses'>
+
+<div id='courses'>
 <div id='semester_title'>
       <%= "#{@semester.semester} #{@semester.year}" %>
 </div>
@@ -9,12 +11,6 @@
   <span id="getting_results" style="display:none;"><%= image_tag "loading.gif" %></span>
 </div>
 
-
-</div>
-
-<div id='sched_and_courses'>
-
-<ul id='courses'>
 
 <p>
 <%= 
@@ -25,10 +21,16 @@
            :complete => "Element.hide('getting_results'); Element.show('loading_stopped')"
      }
 %>
+|
+<%= 
+     link_to 'Register',
+           {:controller => 'register', :action => 'register', :id => params[:id]},
+           :popup => true
+%>
 </p>
 
       <%= render :partial => 'course', :collection => @semester.cis_courses, :locals => {:semester_obj => @semester, :effect => false} %>
-</ul>
+</div>
 
 <div id='schedule_container'>
 

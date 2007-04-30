@@ -1,32 +1,10 @@
 
-/* semester schedule stuff */
-
-.sections_list {
-	/*position: absolute;
-	top: 0;
-	left: 175px;
-	background-color: lightgrey;
-	z-index: 750;
-	*/
-}
-
-/*
-#body_container {
-	height: 100%;
-	width: 100%;
-	overflow: auto;
-	position: absolute;
-	top: 0;
-	left: 0;
-}
-*/
-
 #semester_title {
 	width: 100%;
 	text-align: center;
 	font-size: 24pt;
 	font-weight: bold;
-	padding-bottom: 0.5em;
+	padding: 0.5em 0;
 }
 
 #throbber {
@@ -36,7 +14,7 @@
 
 #sched_and_courses {
 	width: 80em;
-	bottom: 0;
+	height: 123em;
 }
 
 #courses {

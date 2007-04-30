@@ -130,7 +130,7 @@ class SemesterController < ApplicationController
     @time_inc = 15/(24.0*60)
     @courses = @semester.cis_courses
     @plan = @semester.course_plan
-    course = section.cis_semester.cis_course;
+    course = section.cis_semester.cis_course
 
     sections = course.sections_for_semester @semester
 
