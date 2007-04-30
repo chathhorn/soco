@@ -27,7 +27,8 @@ class LongTermControllerTest < Test::Unit::TestCase
   assert_template 'show'
   assert_not_nil assigns(:user)  
  end
-  
+ 
+
  def test_add_class
    user = User.find(@request.session[:user]) 
    count = user.course_bin.cis_courses.count   
@@ -405,5 +406,13 @@ def test_pop_semester
   assert_equal before_semester_count-1, after_semester_count
 
 end
+
+def test_auto_complete_for_course_number
+  get :auto_complete_for_course_number, :course=>{:number=>"CS225"}
+  assert_not_nil assigns(:courses)
+  assert_response :success
+end
+
+
 
 end
