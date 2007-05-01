@@ -33,9 +33,25 @@ class CourseReviewsControllerTest < Test::Unit::TestCase
     assert_response :redirect
   end
   
+    def test_post_another_way      
+      post :post, {:id => 3, :course_review=>{:title=>"test", :body=>"test"}}
+      assert_response :redirect
+      my_review = CourseReview.find(:first, :conditions=>{:cis_course_id=>3})
+      assert_equal my_review.title,"test"
+      assert_equal my_review.body,"test"
+      assert_equal my_review.user_id,1      
+    end
+    
+   def test_post_nil_id
+      post :post, {:id => nil, :course_review=>{:title=>"test", :body=>"test"}}
+    
+   end
+    
+  
+  
   def test_post_nil
-    get :post
-    assert_response :success  
+    get :post, {:id=>nil}
+  
   end
   
   def test_list
