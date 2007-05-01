@@ -4,6 +4,10 @@ first:
   cis_semester_id: 1
   name: "AD1"
   
+another:
+  id: 2
+  cis_semester_id: 1
+  
 second:
   id: 3
   cis_semester_id: 4
@@ -18,9 +22,3 @@ fourth:
   id: 5
   cis_semester_id: 4
   name: "LA"
-
-
-  
-another:
-  id: 2
-  cis_semester_id: 1

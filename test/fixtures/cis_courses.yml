@@ -55,3 +55,53 @@ cs173:
   cis_subject_id: 1
   number: 173
   title: Discrete Math
+  
+  
+cs1732:  
+  id: 9
+  course_dependency_id: 9
+  cis_subject_id: 1
+  number: 173
+  title: Discrete Math
+  
+  
+cs1733:  
+  id: 10
+  course_dependency_id: 10
+  cis_subject_id: 1
+  number: 173
+  title: Discrete Math
+  
+  
+cs1734:  
+  id: 11
+  course_dependency_id: 11
+  cis_subject_id: 1
+  number: 173
+  title: Discrete Math
+  
+  
+cs1735:  
+  id: 12
+  course_dependency_id: 12
+  cis_subject_id: 1
+  number: 173
+  title: Discrete Math
+  
+  
+cs1736:  
+  id: 13
+  course_dependency_id: 13
+  cis_subject_id: 1
+  number: 173
+  title: Discrete Math
+  
+  
+cs1737:  
+  id: 14
+  course_dependency_id: 14
+  cis_subject_id: 1
+  number: 173
+  title: Discrete Math
+  
+  
