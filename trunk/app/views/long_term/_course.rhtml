@@ -10,26 +10,27 @@ end
 <div class="course" id="<%= "coursediv_#{semester}_#{course.id}" %>" style="<% if effect %>display:none;<% end%>">
     <div class="course_code" >
     <% if session[:user] == @user.id -%>
-        <%= link_to_remote('<img align=right title="Delete Course" src=/images/course/delete2.png>',
+        <%= link_to_remote( image_tag("course/delete2.png", :align => "right", :title => "Delete Course"),
                   :url => {:action => "remove", :course_id => course.id, :semester_id => semester},
                   :loading => "Element.show('getting_results'); Element.hide('loading_stopped')",
 					:complete => "if (prereq_request != undefined) { prereq_request.transport.abort() }; var prereq_request = " +
 					            remote_function(:url => { :action => "update_prerequisites" },
 					                            :complete => "prereq_request = undefined; Element.hide('getting_results'); Element.show('loading_stopped')")
                   )
-        -%><br /> 
-    <%    else -%>
-        <%= "<img align=right src=/images/course/pin_red.png><br />" %>
+        -%>
+    <% else -%>
+        <%= image_tag "course/pin_red.png", :align => "right" %>
     <% end -%>
-<div style="color:#f5620A;" ><b>&nbsp;<img width=14 src=/images/course/documents.png> <%=h course.cis_subject.code %> <%=h course.number %></b></div>
+      <br/>
+      <div><%= image_tag "course/documents.png", :style=> "vertical-align: center" %> <%=h course.to_s %></div>
     </div>
     <div class="course_desc"><b><%=h course.title %></b></div><br />
-    <div class="title" style="color:#DCEFFF;">Prerequisites:</div>
+    <div class="title">Prerequisites:</div>
     <div class="course_prerequisites">
       <div id="<%= "prerequisite_#{semester}_#{course.id}" %>" class="needs_prereq <% if course.dependencies_satisfied?(semester, @user) -%>hidden<% end -%>"><img src=images/not_satisfied.gif></div>
       <%=h course.course_dependency.to_s %>
     </div>
-    <div class="title" style="color:#DCEFFF;">Friends Sharing:</div>
+    <div class="title">Friends Sharing:</div>
     <div class="course_sharing">
         <ul>
         <% course.iterate_users_semesters(@user) do |shared_id,friend,friend_semester| %>
