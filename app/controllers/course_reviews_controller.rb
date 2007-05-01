@@ -1,5 +1,6 @@
 class CourseReviewsController < ApplicationController
 
+  #list all reviews for a course
   def list
     course_id = params[:id]
     
@@ -13,6 +14,7 @@ class CourseReviewsController < ApplicationController
     @reviews = CisCourse.find(course_id).course_reviews
   end
 
+  #post a new message to a course
   def post
     course_id = params[:id]
     

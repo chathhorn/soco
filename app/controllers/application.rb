@@ -15,12 +15,15 @@ class ApplicationController < ActionController::Base
   #everything after is private
   private
   
+  #runs before every page load except the login controller
+  #will validate that the user is logged in first
   def authenticate
     if session[:user] == nil
       redirect_to :controller => "login"
     end
   end
 
+  #maps a controller/action to a numeric id used in the flash menu
   def get_flash_controller_id
     @flash_controller_id = \
     case params[:controller]

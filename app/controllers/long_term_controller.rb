@@ -207,6 +207,7 @@ class LongTermController < ApplicationController
     Semester.create_semesters(start_sem, start_year, 1) {|semester| current_user.semesters << semester}
   end
   
+  #removes the last semester from the user's schedule
   def pop_semester
     redirect_to :action => 'index'
     
@@ -218,6 +219,7 @@ class LongTermController < ApplicationController
     end
   end
 
+  #checks for prerequisites and sends an RJS update back to the client
   def update_prerequisites
     @user = User.find session[:user]
   end
