@@ -35,24 +35,22 @@
 
 .course
 {
-	background-image: url('../images/course/prueba.gif');
-	background-position: top left
-    margin: auto;
+	background-image: url('/images/course/prueba.gif');
     width: 150px;
-    padding: 0;
+    padding: 0 auto;
 	margin: 2px;
     border: 0px solid black;
 }
 
 .course .course_code
 {
-	background-image: url('../images/course/prueba2.gif');
-    padding: 2px;
+	background-image: url('/images/course/prueba2.gif');
+    padding: 2px 4px;
     background-color: #ddd;
     font-size: 1.3em;
-    font-family: 'Trebuchet MS'
     font-weight: bold;
-
+	color: #f5620A;
+	height: 35px;
 }
 
 .course .course_desc
@@ -63,6 +61,7 @@
     margin: 5px;
     color: #EDF7FF;
     text-align: center;
+	padding: 0 .5em;
 }
 
 .course .course_prerequisites
@@ -84,7 +83,7 @@
 .course .title
 {
     margin: 0 .5em;
-    color: #DCEFFF
+    color: #DCEFFF;
     font-size: .9em;
     font-variant: small-caps;
     border-bottom: 1px solid black;
@@ -101,7 +100,7 @@
 .course .links
 {
 
-    background-image: url('../images/course/prueba3.gif');
+    background-image: url('/images/course/prueba3.gif');
     text-align: center;
 	height: 30px;
 	padding-top: 5px;
@@ -162,4 +161,12 @@
 .hidden
 {
 	display: none;
+}
+
+hr
+{
+	height: 2px;
+	background-color: #ccc;
+	color: #ccc;
+	border: 0;
 }
