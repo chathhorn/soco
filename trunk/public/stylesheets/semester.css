@@ -236,6 +236,18 @@
 	right: 0;
 }
 
-#generator_error, #generator_error a {
-	font-weight: bold;
+#generator_error {
+	position: absolute;
+	height: 1.5em;
+	top: 0;
+	left: 0;
+	right: 0;
+	color: black;
+	text-decoration: none;
+ 	-moz-border-radius: 10px;
+}
+
+#generator_error:hover {
+	background-color: #1368B0;
+	color: white;
 }
