@@ -114,7 +114,8 @@ class SemesterController < ApplicationController
   def toggle_section
 
     # friend is viewing schedule
-    if Semester.find(params[:id]).user.id != session[:user]
+    if Semester.find(params[:id]).user.id.to_s != session[:user].to_s
+      render :nothing => true
       return
     end
 
@@ -181,6 +182,7 @@ class SemesterController < ApplicationController
   # select a schedule from the previews window
   def select_solution
     session[:solution] && load_sections(params[:chosen] && params[:chosen].to_i)
+    render :nothing => true
   end
 
   # generate schedules and show the previews window
@@ -268,7 +270,7 @@ class SemesterController < ApplicationController
     courses.each do |c| 
       cis_semester = c.cis_semesters.find(:first, :conditions => ['year = ? AND semester = ?', semester.year, semester.semester])
       sections = cis_semester && cis_semester.cis_sections && cis_semester.cis_sections.sort {|a, b| a.name <=> b.name}
-      if sections == nil || sections.length == 0  then next end
+      if sections == nil then next end
       nsections += sections.length
     end
     score = nsections
