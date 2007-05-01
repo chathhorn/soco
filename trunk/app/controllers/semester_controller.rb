@@ -181,8 +181,11 @@ class SemesterController < ApplicationController
 
   # select a schedule from the previews window
   def select_solution
-    session[:solution] && load_sections(params[:chosen] && params[:chosen].to_i)
-    render :nothing => true
+    if session[:solution]
+      load_sections(params[:chosen] && params[:chosen].to_i)
+    else
+      render :nothing => true
+    end
   end
 
   # generate schedules and show the previews window
